@@ -1,0 +1,62 @@
+{
+  "id": "prof-blob",
+  "name": "讲解员 Blob",
+  "author": "HappyDesk",
+  "license": "MIT",
+  "tags": {
+    "type": [
+      "video",
+      "podcast",
+      "live"
+    ],
+    "genre": []
+  },
+  "size": {
+    "w": 192,
+    "h": 208
+  },
+  "states": {
+    "idle": {
+      "kind": "sprite",
+      "src": "sheet.svg",
+      "frames": 8,
+      "cols": 8,
+      "row": 0,
+      "fps": 6
+    },
+    "playing": {
+      "kind": "sprite",
+      "src": "sheet.svg",
+      "frames": 8,
+      "cols": 8,
+      "row": 1,
+      "fps": 10
+    },
+    "paused": {
+      "kind": "sprite",
+      "src": "sheet.svg",
+      "frames": 8,
+      "cols": 8,
+      "row": 2,
+      "fps": 6
+    },
+    "appear": {
+      "kind": "sprite",
+      "src": "sheet.svg",
+      "frames": 8,
+      "cols": 8,
+      "row": 3,
+      "fps": 6,
+      "loop": false
+    },
+    "click": {
+      "kind": "sprite",
+      "src": "sheet.svg",
+      "frames": 8,
+      "cols": 8,
+      "row": 4,
+      "fps": 6,
+      "loop": false
+    }
+  }
+}

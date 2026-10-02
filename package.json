@@ -1,0 +1,29 @@
+{
+  "name": "happydesk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A floating gacha mascot that reacts to what you play and controls media across tabs.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "zip": "wxt zip",
+    "postinstall": "wxt prepare",
+    "typecheck": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm run test && npm run build",
+    "e2e": "wxt build && playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@wxt-dev/module-svelte": "^2.0.5",
+    "happy-dom": "^20.14.5",
+    "svelte": "^5.57.1",
+    "svelte-check": "^4.7.6",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.11",
+    "wxt": "^0.21.4"
+  }
+}
