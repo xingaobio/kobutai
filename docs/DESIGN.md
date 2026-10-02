@@ -92,7 +92,8 @@ Chrome 扩展：网页上悬浮一个动画角色，根据当前播放内容从�
 ## 6. 存储
 
 - 无账号体系。
-- `chrome.storage.sync`：图鉴（角色 ID 列表）、锁定状态。
+- `chrome.storage.sync`：锁定状态（在另一台设备上不存在的角色会被忽略）。
+- `chrome.storage.local`：图鉴（原计划放 sync，但 sync 单项上限 8KB，约 160 个角色，导入 Petdex 后会超）。
 - `chrome.storage.local`：设置、AI key、浮层位置/大小（按站点）、标签缓存。
 - `chrome.storage.local`：导入角色的元数据（`userPacks`）、AI 识别缓存。
 - `chrome.storage.session`：当前抽卡结果和最近 50 个内容的抽卡记录（service worker 重启后保留）。

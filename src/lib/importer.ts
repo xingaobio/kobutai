@@ -1,7 +1,7 @@
 import { blobRef, deleteBlob, putBlob } from './blobstore';
 import type { LoadedPack } from './pack/types';
 import { PETDEX_MANIFEST_URL, countFrames, parseManifest, safeSlug, toPack, type PetdexEntry } from './petdex';
-import { lockedPack, userPacks } from './settings';
+import { collection, lockedPack, userPacks } from './settings';
 
 /** Decode a sheet, measure frames per row, store the blob and register the pack. */
 export async function importSheet(
@@ -54,5 +54,7 @@ export async function importFromFiles(files: FileList | File[]): Promise<LoadedP
 export async function removeUserPack(id: string): Promise<void> {
   await userPacks.setValue((await userPacks.getValue()).filter((p) => p.id !== id));
   if ((await lockedPack.getValue()) === id) await lockedPack.setValue(null);
+  const { [id]: _removed, ...rest } = await collection.getValue();
+  await collection.setValue(rest);
   await deleteBlob(id).catch(() => {});
 }

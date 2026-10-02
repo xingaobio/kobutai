@@ -5,7 +5,6 @@ import type { LoadedPack, SpriteAsset, StateName } from './pack/types';
  * of 192×208 cells (v2 sheets have 11 rows). Rows are fixed animation states.
  */
 export const PETDEX_MANIFEST_URL = 'https://assets.petdex.dev/manifests/petdex-v1.json';
-export const PETDEX_ORIGIN = 'https://assets.petdex.dev/*';
 export const PETDEX_COLS = 8;
 export const PETDEX_CELL = { w: 192, h: 208 } as const;
 export const PETDEX_ROWS = [

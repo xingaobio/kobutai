@@ -140,9 +140,24 @@ describe('GachaEngine', () => {
     expect((await engine.view())!.locked).toBe(false);
   });
 
-  test('lock on a pack that no longer exists is ignored', async () => {
-    const { engine } = setup({ locked: 'deleted' });
+  test('lock on a pack that does not exist here is ignored entirely', async () => {
+    const { engine, tag } = setup({ locked: 'petdex-only-on-other-device' });
     expect(await engine.view()).toBeNull();
+    // Draws and rerolls still work.
+    expect(await engine.onMedia(snap('A'))).toBe(true);
+    expect(tag).toHaveBeenCalled();
+    expect((await engine.view())!).toMatchObject({ locked: false, canReroll: true });
+    expect(await engine.reroll()).toBe(true);
+  });
+
+  test('a failing collection write does not block the draw', async () => {
+    const t = setup();
+    const deps = (t.engine as unknown as { deps: GachaDeps }).deps;
+    deps.record = async () => {
+      throw new Error('QUOTA_BYTES_PER_ITEM quota exceeded');
+    };
+    expect(await t.engine.onMedia(snap('A'))).toBe(true);
+    expect(await t.engine.reroll()).toBe(true);
   });
 
   test('concurrent snapshots for the same content draw once; stale draws do not win', async () => {

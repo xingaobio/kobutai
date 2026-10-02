@@ -80,8 +80,11 @@ export interface CollectionEntry {
   first: number;
 }
 
-/** 图鉴: pack id → stats. Ids only, so it fits sync storage. */
-export const collection = storage.defineItem<Record<string, CollectionEntry>>('sync:collection', { fallback: {} });
+/**
+ * 图鉴: pack id → stats. Kept in local storage: sync storage caps one item at
+ * 8 KB (~160 packs), which Petdex imports can exceed.
+ */
+export const collection = storage.defineItem<Record<string, CollectionEntry>>('local:collection', { fallback: {} });
 
 export async function recordDraw(packId: string, now = Date.now()): Promise<void> {
   const all = await collection.getValue();

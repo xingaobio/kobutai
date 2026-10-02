@@ -33,6 +33,8 @@
   let locked = $state<string | null>(null);
   let hidden = $state<string[]>([]);
   let ai = $state(aiSettings.fallback);
+  /** The settings form copies `ai` once, so it must not render before storage has loaded. */
+  let aiLoaded = $state(false);
 
   const catalog = new PackCatalog();
   void catalog.all().then((p) => (packs = p));
@@ -44,7 +46,10 @@
   follow(collection, (v) => (coll = v));
   follow(lockedPack, (v) => (locked = v));
   follow(hiddenSites, (v) => (hidden = v));
-  follow(aiSettings, (v) => (ai = v));
+  follow(aiSettings, (v) => {
+    ai = v;
+    aiLoaded = true;
+  });
 </script>
 
 <header>
@@ -61,7 +66,7 @@
     <CollectionView {packs} collection={coll} {locked} />
   {:else if tab === 'import'}
     <ImportView {packs} />
-  {:else}
+  {:else if aiLoaded}
     <SettingsView {ai} {hidden} {locked} {packs} />
   {/if}
 </main>

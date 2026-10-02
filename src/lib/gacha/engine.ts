@@ -61,11 +61,23 @@ export class GachaEngine {
     }).catch(() => {});
   }
 
+  /** The lock only counts if that pack exists here (sync storage may name a pack imported on another device). */
+  private async lockedId(): Promise<string | null> {
+    const locked = await this.deps.locked();
+    if (!locked) return null;
+    return (await this.deps.packs()).some((p) => p.id === locked) ? locked : null;
+  }
+
+  /** Collection bookkeeping must never block or break a draw. */
+  private record(packId: string): void {
+    this.deps.record(packId).catch((e) => console.warn('[happydesk] could not record draw', e));
+  }
+
   async view(): Promise<DrawView | null> {
     await this.ready;
-    const locked = await this.deps.locked();
+    const locked = await this.lockedId();
     const packs = await this.deps.packs();
-    if (locked && packs.some((p) => p.id === locked)) {
+    if (locked) {
       return { packId: locked, tags: this.current?.tags ?? { type: 'other', genre: null, source: 'rules' }, locked: true, canReroll: false };
     }
     if (!this.current) return null;
@@ -90,7 +102,7 @@ export class GachaEngine {
     this.wanted = key;
     if (this.current?.contentKey === key) return false;
     // A locked character means no draws at all (and no AI calls).
-    if (await this.deps.locked()) return false;
+    if (await this.lockedId()) return false;
 
     const known = this.recent.get(key);
     if (known) return this.setCurrent(known);
@@ -109,11 +121,11 @@ export class GachaEngine {
   async reroll(): Promise<boolean> {
     await this.ready;
     const cur = this.current;
-    if (!cur || cur.rerolled || (await this.deps.locked())) return false;
+    if (!cur || cur.rerolled || (await this.lockedId())) return false;
     const pool = poolFor(await this.deps.packs(), cur.tags).filter((p) => p.id !== cur.packId);
     const next = pick(pool, this.deps.rng);
     if (!next) return false;
-    await this.deps.record(next.id);
+    this.record(next.id);
     return this.setCurrent({ ...cur, packId: next.id, rerolled: true });
   }
 
@@ -122,7 +134,7 @@ export class GachaEngine {
     const pool = poolFor(await this.deps.packs(), tags);
     const chosen = pick(pool, this.deps.rng);
     if (!chosen) return null;
-    if (!(await this.deps.locked())) await this.deps.record(chosen.id);
+    this.record(chosen.id);
     return { contentKey: key, packId: chosen.id, tags: { type: tags.type, genre: tags.genre, source: tags.source }, rerolled: false };
   }
 

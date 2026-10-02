@@ -2,7 +2,7 @@
   import Preview from '@/components/Preview.svelte';
   import { fetchPetdexManifest, importFromFiles, importFromPetdex, removeUserPack } from '@/lib/importer';
   import type { LoadedPack } from '@/lib/pack/types';
-  import { searchPets, type PetdexEntry } from '@/lib/petdex';
+  import { safeSlug, searchPets, type PetdexEntry } from '@/lib/petdex';
 
   let { packs }: { packs: LoadedPack[] } = $props();
 
@@ -52,7 +52,7 @@
     <input class="search" type="search" placeholder="搜索 {manifest.length} 个宠物…" bind:value={query} aria-label="搜索 Petdex" />
     <ul class="results">
       {#each results as pet (pet.slug)}
-        {@const id = `petdex-${pet.slug.toLowerCase().replace(/[^a-z0-9-_]+/g, '-')}`}
+        {@const id = `petdex-${safeSlug(pet.slug)}`}
         <li>
           <span class="pname">{pet.displayName}</span>
           <span class="by">{pet.kind ?? ''}{pet.submittedBy ? ` · ${pet.submittedBy}` : ''}</span>

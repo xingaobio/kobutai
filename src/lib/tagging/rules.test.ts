@@ -37,3 +37,10 @@ test('isTags validates enums', () => {
   expect(isTags({ type: 'tv', genre: null })).toBe(false);
   expect(isTags(null)).toBe(false);
 });
+
+test.each([
+  ['Ed Sheeran - Shape of You (Official Music Video)', 'Ed Sheeran', 'western-pop'],
+  ['Lil Baby - Drip Too Hard', 'Lil Baby', 'hiphop'],
+])('regressions: %s → %s', (title, artist, genre) => {
+  expect(ruleTags({ site: 'www.youtube.com', title, artist })).toMatchObject({ type: 'music', genre });
+});

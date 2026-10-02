@@ -42,12 +42,12 @@ const GENRE_RULES: [Genre, readonly string[]][] = [
   ['lofi', ['lofi', 'lo-fi', 'chillhop', 'beats to relax', 'beats to study', 'study beats', 'chill beats', 'sleep music', 'study music', '学习音乐', '助眠', '作業用bgm', '作業用']],
   ['classical', ['symphony', 'concerto', 'sonata', 'nocturne', 'étude', 'etude', 'prelude', 'fugue', 'orchestra', 'philharmonic', 'beethoven', 'mozart', 'bach', 'chopin', 'debussy', 'tchaikovsky', 'vivaldi', 'liszt', 'rachmaninoff', 'brahms', 'schubert', '交响', '协奏曲', '奏鸣曲', '古典', 'クラシック', '交響曲']],
   ['electronic', ['edm', 'house', 'techno', 'trance', 'dubstep', 'drum and bass', 'dnb', 'synthwave', 'electro', 'future bass', 'hardstyle', 'avicii', 'skrillex', 'deadmau5', 'marshmello', 'alan walker', 'martin garrix', 'kygo', 'zedd', 'porter robinson', '电音', '电子音乐']],
-  ['hiphop', ['hip hop', 'hip-hop', 'rap', 'rapper', 'trap', 'drill', 'freestyle', 'cypher', 'eminem', 'drake', 'kendrick lamar', 'travis scott', 'kanye', 'j. cole', '21 savage', 'post malone', 'lil ', '说唱', '饶舌', '中国新说唱', 'ラップ', 'ヒップホップ']],
+  ['hiphop', ['hip hop', 'hip-hop', 'rap', 'rapper', 'trap', 'drill', 'freestyle', 'cypher', 'eminem', 'drake', 'kendrick lamar', 'travis scott', 'kanye', 'j. cole', '21 savage', 'post malone', 'lil', '说唱', '饶舌', '中国新说唱', 'ラップ', 'ヒップホップ']],
   ['rock', ['rock', 'metal', 'punk', 'grunge', 'guitar solo', 'nirvana', 'queen', 'linkin park', 'metallica', 'ac/dc', 'foo fighters', 'green day', 'arctic monkeys', 'imagine dragons', 'muse', 'radiohead', 'the beatles', 'led zeppelin', 'guns n', 'bon jovi', 'one ok rock', 'x japan', 'band-maid', '摇滚', '重金属', '乐队', 'ロック', 'バンド', '五月天']],
 ];
 
 const ANIME_HINTS = [
-  'anime', 'opening', 'ending', 'op', 'ed', 'ost', 'amv', 'tv size', 'tvサイズ', 'vocaloid', 'hatsune miku', 'miku', 'utaite',
+  'anime', 'opening', 'ending', 'op/ed', 'ncop', 'nced', 'ost', 'amv', 'tv size', 'tvサイズ', 'vocaloid', 'hatsune miku', 'miku', 'utaite',
   'アニメ', 'オープニング', 'エンディング', '主題歌', 'ボカロ', '初音ミク', '歌ってみた', 'ノンクレジット', '劇場版',
   '动漫', '动画', '番剧', '二次元', '初音', '洛天依', '虚拟歌姬', '东方', 'vtuber', 'ホロライブ', 'hololive',
 ];
