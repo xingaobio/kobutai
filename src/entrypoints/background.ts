@@ -1,16 +1,29 @@
-import { blobToDataUrl, getBlob } from '@/lib/blobstore';
+import { DataUrlCache, getBlob } from '@/lib/blobstore';
 import { GachaEngine } from '@/lib/gacha/engine';
 import { cryptoRandom } from '@/lib/gacha/pool';
 import { Hub } from '@/lib/hub';
 import { PORT_NAME, type BlobRequest } from '@/lib/messages';
 import { PackCatalog } from '@/lib/pack/catalog';
-import { aiSettings, gachaState, lockedPack, recordDraw, tagCache } from '@/lib/settings';
+import { aiSettings, gachaState, lockedPack, recordDraw, registryMeta, tagCache } from '@/lib/settings';
 import { aiTags } from '@/lib/tagging/ai';
 import { Tagger } from '@/lib/tagging/tagger';
 
 export default defineBackground(() => {
   const hub = new Hub();
+  void registryMeta.getValue().then((m) => {
+    if (m) hub.registry.importMeta(m);
+    hub.onUpdate();
+  });
+  let metaSig = '';
+  hub.onMeta = () => {
+    const meta = hub.registry.exportMeta();
+    const sig = JSON.stringify(meta);
+    if (sig === metaSig) return;
+    metaSig = sig;
+    void registryMeta.setValue(meta);
+  };
   const catalog = new PackCatalog();
+  const blobs = new DataUrlCache(getBlob);
   const tagger = new Tagger(() => aiSettings.getValue(), { get: () => tagCache.getValue(), set: (v) => tagCache.setValue(v) }, aiTags);
   const engine = new GachaEngine({
     packs: () => catalog.all(),
@@ -49,14 +62,16 @@ export default defineBackground(() => {
       });
   };
   lockedPack.watch(() => run(async () => {}));
-  catalog.onChange(() => run(async () => {}));
+  catalog.onChange(() => {
+    // Re-imported packs reuse their key with new bytes.
+    blobs.invalidate();
+    run(async () => {});
+  });
   run(async () => {});
 
   browser.runtime.onMessage.addListener((msg: BlobRequest, sender, respond) => {
     if (msg?.t !== 'get-blob' || sender.id !== browser.runtime.id) return;
-    getBlob(msg.key)
-      .then((b) => (b ? blobToDataUrl(b) : null))
-      .then(respond, () => respond(null));
+    blobs.get(msg.key).then(respond, () => respond(null));
     return true;
   });
 

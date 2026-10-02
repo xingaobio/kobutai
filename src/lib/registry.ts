@@ -19,6 +19,12 @@ export interface RegistryState {
 
 export const entryKey = (tabId: number, frameId: number) => `${tabId}:${frameId}`;
 
+/** What must survive a service-worker restart; snapshots themselves are re-sent by the frames. */
+export interface RegistryMeta {
+  manual: string | null;
+  started: Record<string, number>;
+}
+
 /**
  * All media across tabs. The primary entry is the one that most recently
  * started playing, unless the user picked one manually since then.
@@ -26,6 +32,24 @@ export const entryKey = (tabId: number, frameId: number) => `${tabId}:${frameId}
 export class MediaRegistry {
   private entries = new Map<string, MediaEntry>();
   private manual: string | null = null;
+  /** Start times restored after a restart, applied when the frame reconnects. */
+  private restored = new Map<string, number>();
+
+  exportMeta(): RegistryMeta {
+    const started: Record<string, number> = {};
+    for (const e of this.entries.values()) if (e.startedAt) started[e.key] = e.startedAt;
+    return { manual: this.manual, started };
+  }
+
+  importMeta(meta: RegistryMeta): void {
+    for (const [key, at] of Object.entries(meta.started)) {
+      const e = this.entries.get(key);
+      // Frames may have reconnected before the meta loaded; their "start" was just the reconnect.
+      if (e) e.startedAt = at;
+      else this.restored.set(key, at);
+    }
+    if (!this.manual && meta.manual) this.manual = meta.manual;
+  }
 
   update(tabId: number, frameId: number, snapshot: MediaSnapshot | null, now = Date.now()): void {
     const key = entryKey(tabId, frameId);
@@ -35,7 +59,11 @@ export class MediaRegistry {
     }
     const prev = this.entries.get(key);
     let startedAt = prev?.startedAt ?? 0;
-    if (snapshot.playing && !prev?.snapshot.playing) {
+    const restoredAt = prev ? undefined : this.restored.get(key);
+    if (restoredAt !== undefined) {
+      this.restored.delete(key);
+      startedAt = restoredAt;
+    } else if (snapshot.playing && !prev?.snapshot.playing) {
       startedAt = now;
       // A new playback start elsewhere overrides an older manual pick.
       if (this.manual !== key) this.manual = null;
@@ -44,11 +72,14 @@ export class MediaRegistry {
   }
 
   removeTab(tabId: number): void {
-    for (const [k, e] of this.entries) if (e.tabId === tabId) this.entries.delete(k);
+    for (const e of [...this.entries.values()]) if (e.tabId === tabId) this.remove(e.tabId, e.frameId);
   }
 
   remove(tabId: number, frameId: number): void {
-    this.entries.delete(entryKey(tabId, frameId));
+    const key = entryKey(tabId, frameId);
+    this.entries.delete(key);
+    this.restored.delete(key);
+    if (this.manual === key) this.manual = null;
   }
 
   select(key: string): boolean {
@@ -62,11 +93,9 @@ export class MediaRegistry {
   }
 
   primary(): MediaEntry | null {
-    if (this.manual) {
-      const m = this.entries.get(this.manual);
-      if (m) return m;
-      this.manual = null;
-    }
+    // A manual pick whose frame hasn't reconnected yet (after a restart) is ignored until it does.
+    const m = this.manual ? this.entries.get(this.manual) : undefined;
+    if (m) return m;
     let best: MediaEntry | null = null;
     for (const e of this.entries.values()) {
       if (!best || e.startedAt > best.startedAt || (e.startedAt === best.startedAt && e.at > best.at)) best = e;

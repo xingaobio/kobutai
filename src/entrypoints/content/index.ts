@@ -1,46 +1,29 @@
 import { mount, unmount } from 'svelte';
 import Overlay from '@/components/Overlay.svelte';
-import { adapterFor } from '@/lib/media/adapters';
-import { PageMediaController } from '@/lib/media/controller';
-import { MediaReporter, type ClientPort } from '@/lib/media/reporter';
-import { PORT_NAME, type BlobRequest, type RuntimeRequest, type SiteInfo } from '@/lib/messages';
+import { startFrameReporter } from '@/lib/media/frame';
+import type { BlobRequest, RuntimeRequest, SiteInfo } from '@/lib/messages';
 import { PackCatalog } from '@/lib/pack/catalog';
 import { defaultLayout, getLayout, hiddenSites, setLayout, setSiteHidden } from '@/lib/settings';
 import { blobKey, isBlobRef } from '@/lib/blobstore';
 import { setSrcResolver } from '@/lib/render/renderer';
 import { live } from '@/lib/ui/live.svelte';
 
+/** Top frame: reports media and hosts the overlay. Subframes use frame.content.ts. */
 export default defineContentScript({
   matches: ['<all_urls>'],
-  allFrames: true,
   runAt: 'document_idle',
   cssInjectionMode: 'ui',
 
   async main(ctx) {
     const host = location.hostname;
-    const controller = new PageMediaController(document, location, adapterFor(host));
-    const isTop = window.top === window;
-
-    const reporter = new MediaReporter(
-      controller,
-      () => browser.runtime.connect({ name: PORT_NAME }) as unknown as ClientPort,
-      document,
-      (msg) => {
-        if (msg.t === 'state' && isTop) {
-          live.registry = msg.state;
-          live.draw = msg.draw;
-        }
-      },
-    );
-    reporter.start();
-    ctx.onInvalidated(() => {
-      reporter.dispose();
-      controller.dispose();
+    const reporter = startFrameReporter(ctx, (msg) => {
+      if (msg.t === 'state') {
+        live.registry = msg.state;
+        live.draw = msg.draw;
+      }
     });
 
-    if (!isTop) return;
-
-    // --- Overlay (top frame only) ---
+    // --- Overlay ---
     setSrcResolver(async (src) => {
       if (!isBlobRef(src)) return src;
       const url = (await browser.runtime.sendMessage({ t: 'get-blob', key: blobKey(src) } satisfies BlobRequest)) as string | null;

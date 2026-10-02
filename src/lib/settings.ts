@@ -1,6 +1,7 @@
 import { storage } from '#imports';
 import type { GachaState } from './gacha/engine';
 import type { LoadedPack } from './pack/types';
+import type { RegistryMeta } from './registry';
 import { DEFAULT_AI_SETTINGS, type AiSettings } from './tagging/ai';
 import type { TagCacheStore } from './tagging/tagger';
 
@@ -97,3 +98,6 @@ export const userPacks = storage.defineItem<LoadedPack[]>('local:userPacks', { f
 
 /** Current draw + recent draws; session storage survives service-worker restarts. */
 export const gachaState = storage.defineItem<GachaState | null>('session:gachaState', { fallback: null });
+
+/** Media start order + manual pick; survives service-worker restarts. */
+export const registryMeta = storage.defineItem<RegistryMeta | null>('session:registryMeta', { fallback: null });

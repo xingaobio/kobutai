@@ -76,9 +76,9 @@
 - [ ] 3.2 远程素材库：`index.json` 格式、拉取、IndexedDB 缓存、离线回落到内置
 - [ ] 3.3 上架准备：权限审计、隐私政策 `PRIVACY.md`、商店描述文案、图标、`npm run zip`
 - [ ] 3.4 [M1 验收建议] 评估 `web_accessible_resources` 的 `use_dynamic_url`（防扩展指纹）
-- [ ] 3.5 [M1 验收建议] 子 frame 只加载轻量 reporter，Overlay 动态 import（减小每个 iframe 的开销）
-- [ ] 3.6 [M1 验收建议] service worker 重启后保留主媒体选择（`storage.session` 存 manual / startedAt）
-- [ ] 3.7 [M2 验收建议] 导入的精灵图在 background 缓存 data URL，避免每个标签页都重新 base64 2MB
+- [x] 3.5 [M1 验收建议] 子 frame 只加载轻量 reporter，Overlay 动态 import（减小每个 iframe 的开销）
+- [x] 3.6 [M1 验收建议] service worker 重启后保留主媒体选择（`storage.session` 存 manual / startedAt）
+- [x] 3.7 [M2 验收建议] 导入的精灵图在 background 缓存 data URL，避免每个标签页都重新 base64 2MB
 
 **验收标准**
 - C1 PiP 窗口能控制媒体并显示角色；不支持 PiP 时优雅降级
@@ -100,3 +100,4 @@
 | 2026-10-03 | M2 2.1–2.7 | 全部完成；规则打标签 93%（41 条）；单测 + E2E 15/15 + Petdex 真实导入通过；进入 Fable 验收 |
 | 2026-10-03 | M2 验收 | Fable 5.1：B1–B6 全 PASS（B1 注明：它自建的 43 条盲测集 74% 完全正确 / 86% 类型正确），另报 5 个缺陷 + 5 条建议 |
 | 2026-10-03 | M2 2.8–2.12 | 修复验收缺陷；125 单测，E2E 16/16；M2 ✅，进入 M3 |
+| 2026-10-03 | M3 3.5–3.7 | 子 frame 只加载 12KB reporter；主媒体顺序/手动选择跨 SW 重启保留；background 缓存精灵图 data URL；128 单测 |

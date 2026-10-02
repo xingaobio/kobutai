@@ -21,6 +21,8 @@ export class Hub {
   private draw: DrawView | null = null;
   /** Called after any registry change (e.g. to feed the gacha engine). */
   onUpdate: () => void = () => {};
+  /** Registry meta changed (persist it so a restarted worker keeps the order). */
+  onMeta: () => void = () => {};
   /** Gacha requests from overlays. */
   onGacha: (msg: Extract<ToBackground, { t: 'reroll' | 'lock' }>) => void = () => {};
 
@@ -47,6 +49,7 @@ export class Hub {
       this.registry.remove(tabId, frameId);
       this.broadcast();
       this.onUpdate();
+      this.onMeta();
     });
     // Give a fresh overlay the current state immediately.
     if (frameId === 0) this.post(port, { t: 'state', state: this.registry.state(), draw: this.draw });
@@ -58,6 +61,7 @@ export class Hub {
         this.registry.update(tabId, frameId, msg.snap, this.now());
         this.broadcast();
         this.onUpdate();
+        this.onMeta();
         return;
       case 'command': {
         const target = msg.key ? this.registry.get(msg.key) : this.registry.primary();
@@ -69,6 +73,7 @@ export class Hub {
         if (this.registry.select(msg.key)) {
           this.broadcast();
           this.onUpdate();
+          this.onMeta();
         }
         return;
       case 'reroll':

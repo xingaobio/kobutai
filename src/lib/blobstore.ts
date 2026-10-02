@@ -46,3 +46,30 @@ export async function blobToDataUrl(blob: Blob): Promise<string> {
   for (let i = 0; i < bytes.length; i += CHUNK) bin += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
   return `data:${blob.type || 'application/octet-stream'};base64,${btoa(bin)}`;
 }
+
+/** Small LRU of encoded data URLs so each tab doesn't re-encode a 2 MB sheet. */
+export class DataUrlCache {
+  private cache = new Map<string, Promise<string | null>>();
+  constructor(
+    private load: (key: string) => Promise<Blob | undefined>,
+    private limit = 6,
+  ) {}
+
+  get(key: string): Promise<string | null> {
+    let p = this.cache.get(key);
+    if (p) {
+      this.cache.delete(key);
+    } else {
+      p = this.load(key).then((b) => (b ? blobToDataUrl(b) : null));
+      p.then((v) => v === null && this.cache.delete(key), () => this.cache.delete(key));
+    }
+    this.cache.set(key, p);
+    while (this.cache.size > this.limit) this.cache.delete(this.cache.keys().next().value!);
+    return p;
+  }
+
+  invalidate(key?: string): void {
+    if (key === undefined) this.cache.clear();
+    else this.cache.delete(key);
+  }
+}

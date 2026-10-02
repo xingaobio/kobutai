@@ -81,3 +81,34 @@ describe('MediaRegistry', () => {
     expect(r.state().entries.map((e) => e.key)).toEqual(['2:0', '1:0']);
   });
 });
+
+describe('restart persistence', () => {
+  test('start order and manual pick survive a restart, whatever the reconnect order', () => {
+    const before = new MediaRegistry();
+    before.update(1, 0, snap(true), 100);
+    before.update(2, 0, snap(true), 200);
+    before.update(3, 0, snap(true), 300);
+    before.select('2:0');
+    const meta = structuredClone(before.exportMeta());
+
+    const after = new MediaRegistry();
+    // Tab 1 reconnects before the meta has loaded, tabs 2 and 3 after.
+    after.update(1, 0, snap(true), 1000);
+    after.importMeta(meta);
+    after.update(3, 0, snap(true), 1001);
+    expect(after.primary()?.key).toBe('3:0'); // manual pick not back yet → newest start
+    after.update(2, 0, snap(true), 1002);
+    expect(after.primary()?.key).toBe('2:0'); // manual pick restored
+    expect(after.state().entries.map((e) => e.startedAt)).toEqual([300, 200, 100]);
+  });
+
+  test('manual pick on a closed tab is cleared', () => {
+    const r = new MediaRegistry();
+    r.update(1, 0, snap(true), 100);
+    r.update(2, 0, snap(true), 200);
+    r.select('1:0');
+    r.removeTab(1);
+    r.update(1, 0, snap(false), 300);
+    expect(r.primary()?.key).toBe('2:0');
+  });
+});
