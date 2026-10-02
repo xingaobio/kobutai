@@ -4,6 +4,8 @@
 
 - 设计文档：[docs/DESIGN.md](docs/DESIGN.md)
 - 进度与验收：[docs/GOAL.md](docs/GOAL.md)
+- 隐私政策：[PRIVACY.md](PRIVACY.md)
+- 上架材料：[docs/store/listing.md](docs/store/listing.md)
 
 ## 开发
 
@@ -12,6 +14,7 @@ npm install
 npm run dev        # 启动带热重载的 Chrome
 npm run check      # 类型检查 + 单元测试 + 构建
 npm run e2e        # 构建后用 Playwright 加载扩展跑端到端测试
+npm run zip        # 打包上架用的 .output/happydesk-<version>-chrome.zip
 ```
 
 手动加载：`npm run build`，然后在 `chrome://extensions` 打开开发者模式，"加载已解压的扩展程序"选择 `.output/chrome-mv3`。
@@ -22,6 +25,7 @@ npm run e2e        # 构建后用 Playwright 加载扩展跑端到端测试
 
 - 每次开始播放新内容，后台先给内容打标签（类型 + 曲风），再从对应池子里等概率抽一个角色。回到之前播过的内容，会恢复当时抽到的角色。
 - 每个内容可以"换一次"（同一个池子，不能退回）；可以锁定当前角色，锁定后不再抽。
+- 悬浮窗：在 https 页面上，控制条里有"弹出悬浮窗"按钮，会打开置顶的画中画窗口（Document Picture-in-Picture），切到别的应用也能看到。
 - 图鉴、导入角色、AI 设置在扩展的选项页（点工具栏图标 → "图鉴 · 导入角色 · 设置"）。
 - **AI 识别（可选）**：在设置里填自己的 Anthropic API key。只发送标题、作者、域名；不填也能用本地规则。
 - **Petdex**：选项页可以搜索 [petdex.dev](https://petdex.dev) 的几千个社区宠物并导入，也可以导入本地的 `pet.json` + `spritesheet.webp`。导入的角色进入通用池，素材不随扩展分发。

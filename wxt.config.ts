@@ -4,8 +4,10 @@ export default defineConfig({
   srcDir: 'src',
   modules: ['@wxt-dev/module-svelte'],
   manifest: {
-    name: 'HappyDesk',
-    description: 'A floating mascot that reacts to what you play and controls media across tabs.',
+    name: '__MSG_extName__',
+    description: '__MSG_extDescription__',
+    default_locale: 'zh_CN',
+    homepage_url: 'https://github.com/xingaobio/happydesk',
     permissions: ['storage'],
     // Requested at runtime only when the user adds a library on a host without CORS.
     optional_host_permissions: ['https://*/*'],

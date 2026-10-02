@@ -74,7 +74,7 @@
 **任务**
 - [x] 3.1 Document PiP：一键弹出悬浮窗，渲染角色和控制条，关闭后回到页面浮层
 - [x] 3.2 远程素材库：`index.json` 格式、拉取、IndexedDB 缓存、离线回落到内置
-- [ ] 3.3 上架准备：权限审计、隐私政策 `PRIVACY.md`、商店描述文案、图标、`npm run zip`
+- [x] 3.3 上架准备：权限审计、隐私政策 `PRIVACY.md`、商店描述文案、图标、`npm run zip`
 - [x] 3.4 [M1 验收建议] 评估 `web_accessible_resources` 的 `use_dynamic_url`（防扩展指纹）
 - [x] 3.5 [M1 验收建议] 子 frame 只加载轻量 reporter，Overlay 动态 import（减小每个 iframe 的开销）
 - [x] 3.6 [M1 验收建议] service worker 重启后保留主媒体选择（`storage.session` 存 manual / startedAt）
@@ -100,6 +100,7 @@
 | 2026-10-03 | M2 2.1–2.7 | 全部完成；规则打标签 93%（41 条）；单测 + E2E 15/15 + Petdex 真实导入通过；进入 Fable 验收 |
 | 2026-10-03 | M2 验收 | Fable 5.1：B1–B6 全 PASS（B1 注明：它自建的 43 条盲测集 74% 完全正确 / 86% 类型正确），另报 5 个缺陷 + 5 条建议 |
 | 2026-10-03 | M2 2.8–2.12 | 修复验收缺陷；125 单测，E2E 16/16；M2 ✅，进入 M3 |
+| 2026-10-03 | M3 3.3 | PRIVACY.md、上架文案与权限理由、中英 locale、图标 / 宣传图 / 截图、`npm run zip`（218KB）；M3 全部任务完成，进入 Fable 验收 |
 | 2026-10-03 | M3 3.4 | 内置素材 WAR 开启 use_dynamic_url；E2E 验证网页无法用静态 URL 探测扩展（关掉时测试会失败） |
 | 2026-10-03 | M3 3.2 | 远程角色库：index.json 校验、下载到 IndexedDB、离线保留、12h 自动同步、设置页管理；仓库内 library/ 两个示例角色；E2E 20/20 |
 | 2026-10-03 | M3 3.1 | Document PiP 悬浮窗（需 https 页面；不支持时不显示按钮）；E2E 18/18 |
