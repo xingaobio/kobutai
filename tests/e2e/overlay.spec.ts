@@ -155,3 +155,34 @@ test('screenshot', async ({ open }) => {
   await a.waitForTimeout(400);
   await a.screenshot({ path: 'test-results/overlay.png' });
 });
+
+test('saved layout is clamped into a smaller viewport on load', async ({ open }) => {
+  const a = await open('a.test');
+  const mascot = a.getByTestId('happydesk-mascot');
+  const box = (await mascot.boundingBox())!;
+  // Nudge so a layout gets saved near the bottom-right of the 1200×800 window.
+  await a.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await a.mouse.down();
+  await a.mouse.move(box.x + box.width / 2 + 10, box.y + box.height / 2 + 10, { steps: 4 });
+  await a.mouse.up();
+  await a.setViewportSize({ width: 500, height: 400 });
+  await a.reload();
+  await mascot.waitFor();
+  const b = (await mascot.boundingBox())!;
+  expect(b.x + b.width).toBeLessThanOrEqual(500);
+  expect(b.y + b.height).toBeLessThanOrEqual(400);
+});
+
+test('keys typed in the control bar do not reach page hotkeys', async ({ open }) => {
+  const a = await open('a.test');
+  await audio(a).play();
+  await a.evaluate(() => {
+    (window as unknown as { keys: string[] }).keys = [];
+    document.addEventListener('keydown', (e) => (window as unknown as { keys: string[] }).keys.push(e.key));
+  });
+  await a.getByTestId('happydesk-mascot').hover();
+  await a.getByTestId('happydesk-controls').getByLabel('音量').focus();
+  await a.keyboard.press('ArrowLeft');
+  await a.keyboard.press('Space');
+  expect(await a.evaluate(() => (window as unknown as { keys: string[] }).keys)).toEqual([]);
+});

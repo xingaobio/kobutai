@@ -66,6 +66,8 @@ export default defineContentScript({
       position: 'inline',
       anchor: 'html',
       append: 'last',
+      // Keys typed into the control bar must not trigger the page's own hotkeys.
+      isolateEvents: true,
       onMount(container, _shadow, shadowHost) {
         shadowHost.dataset.happydesk = 'true';
         return mount(Overlay, {

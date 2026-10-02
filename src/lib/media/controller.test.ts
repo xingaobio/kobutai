@@ -107,6 +107,21 @@ describe('generic', () => {
   });
 });
 
+test('page artwork must be https or inline image', () => {
+  fakeMedia('audio', { paused: false });
+  const c = new PageMediaController(document, loc('https://e.com/'), null);
+  for (const [art, ok] of [
+    ['http://tracker.test/p.png', false],
+    ['javascript:alert(1)', false],
+    ['data:text/html,x', false],
+    ['https://cdn.test/a.jpg', true],
+    ['data:image/png;base64,AAAA', true],
+  ] as const) {
+    document.documentElement.setAttribute(ATTR_META, JSON.stringify({ title: 't', artist: '', album: '', artwork: art }));
+    expect(c.snapshot()?.artwork).toBe(ok ? art : undefined);
+  }
+});
+
 describe('detached media (Spotify)', () => {
   test('snapshot and commands go through the bridge', () => {
     document.documentElement.setAttribute(

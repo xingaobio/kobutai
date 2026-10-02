@@ -1,5 +1,5 @@
 import type { SiteAdapter } from './adapters/types';
-import { readActions, readDetached, readMeta, sendBridgeCommand, type DetachedState } from './bridge';
+import { readActions, readDetached, readMeta, safeImageUrl, sendBridgeCommand, type DetachedState } from './bridge';
 import type { MediaCommand, MediaController, MediaSnapshot } from './types';
 
 const OWN = '[data-happydesk]';
@@ -93,7 +93,7 @@ export class PageMediaController implements MediaController {
       muted: s.muted,
       title: info.title || meta?.title || this.doc.title || this.loc.hostname,
       artist: info.artist || meta?.artist || '',
-      artwork: info.artwork || meta?.artwork || undefined,
+      artwork: safeImageUrl(info.artwork || meta?.artwork),
       canNext: actions.has('nexttrack') || !!this.adapter?.nextButton?.(this.doc),
       canPrev: actions.has('previoustrack') || !!this.adapter?.prevButton?.(this.doc),
       canSeek: s.duration > 0 && (st.via !== 'dom' || actions.has('seekto')),

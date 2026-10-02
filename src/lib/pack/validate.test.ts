@@ -26,6 +26,8 @@ describe('validatePack', () => {
     ['unknown state', { ...valid, states: { ...valid.states, dancing: valid.states.playing } }],
     ['path traversal', { ...valid, states: { idle: { ...valid.states.idle, src: '../secret.png' } } }],
     ['absolute path', { ...valid, states: { idle: { ...valid.states.idle, src: '/etc/x.png' } } }],
+    ['encoded traversal', { ...valid, states: { idle: { ...valid.states.idle, src: '%2e%2e/secret.png' } } }],
+    ['backslash', { ...valid, states: { idle: { ...valid.states.idle, src: '..\\x.png' } } }],
     ['javascript url', { ...valid, states: { idle: { ...valid.states.idle, src: 'javascript:alert(1)' } } }],
     ['http url', { ...valid, states: { idle: { ...valid.states.idle, src: 'http://x.com/a.png' } } }],
     ['zero frames', { ...valid, states: { idle: { ...valid.states.idle, frames: 0 } } }],

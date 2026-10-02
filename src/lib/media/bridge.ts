@@ -66,3 +66,17 @@ export function pickArtwork(list: ReadonlyArray<{ src: string; sizes?: string }>
   }
   return best.src;
 }
+
+/**
+ * Artwork comes from the page and is rendered in every other tab's overlay, so only
+ * https and inline images are allowed (no http tracking pixels / mixed content).
+ */
+export function safeImageUrl(src: string | null | undefined): string | undefined {
+  if (!src) return undefined;
+  if (/^data:image\/(png|jpe?g|gif|webp|avif);/i.test(src)) return src;
+  try {
+    return new URL(src).protocol === 'https:' ? src : undefined;
+  } catch {
+    return undefined;
+  }
+}

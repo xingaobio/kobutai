@@ -24,10 +24,11 @@
   const BAR_W = 300;
   const DRAG_THRESHOLD = 4;
 
-  // The prop only seeds the layout; from then on the overlay owns it.
-  // svelte-ignore state_referenced_locally
-  let layout = $state(initial);
   let view = $state({ w: innerWidth, h: innerHeight });
+  // The prop only seeds the layout; from then on the overlay owns it. A layout saved
+  // in a bigger window must still land on screen.
+  // svelte-ignore state_referenced_locally
+  let layout = $state(clampLayout(initial, pack.size, view));
   let hovering = $state(false);
   let barH = $state(150);
   let poke = $state(0);
@@ -52,6 +53,10 @@
   onDestroy(() => {
     removeEventListener('resize', onResize);
     clearTimeout(hideTimer);
+  });
+
+  $effect(() => {
+    if (live.fullscreen) hovering = false;
   });
 
   function enter() {

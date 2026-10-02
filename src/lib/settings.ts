@@ -40,10 +40,12 @@ export function clampLayout(l: Layout, box: { w: number; h: number }, view: { w:
   const scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, l.scale));
   const w = box.w * scale;
   const h = box.h * scale;
+  const maxX = Math.max(0, Math.floor(view.w - w));
+  const maxY = Math.max(0, Math.floor(view.h - h));
   return {
     scale,
-    x: Math.round(Math.min(Math.max(0, view.w - w), Math.max(0, l.x))),
-    y: Math.round(Math.min(Math.max(0, view.h - h), Math.max(0, l.y))),
+    x: Math.min(maxX, Math.max(0, Math.round(l.x))),
+    y: Math.min(maxY, Math.max(0, Math.round(l.y))),
   };
 }
 

@@ -25,7 +25,15 @@ function isSafeSrc(v: unknown): v is string {
   if (typeof v !== 'string' || v.length === 0 || v.length > 2048) return false;
   if (/^(https:|data:image\/|data:video\/)/.test(v)) return true;
   if (/^[a-z][a-z0-9+.-]*:/i.test(v)) return false;
-  return !v.startsWith('/') && !v.split('/').includes('..');
+  if (v.includes('\\')) return false;
+  let decoded: string;
+  try {
+    decoded = decodeURIComponent(v);
+  } catch {
+    return false;
+  }
+  // URL resolution treats %2e%2e as "..", so check the decoded form too.
+  return ![v, decoded].some((p) => p.startsWith('/') || p.split('/').some((seg) => seg === '..' || seg === '.'));
 }
 
 function validateAsset(v: unknown, path: string, errors: string[]): v is StateAsset {
