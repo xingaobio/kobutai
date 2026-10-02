@@ -8,7 +8,7 @@ export default defineConfig({
     description: '__MSG_extDescription__',
     default_locale: 'zh_CN',
     homepage_url: 'https://github.com/xingaobio/happydesk',
-    permissions: ['storage'],
+    permissions: ['storage', 'alarms'],
     // Requested at runtime only when the user adds a library on a host without CORS.
     optional_host_permissions: ['https://*/*'],
     // use_dynamic_url: pages can't probe chrome-extension://<id>/packs/… to detect the extension.

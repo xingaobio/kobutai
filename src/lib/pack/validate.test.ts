@@ -33,6 +33,8 @@ describe('validatePack', () => {
     ['zero frames', { ...valid, states: { idle: { ...valid.states.idle, frames: 0 } } }],
     ['bad kind', { ...valid, states: { idle: { kind: 'live2d', src: 'a.moc' } } }],
     ['bad size', { ...valid, size: { w: -1, h: 10 } }],
+    ['huge size', { ...valid, size: { w: 30000, h: 30000 } }],
+    ['huge frame count', { ...valid, states: { idle: { ...valid.states.idle, frames: 100000 } } }],
   ])('rejects %s', (_, input) => {
     const r = validatePack(input);
     expect(r.ok).toBe(false);

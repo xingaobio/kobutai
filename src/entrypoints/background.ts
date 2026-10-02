@@ -76,8 +76,13 @@ export default defineBackground(() => {
     return true;
   });
 
-  // Refresh remote libraries at most every 12 h, whenever the worker wakes up.
-  void syncIfStale().catch((e) => console.warn('[happydesk] library sync failed', e));
+  // Refresh remote libraries every 12 h (30 min after a failure). The alarm wakes the worker hourly to check.
+  const checkLibraries = () => void syncIfStale().catch((e) => console.warn('[happydesk] library sync failed', e));
+  browser.alarms.onAlarm.addListener((a) => {
+    if (a.name === 'library-sync') checkLibraries();
+  });
+  void browser.alarms.create('library-sync', { periodInMinutes: 60 });
+  checkLibraries();
 
   browser.runtime.onConnect.addListener((port) => {
     if (port.name === PORT_NAME) hub.connect(port);

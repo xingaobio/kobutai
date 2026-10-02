@@ -16,9 +16,12 @@ function isObj(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
 }
 
-function isPosInt(v: unknown): v is number {
-  return typeof v === 'number' && Number.isInteger(v) && v > 0;
+function isPosInt(v: unknown, max = Number.MAX_SAFE_INTEGER): v is number {
+  return typeof v === 'number' && Number.isInteger(v) && v > 0 && v <= max;
 }
+
+/** Upper bounds so a hostile pack can't make every tab allocate a giant canvas or loop forever. */
+export const LIMITS = { size: 1024, frames: 512, cols: 64, row: 512 } as const;
 
 /** Relative asset path inside a pack folder, or an http(s)/data URL. No parent traversal. */
 function isSafeSrc(v: unknown): v is string {
@@ -46,10 +49,10 @@ function validateAsset(v: unknown, path: string, errors: string[]): v is StateAs
   if (!isSafeSrc(v.src)) errors.push(`${path}.src: must be a relative path or https URL`);
   if (v.loop !== undefined && typeof v.loop !== 'boolean') errors.push(`${path}.loop: must be boolean`);
   if (v.kind === 'sprite') {
-    if (!isPosInt(v.frames)) errors.push(`${path}.frames: must be a positive integer`);
-    if (!isPosInt(v.cols)) errors.push(`${path}.cols: must be a positive integer`);
-    if (v.row !== undefined && !(Number.isInteger(v.row) && (v.row as number) >= 0))
-      errors.push(`${path}.row: must be a non-negative integer`);
+    if (!isPosInt(v.frames, LIMITS.frames)) errors.push(`${path}.frames: must be an integer in 1..${LIMITS.frames}`);
+    if (!isPosInt(v.cols, LIMITS.cols)) errors.push(`${path}.cols: must be an integer in 1..${LIMITS.cols}`);
+    if (v.row !== undefined && !(Number.isInteger(v.row) && (v.row as number) >= 0 && (v.row as number) <= LIMITS.row))
+      errors.push(`${path}.row: must be an integer in 0..${LIMITS.row}`);
     if (typeof v.fps !== 'number' || !(v.fps > 0 && v.fps <= 60)) errors.push(`${path}.fps: must be in (0, 60]`);
   } else if (v.kind !== 'video') {
     errors.push(`${path}.kind: must be "sprite" or "video"`);
@@ -80,8 +83,8 @@ export function validatePack(input: unknown): ValidationResult {
     validateTagList(input.tags.genre, GENRES, 'tags.genre', errors);
   }
 
-  if (!isObj(input.size) || !isPosInt(input.size.w) || !isPosInt(input.size.h))
-    errors.push('size: {w, h} positive integers required');
+  if (!isObj(input.size) || !isPosInt(input.size.w, LIMITS.size) || !isPosInt(input.size.h, LIMITS.size))
+    errors.push(`size: {w, h} integers in 1..${LIMITS.size} required`);
 
   if (!isObj(input.states)) errors.push('states: required object');
   else {

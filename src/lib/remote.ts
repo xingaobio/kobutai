@@ -47,6 +47,8 @@ export interface SyncDeps {
 export interface SyncResult {
   packs: LoadedPack[];
   errors: string[];
+  /** Pack ids listed in the index that could not be downloaded this time. */
+  failed: string[];
   /** Blob keys referenced by `packs` (everything else under remote-* can be collected). */
   keys: string[];
 }
@@ -83,14 +85,15 @@ function typeFromExt(url: string): string | null {
 export async function syncLibrary(indexUrl: string, deps: SyncDeps): Promise<SyncResult> {
   const errors: string[] = [];
   const keys: string[] = [];
-  if (!/^https:\/\//.test(indexUrl)) return { packs: [], errors: [`${indexUrl}: only https libraries are allowed`], keys };
+  const failed: string[] = [];
+  if (!/^https:\/\//.test(indexUrl)) return { packs: [], errors: [`${indexUrl}: only https libraries are allowed`], keys, failed };
   let index: RemoteIndex;
   try {
     const v = validateIndex(await fetchJson(deps.fetch, indexUrl));
-    if (!v.ok) return { packs: [], errors: [v.error], keys };
+    if (!v.ok) return { packs: [], errors: [v.error], keys, failed };
     index = v.index;
   } catch (e) {
-    return { packs: [], errors: [`${indexUrl}: ${e instanceof Error ? e.message : e}`], keys };
+    return { packs: [], errors: [`${indexUrl}: ${e instanceof Error ? e.message : e}`], keys, failed };
   }
 
   const packs: LoadedPack[] = [];
@@ -118,8 +121,9 @@ export async function syncLibrary(indexUrl: string, deps: SyncDeps): Promise<Syn
       }
       packs.push({ ...r.pack, states: states as LoadedPack['states'], source: 'remote' });
     } catch (e) {
+      failed.push(id);
       errors.push(`${id}: ${e instanceof Error ? e.message : e}`);
     }
   }
-  return { packs, errors, keys };
+  return { packs, errors, keys, failed };
 }

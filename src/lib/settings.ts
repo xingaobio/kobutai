@@ -119,3 +119,6 @@ export interface RemoteSyncStatus {
   count: number;
 }
 export const remoteSync = storage.defineItem<RemoteSyncStatus | null>('local:remoteSync', { fallback: null });
+
+/** Cross-context lock (background vs options page) so two syncs never interleave downloads and GC. */
+export const librarySyncLock = storage.defineItem<number | null>('session:librarySyncLock', { fallback: null });

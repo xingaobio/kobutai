@@ -84,5 +84,7 @@ export default defineContentScript({
       },
     });
     ui.mount();
+    // An extension reload kills this script; don't leave a dead PiP window behind.
+    ctx.onInvalidated(() => pipApi()?.window?.close());
   },
 });

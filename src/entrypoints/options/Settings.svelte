@@ -109,7 +109,12 @@
     {#each libs as url (url)}
       <li data-testid="library">
         <span class="url">{url}{url === DEFAULT_LIBRARY ? '（默认）' : ''}</span>
-        <button onclick={() => libraries.setValue(libs.filter((u) => u !== url))}>移除</button>
+        <button
+          onclick={async () => {
+            await libraries.setValue(libs.filter((u) => u !== url));
+            await syncNow();
+          }}>移除</button
+        >
       </li>
     {/each}
   </ul>

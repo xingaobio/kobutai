@@ -73,6 +73,7 @@ test('downloads packs, stores each asset once, rewrites src to hdblob refs', asy
   expect([...s.blobs.values()][0]!.type).toBe('image/webp');
   expect(r.keys).toHaveLength(1);
   expect(r.errors).toEqual([expect.stringContaining('broken'), expect.stringContaining('missing')]);
+  expect(r.failed).toEqual(['broken', 'missing']);
 });
 
 test.each([
