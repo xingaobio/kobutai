@@ -186,3 +186,24 @@ test('keys typed in the control bar do not reach page hotkeys', async ({ open })
   await a.keyboard.press('Space');
   expect(await a.evaluate(() => (window as unknown as { keys: string[] }).keys)).toEqual([]);
 });
+
+test('built-in assets are not reachable by their static extension URL (anti-fingerprinting)', async ({ open, extensionId }) => {
+  const a = await open('a.test');
+  // The overlay itself still renders built-in sprites…
+  const bg = await a.evaluate(() => {
+    const el = document.querySelector('happydesk-overlay')!.shadowRoot!.querySelector('[data-testid="happydesk-mascot"] .character > div') as HTMLElement;
+    return el?.style.backgroundImage ?? '';
+  });
+  expect(bg).toContain('/packs/');
+  expect(bg).not.toContain(extensionId);
+  // …but a page can't probe the static id URL.
+  const probe = await a.evaluate(async (id) => {
+    try {
+      const r = await fetch(`chrome-extension://${id}/packs/index.json`);
+      return r.ok ? 'reachable' : `status ${r.status}`;
+    } catch {
+      return 'blocked';
+    }
+  }, extensionId);
+  expect(probe).toBe('blocked');
+});
