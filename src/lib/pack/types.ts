@@ -57,6 +57,8 @@ export interface PackManifest {
 /** A manifest whose asset `src` fields have been resolved to absolute URLs. */
 export interface LoadedPack extends PackManifest {
   source: 'builtin' | 'petdex' | 'remote' | 'user';
+  /** For remote packs: the index.json they came from. */
+  library?: string;
 }
 
 export function assetFor(pack: PackManifest, state: StateName): StateAsset {

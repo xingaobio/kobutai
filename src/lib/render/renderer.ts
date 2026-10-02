@@ -162,6 +162,7 @@ export class SpriteRenderer implements Renderer {
 export class VideoRenderer implements Renderer {
   readonly el: HTMLVideoElement;
   private endHandler: (() => void) | undefined;
+  private token = 0;
 
   constructor(size: CellSize) {
     this.el = document.createElement('video');
@@ -186,12 +187,19 @@ export class VideoRenderer implements Renderer {
       this.endHandler = () => onEnd();
       this.el.addEventListener('ended', this.endHandler, { once: true });
     }
-    if (this.el.src !== video.src) this.el.src = video.src;
-    else this.el.currentTime = 0;
-    void this.el.play().catch(() => {});
+    const token = ++this.token;
+    const start = (url: string) => {
+      if (token !== this.token) return;
+      if (this.el.src !== url) this.el.src = url;
+      else this.el.currentTime = 0;
+      void this.el.play().catch(() => {});
+    };
+    if (isExtensionUrl(video.src) || /^https?:/.test(video.src)) start(video.src);
+    else resolveSrc(video.src).then(start, (e) => console.warn('[happydesk] video failed to load', e));
   }
 
   destroy(): void {
+    this.token++;
     this.el.pause();
     this.el.removeAttribute('src');
     this.el.load();

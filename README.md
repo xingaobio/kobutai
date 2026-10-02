@@ -66,6 +66,24 @@ npm run e2e        # 构建后用 Playwright 加载扩展跑端到端测试
 
 内置占位角色由 `node scripts/gen-placeholders.mjs` 生成到 `public/packs/`。
 
+## 远程角色库
+
+扩展默认订阅本仓库的 [`library/index.json`](library/index.json)，每 12 小时同步一次，也可以在设置页添加别的库或手动同步。
+
+```
+library/
+  index.json          { "packs": ["dj-neko", "idol-star"] }   # 最多 100 个
+  dj-neko/
+    pack.json         # 格式同上，id 必须和文件夹名一致
+    sheet.png
+```
+
+- 只支持 https；素材只能是包内相对路径或 https，类型限 PNG / WebP / GIF / JPEG / AVIF / WebM（不支持 SVG），单个文件不超过 8MB。
+- 下载后存在扩展的 IndexedDB 里，离线也能用；某个库连不上时保留上次的角色。
+- `node scripts/gen-raster.mjs` 重新生成 `library/` 里的示例角色和扩展图标。
+
+想投稿角色：按上面的格式在 `library/` 下加一个文件夹，并把 id 加进 `index.json`，提交 PR。
+
 ## 许可证
 
 代码：MIT。素材的许可证在各角色包的 `license` 字段里单独声明。

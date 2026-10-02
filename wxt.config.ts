@@ -7,6 +7,8 @@ export default defineConfig({
     name: 'HappyDesk',
     description: 'A floating mascot that reacts to what you play and controls media across tabs.',
     permissions: ['storage'],
+    // Requested at runtime only when the user adds a library on a host without CORS.
+    optional_host_permissions: ['https://*/*'],
     web_accessible_resources: [{ resources: ['packs/*'], matches: ['<all_urls>'] }],
     action: { default_title: 'HappyDesk' },
   },

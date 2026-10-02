@@ -2,6 +2,7 @@ import { DataUrlCache, getBlob } from '@/lib/blobstore';
 import { GachaEngine } from '@/lib/gacha/engine';
 import { cryptoRandom } from '@/lib/gacha/pool';
 import { Hub } from '@/lib/hub';
+import { syncIfStale } from '@/lib/librarySync';
 import { PORT_NAME, type BlobRequest } from '@/lib/messages';
 import { PackCatalog } from '@/lib/pack/catalog';
 import { aiSettings, gachaState, lockedPack, recordDraw, registryMeta, tagCache } from '@/lib/settings';
@@ -70,10 +71,13 @@ export default defineBackground(() => {
   run(async () => {});
 
   browser.runtime.onMessage.addListener((msg: BlobRequest, sender, respond) => {
-    if (msg?.t !== 'get-blob' || sender.id !== browser.runtime.id) return;
+    if (sender.id !== browser.runtime.id || msg?.t !== 'get-blob') return;
     blobs.get(msg.key).then(respond, () => respond(null));
     return true;
   });
+
+  // Refresh remote libraries at most every 12 h, whenever the worker wakes up.
+  void syncIfStale().catch((e) => console.warn('[happydesk] library sync failed', e));
 
   browser.runtime.onConnect.addListener((port) => {
     if (port.name === PORT_NAME) hub.connect(port);

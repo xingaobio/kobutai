@@ -3,6 +3,7 @@ import type { GachaState } from './gacha/engine';
 import type { LoadedPack } from './pack/types';
 import type { RegistryMeta } from './registry';
 import { DEFAULT_AI_SETTINGS, type AiSettings } from './tagging/ai';
+import { DEFAULT_LIBRARY } from './remote';
 import type { TagCacheStore } from './tagging/tagger';
 
 export interface Layout {
@@ -101,3 +102,20 @@ export const gachaState = storage.defineItem<GachaState | null>('session:gachaSt
 
 /** Media start order + manual pick; survives service-worker restarts. */
 export const registryMeta = storage.defineItem<RegistryMeta | null>('session:registryMeta', { fallback: null });
+
+// --- M3: remote libraries ------------------------------------------------------
+
+/** index.json URLs of remote character libraries. */
+export const libraries = storage.defineItem<string[]>('local:libraries', { fallback: [DEFAULT_LIBRARY] });
+
+/** Packs downloaded from libraries (assets in IndexedDB); kept when offline. */
+export const remotePacks = storage.defineItem<LoadedPack[]>('local:remotePacks', { fallback: [] });
+
+export interface RemoteSyncStatus {
+  /** Last attempt (ms epoch). */
+  at: number;
+  ok: boolean;
+  errors: string[];
+  count: number;
+}
+export const remoteSync = storage.defineItem<RemoteSyncStatus | null>('local:remoteSync', { fallback: null });

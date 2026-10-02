@@ -38,6 +38,7 @@ async function tx<T>(mode: IDBTransactionMode, fn: (s: IDBObjectStore) => IDBReq
 export const putBlob = (key: string, blob: Blob) => tx('readwrite', (s) => s.put(blob, key)).then(() => {});
 export const getBlob = (key: string) => tx<Blob | undefined>('readonly', (s) => s.get(key));
 export const deleteBlob = (key: string) => tx('readwrite', (s) => s.delete(key)).then(() => {});
+export const blobKeys = () => tx<IDBValidKey[]>('readonly', (s) => s.getAllKeys()).then((k) => k.map(String));
 
 export async function blobToDataUrl(blob: Blob): Promise<string> {
   const bytes = new Uint8Array(await blob.arrayBuffer());
