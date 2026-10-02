@@ -9,12 +9,15 @@ export const live = $state<{
   packs: LoadedPack[];
   fullscreen: boolean;
   hidden: boolean;
+  /** The Document PiP window is open; the in-page overlay steps aside. */
+  pip: boolean;
 }>({
   registry: { primary: null, entries: [] },
   draw: null,
   packs: [],
   fullscreen: false,
   hidden: false,
+  pip: false,
 });
 
 /** The character to show: the drawn one, else the first pack. */

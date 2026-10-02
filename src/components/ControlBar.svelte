@@ -12,12 +12,16 @@
     packName,
     send,
     onHideSite,
+    onPip,
   }: {
     registry: RegistryState;
     draw: DrawView | null;
     packName: string;
     send: (msg: ToBackground) => void;
-    onHideSite: () => void;
+    /** Absent inside the PiP window. */
+    onHideSite?: () => void;
+    /** Present only where Document Picture-in-Picture is supported. */
+    onPip?: () => void;
   } = $props();
 
   const GENRE_LABEL: Record<string, string> = {
@@ -122,9 +126,16 @@
         value={snap.muted ? 0 : snap.volume}
         oninput={(e) => cmd({ type: 'volume', volume: +e.currentTarget.value })}
       />
-      <button class="icon small" aria-label="在此站点隐藏" title="在此站点隐藏" onclick={onHideSite}>
-        <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2" fill="none" /><path d="M4 20 20 4" stroke="currentColor" stroke-width="2" /></svg>
-      </button>
+      {#if onPip}
+        <button class="icon small" aria-label="弹出悬浮窗" title="弹出为置顶悬浮窗（切到其他应用也能看到）" data-testid="happydesk-pip-open" onclick={onPip}>
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2" fill="none" /><rect x="12" y="11" width="7" height="6" rx="1" /></svg>
+        </button>
+      {/if}
+      {#if onHideSite}
+        <button class="icon small" aria-label="在此站点隐藏" title="在此站点隐藏" onclick={onHideSite}>
+          <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2" fill="none" /><path d="M4 20 20 4" stroke="currentColor" stroke-width="2" /></svg>
+        </button>
+      {/if}
     </div>
 
     <div class="gacha" data-testid="happydesk-gacha">
@@ -160,9 +171,16 @@
   {:else}
     <div class="empty">
       <span>没有正在播放的媒体</span>
-      <button class="icon small" aria-label="在此站点隐藏" title="在此站点隐藏" onclick={onHideSite}>
-        <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2" fill="none" /><path d="M4 20 20 4" stroke="currentColor" stroke-width="2" /></svg>
-      </button>
+      {#if onPip}
+        <button class="icon small" aria-label="弹出悬浮窗" title="弹出为置顶悬浮窗（切到其他应用也能看到）" data-testid="happydesk-pip-open" onclick={onPip}>
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2" fill="none" /><rect x="12" y="11" width="7" height="6" rx="1" /></svg>
+        </button>
+      {/if}
+      {#if onHideSite}
+        <button class="icon small" aria-label="在此站点隐藏" title="在此站点隐藏" onclick={onHideSite}>
+          <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2" fill="none" /><path d="M4 20 20 4" stroke="currentColor" stroke-width="2" /></svg>
+        </button>
+      {/if}
     </div>
   {/if}
 </div>

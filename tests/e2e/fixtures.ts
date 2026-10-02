@@ -56,11 +56,11 @@ export const test = base.extend<{
   context: async ({}, use) => {
     const context = await chromium.launchPersistentContext('', {
       channel: 'chromium',
-      headless: true,
+      headless: !process.env.HEADED,
       viewport: { width: 1200, height: 800 },
       args: [`--disable-extensions-except=${EXT}`, `--load-extension=${EXT}`, '--autoplay-policy=no-user-gesture-required'],
     });
-    await context.route(/^http:\/\/[a-z]+\.test\//, async (route) => {
+    await context.route(/^https?:\/\/[a-z]+\.test\//, async (route) => {
       const url = new URL(route.request().url());
       return route.fulfill({ body: mediaPage(url.hostname), contentType: 'text/html; charset=utf-8' });
     });
@@ -76,8 +76,10 @@ export const test = base.extend<{
   open: async ({ context }, use) => {
     await use(async (host, html) => {
       const page = await context.newPage();
-      if (html) await page.route(`http://${host}/`, (r) => r.fulfill({ body: html, contentType: 'text/html; charset=utf-8' }));
-      await page.goto(`http://${host}/`);
+      // "https://host" opens a secure-context page (needed e.g. for Document PiP).
+      const url = host.startsWith('https://') ? `${host}/` : `http://${host}/`;
+      if (html) await page.route(url, (r) => r.fulfill({ body: html, contentType: 'text/html; charset=utf-8' }));
+      await page.goto(url);
       await page.getByTestId('happydesk-mascot').waitFor();
       return page;
     });

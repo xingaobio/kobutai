@@ -12,11 +12,13 @@
     send,
     saveLayout,
     hideSite,
+    openPip,
   }: {
     layout: Layout;
     send: (msg: ToBackground) => void;
     saveLayout: (l: Layout) => void;
     hideSite: () => void;
+    openPip?: () => void;
   } = $props();
 
   // The content script only mounts once packs are loaded, so there is always one.
@@ -57,7 +59,7 @@
   });
 
   $effect(() => {
-    if (live.fullscreen) hovering = false;
+    if (live.fullscreen || live.pip) hovering = false;
   });
 
   function enter() {
@@ -117,7 +119,7 @@
   }
 </script>
 
-{#if !live.hidden && !live.fullscreen}
+{#if !live.hidden && !live.fullscreen && !live.pip}
   <div
     class="root"
     data-testid="happydesk-overlay"
@@ -164,6 +166,7 @@
         packName={pack.name}
         {send}
         onHideSite={hideSite}
+        onPip={openPip}
       />
     </div>
   {/if}

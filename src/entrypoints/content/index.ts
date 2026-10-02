@@ -7,6 +7,7 @@ import { defaultLayout, getLayout, hiddenSites, setLayout, setSiteHidden } from 
 import { blobKey, isBlobRef } from '@/lib/blobstore';
 import { setSrcResolver } from '@/lib/render/renderer';
 import { live } from '@/lib/ui/live.svelte';
+import { openPip, pipApi } from '@/lib/ui/pip';
 
 /** Top frame: reports media and hosts the overlay. Subframes use frame.content.ts. */
 export default defineContentScript({
@@ -64,15 +65,17 @@ export default defineContentScript({
       append: 'last',
       // Keys typed into the control bar must not trigger the page's own hotkeys.
       isolateEvents: true,
-      onMount(container, _shadow, shadowHost) {
+      onMount(container, shadow, shadowHost) {
         shadowHost.dataset.happydesk = 'true';
+        const send = (msg: Parameters<typeof reporter.send>[0]) => reporter.send(msg);
         return mount(Overlay, {
           target: container,
           props: {
             layout,
-            send: (msg) => reporter.send(msg),
+            send,
             saveLayout: (l) => void setLayout(host, l),
             hideSite: () => void setSiteHidden(host, true),
+            openPip: pipApi() ? () => void openPip(shadow, send) : undefined,
           },
         });
       },
