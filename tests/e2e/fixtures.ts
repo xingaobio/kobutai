@@ -37,7 +37,21 @@ export function mediaPage(title: string) {
   </body></html>`;
 }
 
-export const test = base.extend<{ context: BrowserContext; open: (host: string, html?: string) => Promise<Page> }>({
+/** A page playing a song with the given Media Session metadata. */
+export function songPage(title: string, artist = '') {
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title></head><body>
+  <audio id="media" src="${TONE_URL}" loop preload="auto"></audio>
+  <script>navigator.mediaSession.metadata = new MediaMetadata(${JSON.stringify({ title: '__T__', artist: '__A__' })
+    .replace('__T__', title.replace(/"/g, '\\"'))
+    .replace('__A__', artist.replace(/"/g, '\\"'))});</script>
+  </body></html>`;
+}
+
+export const test = base.extend<{
+  context: BrowserContext;
+  extensionId: string;
+  open: (host: string, html?: string) => Promise<Page>;
+}>({
   // eslint-disable-next-line no-empty-pattern
   context: async ({}, use) => {
     const context = await chromium.launchPersistentContext('', {
@@ -48,17 +62,21 @@ export const test = base.extend<{ context: BrowserContext; open: (host: string, 
     });
     await context.route(/^http:\/\/[a-z]+\.test\//, async (route) => {
       const url = new URL(route.request().url());
-      return route.fulfill({ body: mediaPage(url.hostname), contentType: 'text/html' });
+      return route.fulfill({ body: mediaPage(url.hostname), contentType: 'text/html; charset=utf-8' });
     });
     // Wait for the service worker so content scripts can connect.
     if (!context.serviceWorkers().length) await context.waitForEvent('serviceworker');
     await use(context);
     await context.close();
   },
+  extensionId: async ({ context }, use) => {
+    const sw = context.serviceWorkers()[0] ?? (await context.waitForEvent('serviceworker'));
+    await use(new URL(sw.url()).host);
+  },
   open: async ({ context }, use) => {
     await use(async (host, html) => {
       const page = await context.newPage();
-      if (html) await page.route(`http://${host}/`, (r) => r.fulfill({ body: html, contentType: 'text/html' }));
+      if (html) await page.route(`http://${host}/`, (r) => r.fulfill({ body: html, contentType: 'text/html; charset=utf-8' }));
       await page.goto(`http://${host}/`);
       await page.getByTestId('happydesk-mascot').waitFor();
       return page;

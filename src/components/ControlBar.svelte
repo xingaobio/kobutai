@@ -3,13 +3,31 @@
   import { formatTime, livePosition } from '../lib/format';
   import type { MediaCommand } from '../lib/media/types';
   import type { ToBackground } from '../lib/messages';
+  import type { DrawView } from '../lib/gacha/engine';
   import type { RegistryState } from '../lib/registry';
 
   let {
     registry,
+    draw,
+    packName,
     send,
     onHideSite,
-  }: { registry: RegistryState; send: (msg: ToBackground) => void; onHideSite: () => void } = $props();
+  }: {
+    registry: RegistryState;
+    draw: DrawView | null;
+    packName: string;
+    send: (msg: ToBackground) => void;
+    onHideSite: () => void;
+  } = $props();
+
+  const GENRE_LABEL: Record<string, string> = {
+    jpop: 'J-Pop', anime: '动漫', 'western-pop': '欧美流行', hiphop: '说唱', rock: '摇滚',
+    electronic: '电子', classical: '古典', lofi: 'Lo-fi', cpop: '华语', other: '其他音乐',
+  };
+  const TYPE_LABEL: Record<string, string> = { music: '音乐', video: '视频', live: '直播', podcast: '播客', other: '其他' };
+  const tagLabel = $derived(
+    draw && !draw.locked ? (draw.tags.genre ? GENRE_LABEL[draw.tags.genre] : TYPE_LABEL[draw.tags.type]) + (draw.tags.source === 'rules' ? '' : ' · AI') : '',
+  );
 
   let now = $state(Date.now());
   const tick = setInterval(() => (now = Date.now()), 500);
@@ -107,6 +125,25 @@
       <button class="icon small" aria-label="在此站点隐藏" title="在此站点隐藏" onclick={onHideSite}>
         <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2" fill="none" /><path d="M4 20 20 4" stroke="currentColor" stroke-width="2" /></svg>
       </button>
+    </div>
+
+    <div class="gacha" data-testid="happydesk-gacha">
+      <span class="who" title={packName}>{packName}{#if tagLabel}<em>{tagLabel}</em>{/if}</span>
+      <button
+        class="chip"
+        data-testid="happydesk-reroll"
+        disabled={!draw?.canReroll}
+        title={draw?.locked ? '已锁定' : draw?.canReroll ? '换一个角色（每首只能换一次）' : '这首已经换过了'}
+        onclick={() => send({ t: 'reroll' })}>🎲 换一次</button
+      >
+      <button
+        class="chip"
+        class:on={draw?.locked}
+        data-testid="happydesk-lock"
+        aria-pressed={!!draw?.locked}
+        title={draw?.locked ? '解锁，恢复自动抽卡' : '锁定当前角色，不再自动抽卡'}
+        onclick={() => send({ t: 'lock', locked: !draw?.locked })}>{draw?.locked ? '🔒 已锁定' : '🔓 锁定'}</button
+      >
     </div>
 
     {#if registry.entries.length > 1}
@@ -242,6 +279,50 @@
     cursor: default;
   }
   .icon:focus-visible {
+    outline: 2px solid #ff8fc7;
+  }
+  .gacha {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .who {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 600;
+  }
+  .who em {
+    font-style: normal;
+    font-weight: 400;
+    opacity: 0.65;
+    margin-left: 6px;
+  }
+  .chip {
+    all: unset;
+    cursor: pointer;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    white-space: nowrap;
+  }
+  .chip:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.22);
+  }
+  .chip:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .chip.on {
+    background: #ff8fc7;
+    color: #18181e;
+  }
+  .chip:focus-visible {
     outline: 2px solid #ff8fc7;
   }
   select {

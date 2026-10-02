@@ -16,10 +16,43 @@ export interface CellSize {
   h: number;
 }
 
+/** Extension-packaged assets are exempt from page CSP; anything else is drawn via canvas. */
+function isExtensionUrl(src: string): boolean {
+  return /^(chrome|moz)-extension:\/\//.test(src);
+}
+
+const bitmaps = new Map<string, Promise<ImageBitmap>>();
+
+/** Turns `hdblob:` references into fetchable URLs (set by the content script). */
+let resolveSrc: (src: string) => Promise<string> = async (src) => src;
+export function setSrcResolver(fn: (src: string) => Promise<string>): void {
+  resolveSrc = fn;
+}
+
+/** Fetch from the content script (not subject to page CSP) and decode once per src. */
+export function loadBitmap(src: string): Promise<ImageBitmap> {
+  let p = bitmaps.get(src);
+  if (!p) {
+    p = resolveSrc(src)
+      .then((url) => fetch(url))
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.blob();
+      })
+      .then((b) => createImageBitmap(b));
+    p.catch(() => bitmaps.delete(src));
+    bitmaps.set(src, p);
+  }
+  return p;
+}
+
 export class SpriteRenderer implements Renderer {
   readonly el: HTMLDivElement;
   private timer: ReturnType<typeof setInterval> | undefined;
   private frame = 0;
+  private canvas: HTMLCanvasElement | null = null;
+  private bitmap: ImageBitmap | null = null;
+  private token = 0;
 
   constructor(private size: CellSize) {
     this.el = document.createElement('div');
@@ -34,10 +67,44 @@ export class SpriteRenderer implements Renderer {
   show(asset: StateAsset, onEnd?: () => void): void {
     if (asset.kind !== 'sprite') throw new Error('SpriteRenderer only renders sprite assets');
     this.stop();
-    const { w, h } = this.size;
-    this.el.style.backgroundImage = `url("${asset.src}")`;
-    this.el.style.backgroundSize = `${asset.cols * w}px auto`;
+    const token = ++this.token;
     this.frame = 0;
+    if (isExtensionUrl(asset.src)) {
+      this.useCss(asset);
+      this.start(asset, onEnd);
+      return;
+    }
+    this.useCanvas();
+    this.bitmap = null;
+    loadBitmap(asset.src).then(
+      (bmp) => {
+        if (token !== this.token) return;
+        this.bitmap = bmp;
+        this.start(asset, onEnd);
+      },
+      (e) => console.warn('[happydesk] sprite failed to load', asset.src.slice(0, 80), e),
+    );
+  }
+
+  private useCss(asset: SpriteAsset) {
+    this.canvas?.remove();
+    this.canvas = null;
+    this.el.style.backgroundImage = `url("${asset.src}")`;
+    this.el.style.backgroundSize = `${asset.cols * this.size.w}px auto`;
+  }
+
+  private useCanvas() {
+    this.el.style.backgroundImage = 'none';
+    if (!this.canvas) {
+      this.canvas = document.createElement('canvas');
+      this.canvas.width = this.size.w;
+      this.canvas.height = this.size.h;
+      this.canvas.style.display = 'block';
+      this.el.replaceChildren(this.canvas);
+    }
+  }
+
+  private start(asset: SpriteAsset, onEnd?: () => void) {
     this.draw(asset);
     if (asset.frames <= 1) {
       onEnd?.();
@@ -67,7 +134,17 @@ export class SpriteRenderer implements Renderer {
     const { w, h } = this.size;
     const col = this.frame % asset.cols;
     const row = (asset.row ?? 0) + Math.floor(this.frame / asset.cols);
-    this.el.style.backgroundPosition = `${-col * w}px ${-row * h}px`;
+    if (!this.canvas) {
+      this.el.style.backgroundPosition = `${-col * w}px ${-row * h}px`;
+      return;
+    }
+    const ctx = this.canvas.getContext('2d');
+    if (!ctx || !this.bitmap) return;
+    // Source cells keep the pack's aspect ratio, whatever the sheet's resolution.
+    const sw = this.bitmap.width / asset.cols;
+    const sh = (sw * h) / w;
+    ctx.clearRect(0, 0, w, h);
+    ctx.drawImage(this.bitmap, col * sw, row * sh, sw, sh, 0, 0, w, h);
   }
 
   private stop() {
@@ -76,6 +153,7 @@ export class SpriteRenderer implements Renderer {
   }
 
   destroy(): void {
+    this.token++;
     this.stop();
     this.el.remove();
   }

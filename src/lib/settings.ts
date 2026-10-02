@@ -1,4 +1,8 @@
 import { storage } from '#imports';
+import type { GachaState } from './gacha/engine';
+import type { LoadedPack } from './pack/types';
+import { DEFAULT_AI_SETTINGS, type AiSettings } from './tagging/ai';
+import type { TagCacheStore } from './tagging/tagger';
 
 export interface Layout {
   /** Left/top of the overlay in CSS px, relative to the viewport. */
@@ -56,3 +60,37 @@ export function defaultLayout(box: { w: number; h: number }, view: { w: number; 
     view,
   );
 }
+
+// --- M2: gacha / AI / collection ---------------------------------------------
+
+/** AI settings incl. the user's own API key: local only, never synced. */
+export const aiSettings = storage.defineItem<AiSettings>('local:aiSettings', { fallback: DEFAULT_AI_SETTINGS });
+
+export const tagCache = storage.defineItem<Awaited<ReturnType<TagCacheStore['get']>>>('local:tagCache', {
+  fallback: {},
+});
+
+/** Pinned character id, synced across the user's browsers. */
+export const lockedPack = storage.defineItem<string | null>('sync:lockedPack', { fallback: null });
+
+export interface CollectionEntry {
+  /** Times drawn. */
+  n: number;
+  /** First drawn (ms epoch). */
+  first: number;
+}
+
+/** 图鉴: pack id → stats. Ids only, so it fits sync storage. */
+export const collection = storage.defineItem<Record<string, CollectionEntry>>('sync:collection', { fallback: {} });
+
+export async function recordDraw(packId: string, now = Date.now()): Promise<void> {
+  const all = await collection.getValue();
+  const prev = all[packId];
+  await collection.setValue({ ...all, [packId]: { n: (prev?.n ?? 0) + 1, first: prev?.first ?? now } });
+}
+
+/** Imported packs (e.g. from Petdex) with assets inlined as data URLs. */
+export const userPacks = storage.defineItem<LoadedPack[]>('local:userPacks', { fallback: [] });
+
+/** Current draw + recent draws; session storage survives service-worker restarts. */
+export const gachaState = storage.defineItem<GachaState | null>('session:gachaState', { fallback: null });

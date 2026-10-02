@@ -89,3 +89,30 @@ test('new top frame gets state on connect; ports without tab are ignored', () =>
   hub.connect(noTab);
   expect(noTab.received).toEqual([]);
 });
+
+test('draw is broadcast to top frames and gacha requests are forwarded', () => {
+  const { hub, a, aFrame, b } = setup();
+  const gacha: unknown[] = [];
+  hub.onGacha = (m) => gacha.push(m);
+  const draw = { packId: 'momo', tags: { type: 'music' as const, genre: 'jpop' as const, source: 'rules' as const }, locked: false, canReroll: true };
+  hub.setDraw(draw);
+  expect(a.last('state')?.draw).toEqual(draw);
+  expect(b.last('state')?.draw).toEqual(draw);
+  expect(aFrame.last('state')).toBeUndefined();
+  const before = a.received.length;
+  hub.setDraw({ ...draw }); // unchanged → no broadcast
+  expect(a.received.length).toBe(before);
+  b.send({ t: 'reroll' });
+  b.send({ t: 'lock', locked: true });
+  expect(gacha).toEqual([{ t: 'reroll' }, { t: 'lock', locked: true }]);
+});
+
+test('onUpdate fires on snapshot, select and disconnect', () => {
+  const { hub, a } = setup();
+  let n = 0;
+  hub.onUpdate = () => n++;
+  a.send({ t: 'snapshot', snap: snap(true, 'A') });
+  a.send({ t: 'select', key: '1:0' });
+  a.disconnect();
+  expect(n).toBe(3);
+});

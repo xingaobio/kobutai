@@ -2,24 +2,25 @@
   import { onDestroy } from 'svelte';
   import Character from './Character.svelte';
   import ControlBar from './ControlBar.svelte';
-  import type { LoadedPack, StateName } from '../lib/pack/types';
+  import type { StateName } from '../lib/pack/types';
   import type { ToBackground } from '../lib/messages';
   import { clampLayout, type Layout } from '../lib/settings';
-  import { live } from '../lib/ui/live.svelte';
+  import { currentPack, live } from '../lib/ui/live.svelte';
 
   let {
-    pack,
     layout: initial,
     send,
     saveLayout,
     hideSite,
   }: {
-    pack: LoadedPack;
     layout: Layout;
     send: (msg: ToBackground) => void;
     saveLayout: (l: Layout) => void;
     hideSite: () => void;
   } = $props();
+
+  // The content script only mounts once packs are loaded, so there is always one.
+  const pack = $derived(currentPack()!);
 
   const BAR_W = 300;
   const DRAG_THRESHOLD = 4;
@@ -157,7 +158,13 @@
       onpointerenter={enter}
       onpointerleave={leave}
     >
-      <ControlBar registry={live.registry} {send} onHideSite={hideSite} />
+      <ControlBar
+        registry={live.registry}
+        draw={live.draw}
+        packName={pack.name}
+        {send}
+        onHideSite={hideSite}
+      />
     </div>
   {/if}
 {/if}

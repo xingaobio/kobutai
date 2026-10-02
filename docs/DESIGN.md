@@ -78,7 +78,7 @@ Chrome 扩展：网页上悬浮一个动画角色，根据当前播放内容从�
   - 音乐风格 `genre`：`jpop | anime | western-pop | hiphop | rock | electronic | classical | lofi | cpop | other`
 - **打标签流程**：
   1. 先用本地关键词规则（标题/频道/域名）。
-  2. 若设置页填写了 AI API key，再调用 AI 输出结构化标签。
+  2. 若设置页填写了 Anthropic API key，再调用 Claude 输出结构化标签（官方 SDK，JSON schema 结构化输出，effort low，默认模型 `claude-opus-5-5`，可在设置里改）。最多等 6 秒，超时先用规则结果，AI 结果晚到也会写入缓存。
      - key 只存在本地 `chrome.storage.local`，不写进代码。
      - 只发送标题、频道、域名，不发送完整 URL 或页面内容。
   3. 结果按"标题+频道"缓存。
@@ -94,7 +94,10 @@ Chrome 扩展：网页上悬浮一个动画角色，根据当前播放内容从�
 - 无账号体系。
 - `chrome.storage.sync`：图鉴（角色 ID 列表）、锁定状态。
 - `chrome.storage.local`：设置、AI key、浮层位置/大小（按站点）、标签缓存。
-- IndexedDB：远程素材缓存（M3）。
+- `chrome.storage.local`：导入角色的元数据（`userPacks`）、AI 识别缓存。
+- `chrome.storage.session`：当前抽卡结果和最近 50 个内容的抽卡记录（service worker 重启后保留）。
+- 扩展 IndexedDB：导入角色的精灵图（Petdex 一张约 2MB）。素材以 `hdblob:<id>` 引用；content script 只按需向 background 取当前角色的那一张。M3 的远程素材缓存也放在这里。
+- 渲染：扩展内置素材直接用 CSS 背景图；其他来源（导入、远程）在 content script 里 fetch 后画到 canvas 上，避免被网页的 CSP 拦截。
 
 ## 7. 技术栈
 

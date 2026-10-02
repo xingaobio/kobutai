@@ -40,6 +40,7 @@
   {:else if unavailable}
     <p class="muted">这个页面不能显示角色（浏览器内置页面或刚安装后未刷新的页面）。</p>
   {/if}
+  <button class="link" onclick={() => browser.runtime.openOptionsPage()}>图鉴 · 导入角色 · 设置 →</button>
 </main>
 
 <style>
@@ -73,6 +74,13 @@
     gap: 8px;
     align-items: center;
     cursor: pointer;
+  }
+  .link {
+    all: unset;
+    display: block;
+    margin-top: 12px;
+    cursor: pointer;
+    color: #e0559b;
   }
   .muted {
     opacity: 0.7;

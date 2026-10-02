@@ -1,3 +1,4 @@
+import type { DrawView } from './gacha/engine';
 import type { ToBackground, ToContent } from './messages';
 import { MediaRegistry, entryKey } from './registry';
 
@@ -17,8 +18,19 @@ export interface PortLike {
 export class Hub {
   readonly registry = new MediaRegistry();
   private ports = new Map<string, PortLike>();
+  private draw: DrawView | null = null;
+  /** Called after any registry change (e.g. to feed the gacha engine). */
+  onUpdate: () => void = () => {};
+  /** Gacha requests from overlays. */
+  onGacha: (msg: Extract<ToBackground, { t: 'reroll' | 'lock' }>) => void = () => {};
 
   constructor(private now: () => number = Date.now) {}
+
+  setDraw(draw: DrawView | null): void {
+    if (JSON.stringify(draw) === JSON.stringify(this.draw)) return;
+    this.draw = draw;
+    this.broadcast();
+  }
 
   connect(port: PortLike): void {
     const tabId = port.sender?.tab?.id;
@@ -34,9 +46,10 @@ export class Hub {
       this.ports.delete(key);
       this.registry.remove(tabId, frameId);
       this.broadcast();
+      this.onUpdate();
     });
     // Give a fresh overlay the current state immediately.
-    if (frameId === 0) this.post(port, { t: 'state', state: this.registry.state() });
+    if (frameId === 0) this.post(port, { t: 'state', state: this.registry.state(), draw: this.draw });
   }
 
   private handle(tabId: number, frameId: number, msg: ToBackground): void {
@@ -44,6 +57,7 @@ export class Hub {
       case 'snapshot':
         this.registry.update(tabId, frameId, msg.snap, this.now());
         this.broadcast();
+        this.onUpdate();
         return;
       case 'command': {
         const target = msg.key ? this.registry.get(msg.key) : this.registry.primary();
@@ -52,14 +66,21 @@ export class Hub {
         return;
       }
       case 'select':
-        if (this.registry.select(msg.key)) this.broadcast();
+        if (this.registry.select(msg.key)) {
+          this.broadcast();
+          this.onUpdate();
+        }
+        return;
+      case 'reroll':
+      case 'lock':
+        this.onGacha(msg);
         return;
     }
   }
 
   private broadcast(): void {
     const state = this.registry.state();
-    for (const [key, port] of this.ports) if (key.endsWith(':0')) this.post(port, { t: 'state', state });
+    for (const [key, port] of this.ports) if (key.endsWith(':0')) this.post(port, { t: 'state', state, draw: this.draw });
   }
 
   private post(port: PortLike, msg: ToContent): void {

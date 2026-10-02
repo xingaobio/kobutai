@@ -3,9 +3,11 @@ import Overlay from '@/components/Overlay.svelte';
 import { adapterFor } from '@/lib/media/adapters';
 import { PageMediaController } from '@/lib/media/controller';
 import { MediaReporter, type ClientPort } from '@/lib/media/reporter';
-import { PORT_NAME, type RuntimeRequest, type SiteInfo } from '@/lib/messages';
-import { loadPackIndex } from '@/lib/pack/loader';
+import { PORT_NAME, type BlobRequest, type RuntimeRequest, type SiteInfo } from '@/lib/messages';
+import { PackCatalog } from '@/lib/pack/catalog';
 import { defaultLayout, getLayout, hiddenSites, setLayout, setSiteHidden } from '@/lib/settings';
+import { blobKey, isBlobRef } from '@/lib/blobstore';
+import { setSrcResolver } from '@/lib/render/renderer';
 import { live } from '@/lib/ui/live.svelte';
 
 export default defineContentScript({
@@ -24,7 +26,10 @@ export default defineContentScript({
       () => browser.runtime.connect({ name: PORT_NAME }) as unknown as ClientPort,
       document,
       (msg) => {
-        if (msg.t === 'state' && isTop) live.registry = msg.state;
+        if (msg.t === 'state' && isTop) {
+          live.registry = msg.state;
+          live.draw = msg.draw;
+        }
       },
     );
     reporter.start();
@@ -36,9 +41,17 @@ export default defineContentScript({
     if (!isTop) return;
 
     // --- Overlay (top frame only) ---
-    const packs = await loadPackIndex(browser.runtime.getURL('/packs/index.json').replace(/index\.json$/, ''), 'builtin');
-    const pack = packs[0];
+    setSrcResolver(async (src) => {
+      if (!isBlobRef(src)) return src;
+      const url = (await browser.runtime.sendMessage({ t: 'get-blob', key: blobKey(src) } satisfies BlobRequest)) as string | null;
+      if (!url) throw new Error(`missing asset ${src}`);
+      return url;
+    });
+    const catalog = new PackCatalog();
+    live.packs = await catalog.all();
+    const pack = live.packs[0];
     if (!pack) return;
+    ctx.onInvalidated(catalog.onChange((packs) => (live.packs = packs)));
 
     live.hidden = (await hiddenSites.getValue()).includes(host);
     const unwatch = hiddenSites.watch((list) => (live.hidden = list.includes(host)));
@@ -73,7 +86,6 @@ export default defineContentScript({
         return mount(Overlay, {
           target: container,
           props: {
-            pack,
             layout,
             send: (msg) => reporter.send(msg),
             saveLayout: (l) => void setLayout(host, l),

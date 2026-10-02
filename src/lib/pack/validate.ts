@@ -24,6 +24,8 @@ function isPosInt(v: unknown): v is number {
 function isSafeSrc(v: unknown): v is string {
   if (typeof v !== 'string' || v.length === 0 || v.length > 2048) return false;
   if (/^(https:|data:image\/|data:video\/)/.test(v)) return true;
+  // Reference to an asset imported into the extension's own IndexedDB.
+  if (/^hdblob:[a-z0-9][a-z0-9-_]{0,80}$/.test(v)) return true;
   if (/^[a-z][a-z0-9+.-]*:/i.test(v)) return false;
   if (v.includes('\\')) return false;
   let decoded: string;

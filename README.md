@@ -16,7 +16,15 @@ npm run e2e        # 构建后用 Playwright 加载扩展跑端到端测试
 
 手动加载：`npm run build`，然后在 `chrome://extensions` 打开开发者模式，"加载已解压的扩展程序"选择 `.output/chrome-mv3`。
 
-首次运行 E2E 前需要 `npx playwright install chromium`。
+首次运行 E2E 前需要 `npx playwright install chromium`。`PETDEX_LIVE=1 npm run e2e` 会额外跑一个连真实 petdex.dev 的导入测试。
+
+## 抽卡与角色
+
+- 每次开始播放新内容，后台先给内容打标签（类型 + 曲风），再从对应池子里等概率抽一个角色。回到之前播过的内容，会恢复当时抽到的角色。
+- 每个内容可以"换一次"（同一个池子，不能退回）；可以锁定当前角色，锁定后不再抽。
+- 图鉴、导入角色、AI 设置在扩展的选项页（点工具栏图标 → "图鉴 · 导入角色 · 设置"）。
+- **AI 识别（可选）**：在设置里填自己的 Anthropic API key。只发送标题、作者、域名；不填也能用本地规则。
+- **Petdex**：选项页可以搜索 [petdex.dev](https://petdex.dev) 的几千个社区宠物并导入，也可以导入本地的 `pet.json` + `spritesheet.webp`。导入的角色进入通用池，素材不随扩展分发。
 
 ## 架构
 
@@ -28,6 +36,10 @@ npm run e2e        # 构建后用 Playwright 加载扩展跑端到端测试
 | `src/lib/media/` | 通用控制器 + 站点适配器（YouTube、YouTube Music、Bilibili、Spotify） |
 | `src/lib/pack/` | 角色包格式、校验、加载 |
 | `src/lib/render/` | `Renderer` 接口：精灵图和透明视频两种实现 |
+| `src/lib/tagging/` | 本地规则打标签、可选的 Claude 打标签、缓存 |
+| `src/lib/gacha/` | 角色池与抽卡引擎（换一次、锁定、最近记录） |
+| `src/lib/petdex.ts`, `src/lib/importer.ts` | Petdex 格式解析、帧数检测、导入 |
+| `src/entrypoints/options/` | 图鉴、导入角色、设置 |
 
 ## 角色包格式
 
