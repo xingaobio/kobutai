@@ -5,9 +5,21 @@ import { Hub } from '@/lib/hub';
 import { syncIfStale } from '@/lib/librarySync';
 import { PORT_NAME, type BlobRequest } from '@/lib/messages';
 import { PackCatalog } from '@/lib/pack/catalog';
-import { aiSettings, gachaState, lockedPack, recordDraw, registryMeta, tagCache } from '@/lib/settings';
+import { createHdModels } from '@/lib/llm/models';
+import { storageCredentialStore } from '@/lib/llm/store';
+import {
+  gachaState,
+  llmCredentials,
+  llmSettings,
+  lockedPack,
+  migrateLegacyAi,
+  recordDraw,
+  registryMeta,
+  tagCache,
+} from '@/lib/settings';
 import { aiTags } from '@/lib/tagging/ai';
 import { Tagger } from '@/lib/tagging/tagger';
+import type { MutableModels } from '@earendil-works/pi-ai';
 
 export default defineBackground(() => {
   const hub = new Hub();
@@ -25,7 +37,17 @@ export default defineBackground(() => {
   };
   const catalog = new PackCatalog();
   const blobs = new DataUrlCache(getBlob);
-  const tagger = new Tagger(() => aiSettings.getValue(), { get: () => tagCache.getValue(), set: (v) => tagCache.setValue(v) }, aiTags);
+  // Service workers can't import() at runtime, so pi-ai and its SDKs are bundled in; the
+  // models are only built once AI tagging is used, and rebuilt after custom endpoints change.
+  // Credentials are read per request.
+  const credentials = storageCredentialStore(llmCredentials);
+  let models: MutableModels | null = null;
+  llmSettings.watch(() => (models = null));
+  const migrated = migrateLegacyAi().catch((e) => console.warn('[happydesk] AI settings migration failed', e));
+  const settings = async () => (await migrated, llmSettings.getValue());
+  const tagger = new Tagger(settings, { get: () => tagCache.getValue(), set: (v) => tagCache.setValue(v) }, (info, s) =>
+    aiTags(info, s, (models ??= createHdModels(credentials, s.custom))),
+  );
   const engine = new GachaEngine({
     packs: () => catalog.all(),
     tag: (info) => tagger.tag(info),

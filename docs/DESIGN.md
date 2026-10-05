@@ -78,8 +78,12 @@ Chrome 扩展：网页上悬浮一个动画角色，根据当前播放内容从�
   - 音乐风格 `genre`：`jpop | anime | western-pop | hiphop | rock | electronic | classical | lofi | cpop | other`
 - **打标签流程**：
   1. 先用本地关键词规则（标题/频道/域名）。
-  2. 若设置页填写了 Anthropic API key，再调用 Claude 输出结构化标签（官方 SDK，JSON schema 结构化输出，effort low，默认模型 `claude-opus-5-5`，可在设置里改）。最多等 6 秒，超时先用规则结果，AI 结果晚到也会写入缓存。
-     - key 只存在本地 `chrome.storage.local`，不写进代码。
+  2. 若在「AI 模型」页连接并选好了模型，再让模型调用 `set_tags` 工具输出结构化标签（枚举约束，能用严格模式的服务商用严格模式；思考等级压到最低）。最多等 6 秒，超时先用规则结果，AI 结果晚到也会写入缓存。
+     - 模型接入用 [pi-ai](https://github.com/earendil-works/pi/tree/main/packages/ai)（`@earendil-works/pi-ai`）：30 多家服务商的 API key、订阅登录（OAuth：ChatGPT、GitHub Copilot、Kimi、xAI、Meta、OpenRouter…）、OpenAI / Anthropic 兼容的自定义端点。
+     - Claude Pro/Max 订阅登录不提供：Anthropic 条款不允许第三方应用使用；Claude 走 API key。Bedrock / Vertex 需要本机凭证文件，浏览器里用不了，不列出。
+     - 订阅登录在浏览器里完成：pi-ai 的登录流程会起一个本机回调服务器（`node:http`），扩展里把它换成"虚拟服务器"（`src/lib/llm/shims/`），选项页监听登录标签页跳转到 `localhost` 的地址，把它交给登录流程；截获不到时可手动粘贴。
+     - 凭证存 `chrome.storage.local`（`llmCredentials`），OAuth 刷新用 Web Locks 加锁，选项页和后台不会同时刷新同一个令牌。
+     - 后台是经典 service worker（不能运行时 `import()`），pi-ai 打包进 `background.js`（约 2 MB，常驻内存约 +3 MB）；模型实例只在第一次用到 AI 时创建。
      - 只发送标题、频道、域名，不发送完整 URL 或页面内容。
   3. 结果按"标题+频道"缓存。
 - **抽卡规则**：

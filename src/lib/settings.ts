@@ -2,7 +2,8 @@ import { storage } from '#imports';
 import type { GachaState } from './gacha/engine';
 import type { LoadedPack } from './pack/types';
 import type { RegistryMeta } from './registry';
-import { DEFAULT_AI_SETTINGS, type AiSettings } from './tagging/ai';
+import type { Credential } from '@earendil-works/pi-ai';
+import { DEFAULT_LLM_SETTINGS, type LlmSettings } from './llm/config';
 import { DEFAULT_LIBRARY } from './remote';
 import type { TagCacheStore } from './tagging/tagger';
 
@@ -65,8 +66,41 @@ export function defaultLayout(box: { w: number; h: number }, view: { w: number; 
 
 // --- M2: gacha / AI / collection ---------------------------------------------
 
-/** AI settings incl. the user's own API key: local only, never synced. */
-export const aiSettings = storage.defineItem<AiSettings>('local:aiSettings', { fallback: DEFAULT_AI_SETTINGS });
+/** Model choice for AI tagging: local only, never synced. */
+export const llmSettings = storage.defineItem<LlmSettings>('local:llmSettings', { fallback: DEFAULT_LLM_SETTINGS });
+/** API keys and subscription tokens, per pi-ai provider id. Local only, never synced. */
+export const llmCredentials = storage.defineItem<Record<string, Credential>>('local:llmCredentials', { fallback: {} });
+/** Stable per-install id some sign-ins (ChatGPT) require. */
+export const installId = storage.defineItem<string>('local:installId', { init: () => crypto.randomUUID() });
+
+/** Settings from before multi-provider support (Anthropic key only). */
+interface LegacyAiSettings {
+  enabled: boolean;
+  apiKey: string;
+  model: string;
+  baseURL: string;
+}
+
+/** One-time move of the old Anthropic-only settings to a provider credential + model choice. */
+export async function migrateLegacyAi(): Promise<void> {
+  const old = await storage.getItem<LegacyAiSettings>('local:aiSettings');
+  if (!old) return;
+  if (old.apiKey && !(await storage.getItem('local:llmSettings'))) {
+    const proxy = old.baseURL.trim();
+    const model = old.model || 'claude-haiku-4-5';
+    const provider = proxy ? 'custom-anthropic-proxy' : 'anthropic';
+    await llmCredentials.setValue({ ...(await llmCredentials.getValue()), [provider]: { type: 'api_key', key: old.apiKey } });
+    await llmSettings.setValue({
+      enabled: old.enabled,
+      provider,
+      model,
+      custom: proxy
+        ? [{ id: provider, name: 'Anthropic 代理', baseUrl: proxy, api: 'anthropic-messages', models: [model] }]
+        : [],
+    });
+  }
+  await storage.removeItem('local:aiSettings');
+}
 
 export const tagCache = storage.defineItem<Awaited<ReturnType<TagCacheStore['get']>>>('local:tagCache', {
   fallback: {},

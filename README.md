@@ -27,7 +27,7 @@ npm run zip        # 打包上架用的 .output/happydesk-<version>-chrome.zip
 - 每个内容可以"换一次"（同一个池子，不能退回）；可以锁定当前角色，锁定后不再抽。
 - 悬浮窗：在 https 页面上，控制条里有"弹出悬浮窗"按钮，会打开置顶的画中画窗口（Document Picture-in-Picture），切到别的应用也能看到。
 - 图鉴、导入角色、AI 设置在扩展的选项页（点工具栏图标 → "图鉴 · 导入角色 · 设置"）。
-- **AI 识别（可选）**：在设置里填自己的 Anthropic API key。只发送标题、作者、域名；不填也能用本地规则。
+- **AI 识别（可选）**：在「AI 模型」页连接你自己的模型——订阅登录（ChatGPT、GitHub Copilot、Kimi、xAI…）、API key（OpenAI、Anthropic、Google、DeepSeek、OpenRouter 等 30 多家），或 Ollama / LM Studio 等自定义端点。基于 [pi-ai](https://github.com/earendil-works/pi/tree/main/packages/ai)。只发送标题、作者、域名；不连接也能用本地规则。
 - **Petdex**：选项页可以搜索 [petdex.dev](https://petdex.dev) 的几千个社区宠物并导入，也可以导入本地的 `pet.json` + `spritesheet.webp`。导入的角色进入通用池，素材不随扩展分发。
 
 ## 架构
@@ -40,7 +40,8 @@ npm run zip        # 打包上架用的 .output/happydesk-<version>-chrome.zip
 | `src/lib/media/` | 通用控制器 + 站点适配器（YouTube、YouTube Music、Bilibili、Spotify） |
 | `src/lib/pack/` | 角色包格式、校验、加载 |
 | `src/lib/render/` | `Renderer` 接口：精灵图和透明视频两种实现 |
-| `src/lib/tagging/` | 本地规则打标签、可选的 Claude 打标签、缓存 |
+| `src/lib/tagging/` | 本地规则打标签、可选的 AI 打标签、缓存 |
+| `src/lib/llm/` | 模型接入（pi-ai）：服务商列表、凭证存储、浏览器版 OAuth 回调 |
 | `src/lib/gacha/` | 角色池与抽卡引擎（换一次、锁定、最近记录） |
 | `src/lib/petdex.ts`, `src/lib/importer.ts` | Petdex 格式解析、帧数检测、导入 |
 | `src/entrypoints/options/` | 图鉴、导入角色、设置 |

@@ -1,4 +1,4 @@
-import type { AiSettings } from './ai';
+import { isConfigured, type LlmSettings } from '../llm/config';
 import { ruleTags } from './rules';
 import { contentKey, type MediaInfo, type Tags } from './types';
 
@@ -16,16 +16,16 @@ export const AI_WAIT_MS = 6000;
  */
 export class Tagger {
   constructor(
-    private readonly settings: () => Promise<AiSettings>,
+    private readonly settings: () => Promise<LlmSettings>,
     private readonly cache: TagCacheStore,
-    private readonly ai: (info: MediaInfo, s: AiSettings) => Promise<Tags | null>,
+    private readonly ai: (info: MediaInfo, s: LlmSettings) => Promise<Tags | null>,
     private readonly waitMs = AI_WAIT_MS,
   ) {}
 
   async tag(info: MediaInfo): Promise<Tags> {
     const rules = ruleTags(info);
     const s = await this.settings();
-    if (!s.enabled || !s.apiKey) return rules;
+    if (!isConfigured(s)) return rules;
 
     const key = contentKey(info);
     const hit = (await this.cache.get())[key];

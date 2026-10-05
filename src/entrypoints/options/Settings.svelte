@@ -2,34 +2,9 @@
   import type { LoadedPack } from '@/lib/pack/types';
   import { syncAllLibraries } from '@/lib/librarySync';
   import { DEFAULT_LIBRARY } from '@/lib/remote';
-  import { aiSettings, libraries, lockedPack, remoteSync, setSiteHidden, tagCache, type RemoteSyncStatus } from '@/lib/settings';
-  import { aiTags, type AiSettings } from '@/lib/tagging/ai';
+  import { libraries, lockedPack, remoteSync, setSiteHidden, type RemoteSyncStatus } from '@/lib/settings';
 
-  let { ai, hidden, locked, packs }: { ai: AiSettings; hidden: string[]; locked: string | null; packs: LoadedPack[] } = $props();
-
-  // Local editable copy; saved explicitly.
-  // svelte-ignore state_referenced_locally
-  let form = $state({ ...ai });
-  let saved = $state(false);
-  let testResult = $state<string | null>(null);
-  let testing = $state(false);
-
-  async function save() {
-    await aiSettings.setValue($state.snapshot(form));
-    saved = true;
-    setTimeout(() => (saved = false), 1500);
-  }
-
-  async function test() {
-    testing = true;
-    testResult = null;
-    const t = await aiTags(
-      { site: 'www.youtube.com', title: 'YOASOBI「アイドル」 Official Music Video', artist: 'Ayase / YOASOBI' },
-      { ...$state.snapshot(form), enabled: true },
-    );
-    testResult = t ? `✅ 成功：${t.type} / ${t.genre ?? '—'}` : '❌ 失败：请检查 API key、模型名和网络（详情见扩展控制台）';
-    testing = false;
-  }
+  let { hidden, locked, packs }: { hidden: string[]; locked: string | null; packs: LoadedPack[] } = $props();
 
   const lockedName = $derived(packs.find((p) => p.id === locked)?.name ?? locked);
 
@@ -78,29 +53,6 @@
 </script>
 
 <section>
-  <h2>AI 识别（可选）</h2>
-  <p class="hint">
-    默认用本地规则识别曲风。填入你自己的 Anthropic API key 后，会用 Claude 识别新内容。只发送标题、作者和网站域名，结果按内容缓存。key 只保存在本机浏览器里。
-  </p>
-  <form
-    onsubmit={(e) => {
-      e.preventDefault();
-      void save();
-    }}
-  >
-    <label class="row"><input type="checkbox" bind:checked={form.enabled} /> 启用 AI 识别</label>
-    <label>API key <input type="password" autocomplete="off" placeholder="sk-ant-…" bind:value={form.apiKey} /></label>
-    <label>模型 <input type="text" bind:value={form.model} /></label>
-    <label>Base URL（可选，代理或网关） <input type="url" placeholder="https://api.anthropic.com" bind:value={form.baseURL} /></label>
-    <div class="actions">
-      <button class="primary" type="submit">保存</button>
-      <button type="button" onclick={test} disabled={testing || !form.apiKey}>{testing ? '测试中…' : '测试连接'}</button>
-      <button type="button" onclick={() => tagCache.setValue({})}>清空识别缓存</button>
-      {#if saved}<span class="ok">已保存</span>{/if}
-    </div>
-    {#if testResult}<p class="result">{testResult}</p>{/if}
-  </form>
-
   <h2>远程角色库</h2>
   <p class="hint">
     从网上的角色库（一个 <code>index.json</code> 加若干角色文件夹）下载角色，离线也能用。每 12 小时自动更新一次。当前有 <b data-testid="remote-count">{remoteCount}</b> 个远程角色。
@@ -176,21 +128,6 @@
     gap: 10px;
     max-width: 520px;
   }
-  label {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    color: var(--muted);
-    font-size: 13px;
-  }
-  label.row {
-    flex-direction: row;
-    align-items: center;
-    color: var(--text);
-    font-size: 14px;
-  }
-  input[type='text'],
-  input[type='password'],
   input[type='url'] {
     padding: 8px 10px;
     border-radius: 8px;
@@ -198,12 +135,6 @@
     background: var(--card);
     color: var(--text);
     font: inherit;
-  }
-  .actions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    flex-wrap: wrap;
   }
   button {
     border: 1px solid var(--line);
@@ -213,19 +144,8 @@
     padding: 5px 12px;
     cursor: pointer;
   }
-  button.primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-  }
   button:disabled {
     opacity: 0.5;
-  }
-  .ok {
-    color: var(--accent);
-  }
-  .result {
-    margin: 0;
   }
   form.inline {
     flex-direction: row;

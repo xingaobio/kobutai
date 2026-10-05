@@ -23,7 +23,7 @@ HappyDesk 在网页角落放一个会动的小角色，替代浏览器里藏得�
 • 图鉴：收集抽到过的角色，没抽到的显示为剪影。
 • 置顶悬浮窗：一键弹出到画中画窗口，切到别的应用也能看到。
 • 角色可以从 Petdex 社区导入，或订阅远程角色库。
-• 可选 AI 识别：填入你自己的 Anthropic API key，用 Claude 更准确地识别曲风（只发送标题、作者、域名）。
+• 可选 AI 识别：连接你自己的模型——ChatGPT / GitHub Copilot 等订阅登录、OpenAI / Anthropic / DeepSeek 等 API key，或本地 Ollama——更准确地识别曲风（只发送标题、作者、域名）。
 • 已适配 YouTube、YouTube Music、哔哩哔哩、Spotify 网页版，其他网站通用支持。
 
 开源、无广告、无统计，开发者不收集任何数据。
@@ -37,7 +37,7 @@ HappyDesk puts an animated mascot in the corner of every page and turns it into 
 • Collection book of every character you have drawn.
 • Pop out into an always-on-top Picture-in-Picture window.
 • Import pets from the Petdex community or subscribe to remote character libraries.
-• Optional AI tagging with your own Anthropic API key (only title, artist and domain are sent).
+• Optional AI tagging with your own model: sign in with a subscription (ChatGPT, GitHub Copilot…), use an API key (OpenAI, Anthropic, DeepSeek…), or a local Ollama server. Only title, artist and domain are sent.
 • Tuned for YouTube, YouTube Music, Bilibili and Spotify Web; works generically elsewhere.
 
 Open source, no ads, no analytics, no data collection.
@@ -50,16 +50,16 @@ Open source, no ads, no analytics, no data collection.
 
 | 权限 | 理由 |
 |---|---|
-| `storage` | 保存浮层位置、隐藏的网站、图鉴、锁定角色、AI 设置和识别缓存。 |
+| `storage` | 保存浮层位置、隐藏的网站、图鉴、锁定角色、AI 模型设置（含用户自己的 API key / 登录令牌）和识别缓存。 |
 | `alarms` | 每小时唤醒一次后台，检查订阅的远程角色库是否需要更新（每 12 小时一次）。 |
 | 内容脚本 `<all_urls>` | 扩展的核心功能是在用户访问的任何网页上显示悬浮角色，并读取/控制该页面正在播放的音视频。没有在所有网站运行，就无法在任意网站上显示角色和控制媒体。内容脚本不读取页面正文、表单或 Cookie。 |
 | 页面主世界脚本（`world: MAIN`） | 只用于观察网页的 Media Session（标题、上一首/下一首按钮）以及未挂到页面上的音频元素（如 Spotify），以便控制它们。 |
-| `optional_host_permissions: https://*/*` | 默认不授予。用户添加自定义远程角色库、且该服务器不支持 CORS 时，只针对那一个源申请。 |
+| `optional_host_permissions: https://*/*, http://*/*` | 默认不授予，按需只申请具体的源：① 用户添加不支持 CORS 的自定义角色库时，申请那一个源；② 用户连接 AI 模型服务商时，申请该服务商的 API / 登录服务器，订阅登录另申请 `localhost`、`127.0.0.1`（读取 OAuth 回调跳转地址以完成登录）；③ 用户添加自定义模型端点（如本地 Ollama）时，申请那一个地址。 |
 | `web_accessible_resources: packs/*`（`use_dynamic_url`） | 让网页里的浮层能加载内置角色图片；动态 URL 防止网站探测扩展。 |
 
 **远程代码**：不使用。所有代码都打包在扩展里；远程角色库只下载图片 / 视频和 JSON 数据，并经过格式校验。
 
-**数据使用声明**：不收集用户数据（见 PRIVACY.md）。可选的 AI 识别会把内容标题、作者、域名发给用户自己的 Anthropic 账号。
+**数据使用声明**：不收集用户数据（见 PRIVACY.md）。可选的 AI 识别会把内容标题、作者、域名直接发给用户自己连接的模型服务商。
 
 ## 素材
 

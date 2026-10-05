@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import { fakeBrowser } from 'wxt/testing/fake-browser';
+import { storage } from '#imports';
 import {
   MAX_SCALE,
   MIN_SCALE,
@@ -7,6 +8,9 @@ import {
   defaultLayout,
   getLayout,
   isSiteHidden,
+  llmCredentials,
+  llmSettings,
+  migrateLegacyAi,
   setLayout,
   setSiteHidden,
 } from './settings';
@@ -45,5 +49,36 @@ describe('layout', () => {
     const l = defaultLayout({ w: 100, h: 100 }, { w: 1000, h: 800 });
     expect(l.x).toBeGreaterThan(800);
     expect(l.y).toBeGreaterThan(600);
+  });
+});
+
+describe('legacy AI settings migration', () => {
+  const legacy = { enabled: true, apiKey: 'sk-ant-1', model: 'claude-sonnet-5-5', baseURL: '' };
+
+  test('Anthropic key becomes a provider credential and model choice', async () => {
+    await storage.setItem('local:aiSettings', legacy);
+    await migrateLegacyAi();
+    expect(await llmCredentials.getValue()).toEqual({ anthropic: { type: 'api_key', key: 'sk-ant-1' } });
+    expect(await llmSettings.getValue()).toEqual({ enabled: true, provider: 'anthropic', model: 'claude-sonnet-5-5', custom: [] });
+    expect(await storage.getItem('local:aiSettings')).toBeNull();
+  });
+
+  test('a proxy base URL becomes an Anthropic-compatible custom endpoint', async () => {
+    await storage.setItem('local:aiSettings', { ...legacy, baseURL: 'https://gw.example.com' });
+    await migrateLegacyAi();
+    const s = await llmSettings.getValue();
+    expect(s.provider).toBe('custom-anthropic-proxy');
+    expect(s.custom).toEqual([
+      { id: 'custom-anthropic-proxy', name: 'Anthropic 代理', baseUrl: 'https://gw.example.com', api: 'anthropic-messages', models: ['claude-sonnet-5-5'] },
+    ]);
+    expect(Object.keys(await llmCredentials.getValue())).toEqual(['custom-anthropic-proxy']);
+  });
+
+  test('no key or already migrated: legacy item is just dropped', async () => {
+    await storage.setItem('local:aiSettings', { ...legacy, apiKey: '' });
+    await migrateLegacyAi();
+    expect(await llmCredentials.getValue()).toEqual({});
+    expect(await storage.getItem('local:aiSettings')).toBeNull();
+    await migrateLegacyAi();
   });
 });

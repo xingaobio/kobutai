@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
-import { DEFAULT_AI_SETTINGS, type AiSettings } from './ai';
+import { DEFAULT_LLM_SETTINGS, type LlmSettings } from '../llm/config';
 import { TAG_CACHE_LIMIT, Tagger, type TagCacheStore } from './tagger';
 import type { Tags } from './types';
 
@@ -16,14 +16,14 @@ function memCache(): TagCacheStore & { data: CacheData } {
   return c;
 }
 
-const on: AiSettings = { ...DEFAULT_AI_SETTINGS, enabled: true, apiKey: 'k' };
+const on: LlmSettings = { ...DEFAULT_LLM_SETTINGS, enabled: true, provider: 'p', model: 'm' };
 
 beforeEach(() => vi.useFakeTimers());
 afterEach(() => vi.useRealTimers());
 
 test('no AI configured → rules, no AI call', async () => {
   const ai = vi.fn();
-  const t = new Tagger(async () => DEFAULT_AI_SETTINGS, memCache(), ai);
+  const t = new Tagger(async () => DEFAULT_LLM_SETTINGS, memCache(), ai);
   expect((await t.tag(info)).source).toBe('rules');
   expect(ai).not.toHaveBeenCalled();
 });

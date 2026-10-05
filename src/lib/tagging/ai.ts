@@ -1,77 +1,87 @@
-import Anthropic from '@anthropic-ai/sdk';
+import { StringEnum, Type, clampThinkingLevel, type Models, type Tool } from '@earendil-works/pi-ai';
 import { CONTENT_TYPES, GENRES } from '../pack/types';
 import { isTags, type MediaInfo, type Tags } from './types';
 
-export interface AiSettings {
-  enabled: boolean;
-  apiKey: string;
-  model: string;
-  /** Optional proxy / gateway base URL; empty = api.anthropic.com. */
-  baseURL: string;
-}
-
-export const DEFAULT_AI_SETTINGS: AiSettings = {
-  enabled: false,
-  apiKey: '',
-  model: 'claude-opus-5-5',
-  baseURL: '',
-};
-
 const NO_GENRE = 'none';
 
-/** Structured-output schema: the model can only answer with these enums. */
-export const TAG_SCHEMA = {
-  type: 'object',
-  properties: {
-    type: { type: 'string', enum: [...CONTENT_TYPES] },
-    genre: { type: 'string', enum: [...GENRES, NO_GENRE] },
-  },
-  required: ['type', 'genre'],
-  additionalProperties: false,
-} as const;
+/** The model answers by calling this tool; its enums are the only allowed values. */
+export const TAG_TOOL: Tool = {
+  name: 'set_tags',
+  description: 'Record what is playing.',
+  parameters: Type.Object(
+    { type: StringEnum([...CONTENT_TYPES]), genre: StringEnum([...GENRES, NO_GENRE]) },
+    { additionalProperties: false },
+  ),
+  constrainedSampling: { type: 'json_schema', strict: 'prefer' },
+};
 
 const SYSTEM = `You classify what a person is currently playing in their browser, from metadata only.
 type: "music" (songs, MVs, covers, music mixes), "video" (any non-music video), "live" (a live stream), "podcast" (talk audio/shows), "other".
-genre (only when type is "music", otherwise "${NO_GENRE}"): jpop, anime (anime/game songs, vocaloid, utaite), western-pop, hiphop, rock, electronic, classical, lofi, cpop (Mandarin/Cantonese pop), other.`;
+genre (only when type is "music", otherwise "${NO_GENRE}"): jpop, anime (anime/game songs, vocaloid, utaite), western-pop, hiphop, rock, electronic, classical, lofi, cpop (Mandarin/Cantonese pop), other.
+Answer by calling ${TAG_TOOL.name} exactly once.`;
 
-export function aiClient(settings: AiSettings, fetchImpl?: typeof fetch): Anthropic {
-  return new Anthropic({
-    apiKey: settings.apiKey,
-    baseURL: settings.baseURL || undefined,
-    // The key is the user's own, stored only in this browser; there is no server to hide it behind.
-    dangerouslyAllowBrowser: true,
-    maxRetries: 1,
-    timeout: 10_000,
-    ...(fetchImpl ? { fetch: fetchImpl } : {}),
-  });
+export interface ModelRef {
+  provider: string;
+  model: string;
+}
+
+export type ClassifyResult = { ok: true; tags: Tags } | { ok: false; error: string };
+
+function fromText(text: string): unknown {
+  const m = /\{[\s\S]*\}/.exec(text);
+  if (!m) return null;
+  try {
+    return JSON.parse(m[0]);
+  } catch {
+    return null;
+  }
 }
 
 /**
- * Ask Claude for tags. Sends only title / artist / site. Returns null on any
- * failure (network, refusal, invalid output) so callers fall back to rules.
+ * Ask the configured model for tags. Sends only title / artist / site.
+ * Never throws: failures come back as `{ ok: false, error }`.
  */
-export async function aiTags(info: MediaInfo, settings: AiSettings, client = aiClient(settings)): Promise<Tags | null> {
-  if (!settings.enabled || !settings.apiKey) return null;
+export async function classify(
+  info: MediaInfo,
+  ref: ModelRef,
+  models: Models,
+  timeoutMs = 15_000,
+): Promise<ClassifyResult> {
+  const model = models.getModel(ref.provider, ref.model);
+  if (!model) return { ok: false, error: `没有找到模型 ${ref.provider}/${ref.model}` };
   const metadata = { site: info.site, title: info.title, artist: info.artist };
+  // Tagging needs no deliberation: think as little as the model allows.
+  const level = model.reasoning ? clampThinkingLevel(model, 'minimal') : 'off';
   try {
-    const res = await client.beta.messages.create({
-      model: settings.model || DEFAULT_AI_SETTINGS.model,
-      max_tokens: 256,
-      betas: ['server-side-fallback-2026-07-01'],
-      fallbacks: 'default',
-      system: SYSTEM,
-      output_config: { effort: 'low', format: { type: 'json_schema', schema: TAG_SCHEMA } },
-      messages: [{ role: 'user', content: JSON.stringify(metadata) }],
-    });
-    if (res.stop_reason === 'refusal') return null;
-    const text = res.content.find((b) => b.type === 'text')?.text;
-    if (!text) return null;
-    const parsed = JSON.parse(text) as { type: unknown; genre: unknown };
-    const candidate = { type: parsed.type, genre: parsed.type === 'music' && parsed.genre !== NO_GENRE ? parsed.genre : null };
-    if (!isTags(candidate)) return null;
-    return { ...candidate, source: 'ai' };
+    const msg = await models.completeSimple(
+      model,
+      {
+        systemPrompt: SYSTEM,
+        messages: [{ role: 'user', content: JSON.stringify(metadata), timestamp: Date.now() }],
+        tools: [TAG_TOOL],
+      },
+      { maxTokens: 1024, signal: AbortSignal.timeout(timeoutMs), ...(level !== 'off' ? { reasoning: level } : {}) },
+    );
+    if (msg.stopReason === 'error' || msg.stopReason === 'aborted')
+      return { ok: false, error: msg.errorMessage || msg.stopReason };
+    const call = msg.content.find((b) => b.type === 'toolCall' && b.name === TAG_TOOL.name);
+    const raw =
+      call?.type === 'toolCall'
+        ? call.arguments
+        : fromText(msg.content.flatMap((b) => (b.type === 'text' ? [b.text] : [])).join(''));
+    const r = (raw ?? {}) as { type?: unknown; genre?: unknown };
+    const candidate = { type: r.type, genre: r.type === 'music' && r.genre !== NO_GENRE ? r.genre : null };
+    if (!isTags(candidate)) return { ok: false, error: '模型的回答格式不对' };
+    return { ok: true, tags: { ...candidate, source: 'ai' } };
   } catch (e) {
-    console.warn('[happydesk] AI tagging failed, using rules:', e instanceof Error ? e.message : e);
-    return null;
+    return { ok: false, error: e instanceof Error ? e.message : String(e) };
   }
+}
+
+/** `classify` for the tagger: null on any failure so callers fall back to rules. */
+export async function aiTags(info: MediaInfo, ref: ModelRef, models: Models): Promise<Tags | null> {
+  const r = await classify(info, ref, models);
+  if (r.ok) return r.tags;
+  console.warn('[happydesk] AI tagging failed, using rules:', r.error);
+  return null;
 }

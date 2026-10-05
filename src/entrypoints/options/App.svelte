@@ -3,9 +3,10 @@
   import { PackCatalog } from '@/lib/pack/catalog';
   import type { LoadedPack } from '@/lib/pack/types';
   import { setSrcResolver } from '@/lib/render/renderer';
-  import { aiSettings, collection, hiddenSites, lockedPack, type CollectionEntry } from '@/lib/settings';
+  import { collection, hiddenSites, lockedPack, type CollectionEntry } from '@/lib/settings';
   import CollectionView from './Collection.svelte';
   import ImportView from './Import.svelte';
+  import ModelsView from './Models.svelte';
   import SettingsView from './Settings.svelte';
 
   // Extension pages can read our IndexedDB directly.
@@ -19,6 +20,7 @@
   const TABS = [
     { id: 'collection', label: '图鉴' },
     { id: 'import', label: '导入角色' },
+    { id: 'models', label: 'AI 模型' },
     { id: 'settings', label: '设置' },
   ] as const;
   type Tab = (typeof TABS)[number]['id'];
@@ -32,9 +34,6 @@
   let coll = $state<Record<string, CollectionEntry>>({});
   let locked = $state<string | null>(null);
   let hidden = $state<string[]>([]);
-  let ai = $state(aiSettings.fallback);
-  /** The settings form copies `ai` once, so it must not render before storage has loaded. */
-  let aiLoaded = $state(false);
 
   const catalog = new PackCatalog();
   void catalog.all().then((p) => (packs = p));
@@ -46,10 +45,6 @@
   follow(collection, (v) => (coll = v));
   follow(lockedPack, (v) => (locked = v));
   follow(hiddenSites, (v) => (hidden = v));
-  follow(aiSettings, (v) => {
-    ai = v;
-    aiLoaded = true;
-  });
 </script>
 
 <header>
@@ -66,8 +61,10 @@
     <CollectionView {packs} collection={coll} {locked} />
   {:else if tab === 'import'}
     <ImportView {packs} />
-  {:else if aiLoaded}
-    <SettingsView {ai} {hidden} {locked} {packs} />
+  {:else if tab === 'models'}
+    <ModelsView />
+  {:else}
+    <SettingsView {hidden} {locked} {packs} />
   {/if}
 </main>
 

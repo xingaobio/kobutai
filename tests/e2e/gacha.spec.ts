@@ -136,17 +136,3 @@ test('图鉴 records drawn characters', async ({ open, context, extensionId }) =
   await expect(page.locator('[data-testid="collection-card"][data-pack="pixel"]')).toContainText('？？？');
   await page.screenshot({ path: 'test-results/collection.png', fullPage: true });
 });
-
-test('settings page keeps saved AI settings across reloads', async ({ context, extensionId }) => {
-  const page = await context.newPage();
-  await page.goto(`chrome-extension://${extensionId}/options.html#settings`);
-  await page.getByLabel('API key').fill('sk-ant-saved');
-  await page.getByRole('button', { name: '保存' }).click();
-  await expect(page.getByText('已保存')).toBeVisible();
-  await page.reload();
-  await expect(page.getByLabel('API key')).toHaveValue('sk-ant-saved');
-  // Saving again without edits must not wipe it.
-  await page.getByRole('button', { name: '保存' }).click();
-  await page.reload();
-  await expect(page.getByLabel('API key')).toHaveValue('sk-ant-saved');
-});
