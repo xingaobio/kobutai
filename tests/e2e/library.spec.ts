@@ -5,7 +5,7 @@ import type { Page } from '@playwright/test';
 import { audio, expect, songPage, test } from './fixtures';
 
 const LIB = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../library');
-const PREFIX = 'https://raw.githubusercontent.com/xingaobio/happydesk/main/library/';
+const PREFIX = 'https://raw.githubusercontent.com/xingaobio/kobutai/main/library/';
 
 async function serveLibrary(page: Page, mode: 'online' | 'offline' | 'flaky') {
   await page.unroute(`${PREFIX}**`);

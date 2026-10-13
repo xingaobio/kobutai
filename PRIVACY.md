@@ -52,4 +52,4 @@ Kobutai 小舞台是一个开源浏览器扩展。**开发者不运营任何服�
 
 ## 联系
 
-问题和建议请在 GitHub 仓库提 issue：https://github.com/xingaobio/happydesk
+问题和建议请在 GitHub 仓库提 issue：https://github.com/xingaobio/kobutai

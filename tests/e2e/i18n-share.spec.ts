@@ -125,7 +125,7 @@ test('share a character I drew: a CC BY 4.0 package and a pre-filled GitHub subm
   const tab = context.waitForEvent('page');
   await dialog.getByTestId('share-github').click();
   const gh = new URL((await tab).url());
-  expect(gh.pathname).toBe('/xingaobio/happydesk/issues/new');
+  expect(gh.pathname).toBe('/xingaobio/kobutai/issues/new');
   expect(gh.searchParams.get('template')).toBe('character.yml');
   expect(gh.searchParams.get('author')).toBe('Mika');
   expect(gh.searchParams.get('file')).toBe('kobutai-blobby.zip');

@@ -9,7 +9,7 @@ import { zip } from './zip';
  * no Kobutai server; the maintainer reviews submissions and adds accepted ones to
  * `library/`, which every install syncs (see docs/COMMUNITY-CHARACTERS.md).
  */
-export const SUBMIT_REPO = 'xingaobio/happydesk';
+export const SUBMIT_REPO = 'xingaobio/kobutai';
 /** Where emailed submissions go. Leave empty to offer GitHub only. */
 export const SUBMIT_EMAIL = '';
 export const SHARE_LICENSE = 'CC BY 4.0';

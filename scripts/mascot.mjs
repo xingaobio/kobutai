@@ -84,5 +84,5 @@ export function packJson(c, src) {
     const once = state === 'appear' || state === 'click';
     states[state] = { kind: 'sprite', src, frames: FRAMES, cols: FRAMES, row, fps: state === 'playing' ? 10 : 6, ...(once ? { loop: false } : {}) };
   });
-  return { id: c.id, name: c.name, author: 'HappyDesk', license: 'MIT', tags: c.tags, size: { w: W, h: H }, states };
+  return { id: c.id, name: c.name, author: 'Kobutai', license: 'MIT', tags: c.tags, size: { w: W, h: H }, states };
 }

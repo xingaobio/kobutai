@@ -7,7 +7,7 @@ import { validatePack } from './pack/validate';
  * each with `pack.json` + assets. Everything is downloaded once into IndexedDB
  * (as `hdblob:` refs) so packs keep working offline.
  */
-export const DEFAULT_LIBRARY = 'https://raw.githubusercontent.com/xingaobio/happydesk/main/library/index.json';
+export const DEFAULT_LIBRARY = 'https://raw.githubusercontent.com/xingaobio/kobutai/main/library/index.json';
 export const MAX_PACKS_PER_LIBRARY = 100;
 export const MAX_ASSET_BYTES = 8 * 1024 * 1024;
 const ID_RE = /^[a-z0-9][a-z0-9-_]{0,63}$/;

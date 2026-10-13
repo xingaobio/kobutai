@@ -70,7 +70,7 @@ No account, no analytics, no servers of ours. Your album and settings stay in yo
 Kobutai isn't in the Chrome Web Store yet. To try it now:
 
 ```bash
-git clone https://github.com/xingaobio/happydesk.git kobutai && cd kobutai
+git clone https://github.com/xingaobio/kobutai.git && cd kobutai
 npm install
 npm run build
 ```
@@ -150,7 +150,7 @@ Kobutai 只能读到文字（标题、歌手或频道、网站、时长），听
 Kobutai 还没上架 Chrome 应用商店，现在可以这样试用：
 
 ```bash
-git clone https://github.com/xingaobio/happydesk.git kobutai && cd kobutai
+git clone https://github.com/xingaobio/kobutai.git && cd kobutai
 npm install
 npm run build
 ```

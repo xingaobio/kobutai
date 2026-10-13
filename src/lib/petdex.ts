@@ -20,7 +20,7 @@ export const PETDEX_ROWS = [
   'review',
 ] as const;
 
-/** Petdex row → HappyDesk state. One-shot states don't loop. */
+/** Petdex row → Kobutai state. One-shot states don't loop. */
 const STATE_ROWS: Record<StateName, { row: (typeof PETDEX_ROWS)[number]; loop: boolean; fps: number }> = {
   idle: { row: 'idle', loop: true, fps: 6 },
   playing: { row: 'running', loop: true, fps: 10 },
@@ -107,7 +107,7 @@ export function safeSlug(slug: string): string {
   return slug.toLowerCase().replace(/[^a-z0-9-_]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50) || 'pet';
 }
 
-/** Build a HappyDesk pack from a Petdex sheet. Petdex pets join the generic pool. */
+/** Build a Kobutai pack from a Petdex sheet. Petdex pets join the generic pool. */
 export function toPack(
   meta: { slug: string; displayName: string; submittedBy?: string },
   spriteSrc: string,

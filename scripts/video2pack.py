@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Turn AI-generated character videos into a HappyDesk character pack.
+"""Turn AI-generated character videos into a Kobutai character pack.
 
     python3 scripts/video2pack.py art/incoming/rina            # one character
     python3 scripts/video2pack.py art/incoming/*               # all of them
@@ -320,7 +320,7 @@ def build(folder: Path, out_root: Path, roster: dict, lo: float, hi: float) -> P
     manifest = {
         'id': pid,
         'name': meta['name'],
-        'author': meta.get('author', 'HappyDesk'),
+        'author': meta.get('author', 'Kobutai'),
         'license': meta.get('license', 'All rights reserved'),
         'tags': meta['tags'],
         'size': {'w': cw, 'h': CELL_H},
