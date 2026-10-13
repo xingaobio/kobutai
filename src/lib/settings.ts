@@ -16,6 +16,13 @@ export interface Layout {
   x: number;
   y: number;
   scale: number;
+  /**
+   * Unscaled size of the character the position was set for. Characters differ in size, so
+   * another character keeps the same bottom-right corner (see fitLayout). Absent in layouts
+   * saved before this field existed.
+   */
+  w?: number;
+  h?: number;
 }
 
 export const MIN_SCALE = 0.4;
@@ -66,11 +73,23 @@ export function clampLayout(l: Layout, box: { w: number; h: number }, view: { w:
 }
 
 export function defaultLayout(box: { w: number; h: number }, view: { w: number; h: number }): Layout {
-  return clampLayout(
+  const l = clampLayout(
     { scale: DEFAULT_SCALE, x: view.w - box.w * DEFAULT_SCALE - 24, y: view.h - box.h * DEFAULT_SCALE - 24 },
     box,
     view,
   );
+  return { ...l, w: box.w, h: box.h };
+}
+
+/**
+ * The layout for a character of this size: the bottom-right corner stays where it was for
+ * the character the layout was set for (a wider character grows to the left and up instead
+ * of off the screen), then everything is kept inside the viewport.
+ */
+export function fitLayout(l: Layout, box: { w: number; h: number }, view: { w: number; h: number }): Layout {
+  const ref = { w: l.w ?? box.w, h: l.h ?? box.h };
+  const moved = { scale: l.scale, x: l.x + (ref.w - box.w) * l.scale, y: l.y + (ref.h - box.h) * l.scale };
+  return { ...clampLayout(moved, box, view), w: box.w, h: box.h };
 }
 
 // --- M2: gacha / AI / collection ---------------------------------------------

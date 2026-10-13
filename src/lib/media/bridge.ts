@@ -24,6 +24,8 @@ export interface DetachedState {
   duration: number;
   volume: number;
   muted: boolean;
+  /** The element reports an infinite duration (a live stream). */
+  live?: boolean;
 }
 
 export type BridgeCommand =

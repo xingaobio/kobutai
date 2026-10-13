@@ -45,12 +45,20 @@ test('custom endpoint: add, test, and AI tags new content in the background', as
   await expect(opts.getByTestId('model-test-result')).toContainText('成功：music / anime');
   await opts.screenshot({ path: 'test-results/models.png', fullPage: true });
 
-  // Rules alone can't tell this is anime; the model can.
+  // Nothing in the text says what this is: the on-device model is unsure, so the AI decides.
   const p = await open('a.test', songPage('Untitled Track 7', 'Nobody'));
   await audio(p).play();
   await expect.poll(() => calls.length).toBeGreaterThanOrEqual(2);
   // The anime pool: Hoshiri or Viola.
   await expect(p.getByTestId('happydesk-mascot')).toHaveAttribute('data-pack', /^(hoshiri|viola)$/);
+  await audio(p).pause();
+
+  // The on-device model is sure about this one: no AI request, and its own answer is used.
+  const before = calls.length;
+  const q = await open('b.test', songPage('Linkin Park - Numb (Official Music Video)', 'Linkin Park'));
+  await audio(q).play();
+  await expect(q.getByTestId('happydesk-mascot')).toHaveAttribute('data-pack', /^(rina|raku)$/);
+  expect(calls.length).toBe(before);
 });
 
 test('API key: entered in the dialog, persisted, removable', async ({ context, extensionId }) => {

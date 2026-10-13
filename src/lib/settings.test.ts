@@ -6,6 +6,7 @@ import {
   MIN_SCALE,
   clampLayout,
   defaultLayout,
+  fitLayout,
   getLayout,
   isSiteHidden,
   llmCredentials,
@@ -49,6 +50,21 @@ describe('layout', () => {
     const l = defaultLayout({ w: 100, h: 100 }, { w: 1000, h: 800 });
     expect(l.x).toBeGreaterThan(800);
     expect(l.y).toBeGreaterThan(600);
+  });
+
+  test('a wider or taller character keeps the bottom-right corner and stays on screen', () => {
+    const view = { w: 1000, h: 800 };
+    const l = defaultLayout({ w: 96, h: 208 }, view);
+    const right = (x: { x: number; w?: number; scale: number }) => x.x + x.w! * x.scale;
+    const wide = fitLayout(l, { w: 144, h: 208 }, view);
+    expect(right(wide)).toBeCloseTo(right(l), 0);
+    expect(wide.y).toBe(l.y);
+    // And back again: the narrow one returns to where it was.
+    expect(fitLayout(wide, { w: 96, h: 208 }, view)).toEqual(l);
+    // A layout from before sizes were saved is taken as set for the current character.
+    expect(fitLayout({ x: 10, y: 20, scale: 1 }, { w: 50, h: 50 }, view)).toEqual({ x: 10, y: 20, scale: 1, w: 50, h: 50 });
+    // Never off screen, even for a character wider than the space to its left.
+    expect(fitLayout({ x: 5, y: 5, scale: 1, w: 10, h: 10 }, { w: 300, h: 300 }, view)).toMatchObject({ x: 0, y: 0 });
   });
 });
 

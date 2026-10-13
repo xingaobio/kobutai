@@ -104,6 +104,7 @@ export function installHook(win: Window & typeof globalThis): void {
       duration: Number.isFinite(detached.duration) ? detached.duration : 0,
       volume: detached.volume,
       muted: detached.muted,
+      ...(detached.duration === Infinity ? { live: true } : {}),
     };
     setAttr(ATTR_DETACHED, JSON.stringify(s));
   };

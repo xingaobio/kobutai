@@ -42,6 +42,15 @@ describe('classify', () => {
     expect(await classify(info, ref, models)).toEqual({ ok: true, tags: { type: 'podcast', genre: null, source: 'ai' } });
   });
 
+  test('video answers keep a valid video kind; others drop it', async () => {
+    const v = faux(fauxAssistantMessage(fauxToolCall('set_tags', { type: 'video', genre: 'none', vclass: 'info' })));
+    expect(await classify(info, v.ref, v.models)).toEqual({ ok: true, tags: { type: 'video', genre: null, vclass: 'info', source: 'ai' } });
+    const bad = faux(fauxAssistantMessage(fauxToolCall('set_tags', { type: 'video', genre: 'none', vclass: 'drama' })));
+    expect(await classify(info, bad.ref, bad.models)).toEqual({ ok: true, tags: { type: 'video', genre: null, source: 'ai' } });
+    const music = faux(fauxAssistantMessage(fauxToolCall('set_tags', { type: 'music', genre: 'rock', vclass: 'ent' })));
+    expect(await classify(info, music.ref, music.models)).toEqual({ ok: true, tags: { type: 'music', genre: 'rock', source: 'ai' } });
+  });
+
   test('non-music answers drop the genre', async () => {
     const { models, ref } = faux(fauxAssistantMessage(fauxToolCall('set_tags', { type: 'video', genre: 'rock' })));
     expect(await classify(info, ref, models)).toMatchObject({ ok: true, tags: { type: 'video', genre: null } });

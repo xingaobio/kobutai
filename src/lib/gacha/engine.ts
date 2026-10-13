@@ -6,7 +6,7 @@ import { pick, poolFor } from './pool';
 export interface Draw {
   contentKey: string;
   packId: string;
-  tags: Pick<Tags, 'type' | 'genre' | 'source'>;
+  tags: Pick<Tags, 'type' | 'genre' | 'vclass' | 'source'>;
   rerolled: boolean;
   /** The character was chosen because the content names it, not drawn from a pool. */
   matched?: boolean;
@@ -49,11 +49,25 @@ export interface GachaDeps {
   save(state: GachaState): Promise<void>;
 }
 
+/**
+ * "Change once" draws from every pack made for this content: the video-kind preference
+ * (ent → one character, info → another) picks the first character, not the only one.
+ */
+function rerollTags(t: Draw['tags']): Pick<Tags, 'type' | 'genre'> {
+  return { type: t.type, genre: t.genre };
+}
+
 /** Remember draws for this many recent contents so switching back doesn't redraw. */
 export const RECENT_LIMIT = 50;
 
 export function infoOf(s: MediaSnapshot): MediaInfo {
-  return { title: s.title, artist: s.artist, site: s.site };
+  return {
+    title: s.title,
+    artist: s.artist,
+    site: s.site,
+    ...(s.duration > 0 ? { duration: s.duration } : {}),
+    ...(s.live ? { live: true } : {}),
+  };
 }
 
 /**
@@ -101,7 +115,7 @@ export class GachaEngine {
       };
     }
     if (!this.current) return null;
-    const pool = poolFor(packs, this.current.tags);
+    const pool = poolFor(packs, rerollTags(this.current.tags));
     return {
       contentKey: this.current.contentKey,
       packId: this.current.packId,
@@ -154,7 +168,7 @@ export class GachaEngine {
       }
     }
     // Otherwise (or when the match has only one character): the content's ordinary pool.
-    const pool = poolFor(await this.deps.packs(), cur.tags).filter((p) => p.id !== cur.packId);
+    const pool = poolFor(await this.deps.packs(), rerollTags(cur.tags)).filter((p) => p.id !== cur.packId);
     const next = pick(pool, this.deps.rng);
     if (!next) return false;
     this.record(next.id);
@@ -230,13 +244,8 @@ export class GachaEngine {
     const chosen = matched ?? pick(poolFor(packs, tags), this.deps.rng);
     if (!chosen) return null;
     this.record(chosen.id);
-    return {
-      contentKey: key,
-      packId: chosen.id,
-      tags: { type: tags.type, genre: tags.genre, source: tags.source },
-      rerolled: false,
-      ...(matched ? { matched: true, info } : {}),
-    };
+    const kept: Draw['tags'] = { type: tags.type, genre: tags.genre, ...(tags.vclass ? { vclass: tags.vclass } : {}), source: tags.source };
+    return { contentKey: key, packId: chosen.id, tags: kept, rerolled: false, ...(matched ? { matched: true, info } : {}) };
   }
 
   private setCurrent(d: Draw): boolean {

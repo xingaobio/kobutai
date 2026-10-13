@@ -2,6 +2,7 @@ import {
   CONTENT_TYPES,
   GENRES,
   STATE_NAMES,
+  VIDEO_CLASSES,
   type PackManifest,
   type StateAsset,
 } from './types';
@@ -87,6 +88,7 @@ export function validatePack(input: unknown): ValidationResult {
   else {
     validateTagList(input.tags.type, CONTENT_TYPES, 'tags.type', errors);
     validateTagList(input.tags.genre, GENRES, 'tags.genre', errors);
+    if (input.tags.vclass !== undefined) validateTagList(input.tags.vclass, VIDEO_CLASSES, 'tags.vclass', errors);
   }
 
   if (!isObj(input.size) || !isPosInt(input.size.w, LIMITS.size) || !isPosInt(input.size.h, LIMITS.size))

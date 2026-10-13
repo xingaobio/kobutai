@@ -38,6 +38,19 @@ beforeEach(() => {
 });
 
 describe('generic', () => {
+  test('an endless duration is reported as a live stream', async () => {
+    await fakeMedia('video', { duration: Infinity }).play();
+    const s = new PageMediaController(document, loc('https://example.com/'), null).snapshot();
+    expect(s).toMatchObject({ playing: true, duration: 0, canSeek: false, live: true });
+  });
+
+  test('a finite duration is not live', async () => {
+    await fakeMedia('audio', { duration: 200 }).play();
+    const s = new PageMediaController(document, loc('https://example.com/'), null).snapshot();
+    expect(s).toMatchObject({ playing: true, duration: 200 });
+    expect(s?.live).toBeUndefined();
+  });
+
   test('no media → null snapshot', () => {
     expect(new PageMediaController(document, loc('https://example.com/'), null).snapshot()).toBeNull();
   });

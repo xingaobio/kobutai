@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
+  import { onDestroy, untrack } from 'svelte';
   import Bubble from './Bubble.svelte';
   import Character from './Character.svelte';
   import ControlBar from './ControlBar.svelte';
   import { localName, t } from '../lib/i18n/ui.svelte';
   import type { StateName } from '../lib/pack/types';
   import type { ToBackground } from '../lib/messages';
-  import { clampLayout, type Layout } from '../lib/settings';
+  import { fitLayout, type Layout } from '../lib/settings';
   import { currentPack, live } from '../lib/ui/live.svelte';
   import { presence } from '../lib/ui/presence';
   import { contentKey } from '../lib/tagging/types';
@@ -35,7 +35,7 @@
   // The prop only seeds the layout; from then on the overlay owns it. A layout saved
   // in a bigger window must still land on screen.
   // svelte-ignore state_referenced_locally
-  let layout = $state(clampLayout(initial, pack.size, view));
+  let layout = $state(fitLayout(initial, pack.size, view));
   let hovering = $state(false);
   let barH = $state(150);
   let poke = $state(0);
@@ -94,9 +94,17 @@
     return { left, top };
   });
 
+  // Another character was drawn: keep its bottom-right corner where the last one's was.
+  $effect(() => {
+    const { w, h } = pack.size;
+    untrack(() => {
+      if (layout.w !== w || layout.h !== h) layout = fitLayout(layout, { w, h }, view);
+    });
+  });
+
   function onResize() {
     view = { w: innerWidth, h: innerHeight };
-    layout = clampLayout(layout, pack.size, view);
+    layout = fitLayout(layout, pack.size, view);
   }
   addEventListener('resize', onResize);
   onDestroy(() => {
@@ -150,7 +158,7 @@
     const start = { ...layout };
     gesture(
       e,
-      (dx, dy) => (layout = clampLayout({ ...start, x: start.x + dx, y: start.y + dy }, pack.size, view)),
+      (dx, dy) => (layout = fitLayout({ ...start, x: start.x + dx, y: start.y + dy }, pack.size, view)),
       () => poke++,
     );
   }
@@ -160,7 +168,7 @@
     const startW = pack.size.w * start.scale;
     gesture(e, (dx, dy) => {
       const scale = (startW + (dx + dy) / 2) / pack.size.w;
-      layout = clampLayout({ ...start, scale }, pack.size, view);
+      layout = fitLayout({ ...start, scale }, pack.size, view);
     });
   }
 </script>

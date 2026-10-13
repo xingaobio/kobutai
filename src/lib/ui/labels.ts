@@ -17,12 +17,12 @@ export function tagText(draw: Pick<DrawView, 'tags'>): string {
 /**
  * The small label next to the character's name, saying how it was chosen:
  * "AI · Rock" (a model recognised the genre), "matched by title" (the title names
- * the character), plain "Rock" (local rules), or "Locked".
+ * the character), plain "Rock" (the built-in model), or "Locked".
  */
 export function drawBadge(draw: DrawView | null): { text: string; kind: 'ai' | 'match' | 'rules' | 'locked' } | null {
   if (!draw) return null;
   if (draw.locked) return { text: t('badge.locked'), kind: 'locked' };
   if (draw.matched) return { text: t('badge.match'), kind: 'match' };
-  if (draw.tags.source === 'ai') return { text: t('badge.ai', { tag: tagText(draw) }), kind: 'ai' };
+  if (draw.tags.source === 'ai' || draw.tags.source === 'cache') return { text: t('badge.ai', { tag: tagText(draw) }), kind: 'ai' };
   return { text: tagText(draw), kind: 'rules' };
 }

@@ -52,6 +52,31 @@ test('draws a character from the matching genre pool', async ({ open }) => {
   await expect(talk.getByTestId('happydesk-reroll')).toBeDisabled();
 });
 
+test('with no AI model connected, the built-in classifier picks the character', async ({ open, context }) => {
+  // No API key or endpoint is set up in this profile: what is playing must not leave the browser.
+  const titles = ['Wonderwall', 'Marianne', 'アイドル', 'Oasis', 'Fontaines'];
+  const leaked: string[] = [];
+  context.on('request', (r) => {
+    if (!/^https?:/.test(r.url()) || /\.test\//.test(r.url())) return;
+    const sent = decodeURIComponent(r.url()) + (r.postData() ?? '');
+    if (titles.some((t) => sent.includes(t))) leaked.push(r.url());
+  });
+
+  // No song or genre words in the text: keyword rules alone took these for talk videos.
+  const rock = await play(open, 'plain.test', 'Wonderwall - Remastered', 'Oasis');
+  await expect(mascot(rock)).toHaveAttribute('data-pack', ROCK);
+  await audio(rock).pause();
+
+  const indie = await play(open, 'indie.test', 'Marianne', 'Fontaines D.C.');
+  await expect(mascot(indie)).toHaveAttribute('data-pack', ROCK);
+  await audio(indie).pause();
+
+  const jp = await play(open, 'jpop.test', 'YOASOBI「アイドル」 Official Music Video', 'YOASOBI');
+  await expect(mascot(jp)).toHaveAttribute('data-pack', JPOP);
+
+  expect(leaked).toEqual([]);
+});
+
 test('same content does not redraw; returning to earlier content restores its character', async ({ open }) => {
   const a = await play(open, 'a.test', 'Linkin Park - Numb', 'Linkin Park');
   await expect(mascot(a)).toHaveAttribute('data-pack', ROCK);
@@ -95,8 +120,8 @@ test('import a Petdex pet, reroll once within the pool, and lock', async ({ open
   const opts = await context.newPage();
   await importSyntheticPet(opts, extensionId, 'blobby');
 
-  // K-pop has no dedicated pool → generic pool = [kiki, petdex-blobby].
-  const live = await play(open, 'kpop.test', "BTS (방탄소년단) 'Dynamite' Official MV", 'HYBE LABELS');
+  // Jazz ("other" genre) has no dedicated pool → generic pool = [kiki, petdex-blobby].
+  const live = await play(open, 'jazz.test', 'Miles Davis - So What (Official Audio)', 'Miles Davis');
   await expect.poll(async () => mascot(live).getAttribute('data-pack')).toMatch(/^(kiki|petdex-blobby)$/);
   const drawn = (await mascot(live).getAttribute('data-pack'))!;
 

@@ -226,6 +226,8 @@ test('drag position persists per site', async ({ open }) => {
   const a = await open('a.test');
   await audio(a).play();
   const mascot = a.getByTestId('happydesk-mascot');
+  // Measure the character drawn for this page, not one shown while the draw is on its way.
+  await expect(mascot).toHaveAttribute('data-drawn', 'true');
   const box = (await mascot.boundingBox())!;
   await a.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
   await a.mouse.down();
@@ -239,15 +241,20 @@ test('drag position persists per site', async ({ open }) => {
   await mascot.waitFor();
   await expect.poll(async () => Math.round((await mascot.boundingBox())!.x)).toBe(Math.round(moved.x));
 
-  // Other sites keep the default position.
+  // Other sites keep the default position. Characters differ in width and sit against the
+  // right edge, so compare right edges (another character may be drawn for this page).
   const d = await open('d.test');
-  expect(Math.round((await d.getByTestId('happydesk-mascot').boundingBox())!.x)).toBe(Math.round(box.x));
+  const other = d.getByTestId('happydesk-mascot');
+  await expect(other).toHaveAttribute('data-drawn', 'true');
+  const ob = (await other.boundingBox())!;
+  expect(Math.round(ob.x + ob.width)).toBe(Math.round(box.x + box.width));
 });
 
 test('resize handle scales the mascot', async ({ open }) => {
   const a = await open('a.test');
   await audio(a).play();
   const mascot = a.getByTestId('happydesk-mascot');
+  await expect(mascot).toHaveAttribute('data-drawn', 'true');
   const before = (await mascot.boundingBox())!;
   await mascot.hover();
   const handle = a.locator('happydesk-overlay .resize');

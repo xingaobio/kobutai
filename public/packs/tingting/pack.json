@@ -13,7 +13,10 @@
       "podcast",
       "video"
     ],
-    "genre": []
+    "genre": [],
+    "vclass": [
+      "info"
+    ]
   },
   "size": {
     "w": 96,
@@ -26,7 +29,7 @@
       "frames": 12,
       "cols": 8,
       "row": 0,
-      "fps": 8.0
+      "fps": 8
     },
     "playing": {
       "kind": "sprite",
@@ -50,7 +53,7 @@
       "frames": 24,
       "cols": 8,
       "row": 6,
-      "fps": 12.0,
+      "fps": 12,
       "loop": false
     }
   }
