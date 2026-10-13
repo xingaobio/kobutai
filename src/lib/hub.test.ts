@@ -116,3 +116,27 @@ test('onUpdate fires on snapshot, select and disconnect', () => {
   a.disconnect();
   expect(n).toBe(3);
 });
+
+test('a viewer (the popup) gets the state, controls media and cannot report any', () => {
+  const { hub, a } = setup();
+  a.send({ t: 'snapshot', snap: snap(true, 'song') });
+  const gacha: string[] = [];
+  hub.onGacha = (m) => void gacha.push(m.t);
+  const view = new FakePort({});
+  hub.connectViewer(view);
+  expect(view.last('state')?.state.primary?.snapshot.title).toBe('song');
+  view.send({ t: 'command', cmd: { type: 'pause' } });
+  expect(a.last('command')?.cmd).toEqual({ type: 'pause' });
+  view.send({ t: 'reroll' });
+  expect(gacha).toEqual(['reroll']);
+  // Snapshots from a viewer are ignored.
+  view.send({ t: 'snapshot', snap: snap(true, 'fake') });
+  expect(view.last('state')?.state.primary?.snapshot.title).toBe('song');
+  // Updates keep flowing until it goes away.
+  a.send({ t: 'snapshot', snap: snap(false, 'song') });
+  expect(view.last('state')?.state.primary?.snapshot.playing).toBe(false);
+  view.disconnect();
+  const n = view.received.length;
+  a.send({ t: 'snapshot', snap: snap(true, 'song') });
+  expect(view.received.length).toBe(n);
+});

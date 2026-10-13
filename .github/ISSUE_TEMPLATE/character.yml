@@ -1,0 +1,47 @@
+name: Share a character / 投稿角色 / キャラを投稿
+description: Submit a character you drew so everyone can draw it in Kobutai.
+title: "[Character] "
+labels: [character]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing! In Kobutai, open **Import → My imported characters → Share with everyone** to create the `kobutai-….zip` file, then drag it into the box below.
+        谢谢分享！在 Kobutai 的「导入角色 → 我导入的角色 → 分享给大家」生成 `kobutai-….zip`，再把它拖到下面的框里。
+        ありがとうございます！Kobutai の「キャラを追加 → 追加したキャラ → みんなに共有」で `kobutai-….zip` を作り、下の欄にドラッグしてください。
+  - type: input
+    id: name
+    attributes:
+      label: Character name / 角色名 / キャラの名前
+    validations:
+      required: true
+  - type: input
+    id: author
+    attributes:
+      label: Credit as / 署名 / クレジット名
+      description: Shown on the character's card. / 显示在角色卡片上。 / カードに表示されます。
+    validations:
+      required: true
+  - type: input
+    id: genres
+    attributes:
+      label: Genres / 曲风 / ジャンル
+      description: "jpop, anime, western-pop, hiphop, rock, electronic, classical, lofi, cpop — or “any”."
+  - type: input
+    id: file
+    attributes:
+      label: File name / 文件名 / ファイル名
+  - type: textarea
+    id: zip
+    attributes:
+      label: Drag the zip file here / 把 zip 文件拖到这里 / zip ファイルをここにドラッグ
+      placeholder: kobutai-….zip
+    validations:
+      required: true
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: License / 授权 / ライセンス
+      options:
+        - label: "I drew this character (or have the right to share it) and release it under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). / 这个角色是我画的（或我有权分享），以 CC BY 4.0 发布。 / このキャラは自分で描いたもの（または共有する権利があるもの）で、CC BY 4.0 で公開します。"
+          required: true

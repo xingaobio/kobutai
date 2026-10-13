@@ -33,7 +33,7 @@ test('remote library: download, draw, keep offline', async ({ context, extension
 
   // Remote packs join the 图鉴 and the pools.
   await opts.getByRole('tab', { name: '图鉴' }).click();
-  await expect(opts.getByTestId('collection-progress')).toContainText('/ 7');
+  await expect(opts.getByTestId('collection-progress')).toContainText('/ 14');
 
   // Lock a remote character and check the overlay paints it from IndexedDB.
   await opts.evaluate(() => (globalThis as unknown as { chrome: typeof browser }).chrome.storage.sync.set({ lockedPack: 'dj-neko' }));
@@ -60,6 +60,7 @@ test('remote library: download, draw, keep offline', async ({ context, extension
   await expect(opts.getByTestId('sync-status')).toContainText('失败');
   await expect(opts.getByTestId('remote-count')).toHaveText('2');
   await p.reload();
+  await audio(p).play();
   await expect(p.getByTestId('happydesk-mascot')).toHaveAttribute('data-pack', 'dj-neko');
 });
 

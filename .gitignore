@@ -7,3 +7,9 @@ web-ext.config.ts
 .DS_Store
 test-results
 playwright-report
+
+# API keys and other local secrets
+apikey.rtf
+*.rtf
+.env
+.env.*

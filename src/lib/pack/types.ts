@@ -18,6 +18,10 @@ export const GENRES = [
 ] as const;
 export type Genre = (typeof GENRES)[number];
 
+/** Kind of non-music video: entertainment (games, comedy, vlogs…) or explanatory (tutorials, news…). */
+export const VIDEO_CLASSES = ['ent', 'info'] as const;
+export type VideoClass = (typeof VIDEO_CLASSES)[number];
+
 export interface SpriteAsset {
   kind: 'sprite';
   src: string;
@@ -42,11 +46,18 @@ export interface PackTags {
   type: ContentType[];
   /** Empty array = generic pool. */
   genre: Genre[];
+  /**
+   * Optional: which kinds of video this character is for. Among the characters made for videos,
+   * the ones that list the current video's kind are preferred; absent = any video.
+   */
+  vclass?: VideoClass[];
 }
 
 export interface PackManifest {
   id: string;
   name: string;
+  /** Optional per-language display names ("en", "ja", "zh"); `name` is the fallback. */
+  names?: Partial<Record<'en' | 'ja' | 'zh', string>>;
   author?: string;
   license?: string;
   tags: PackTags;

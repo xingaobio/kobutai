@@ -45,11 +45,20 @@ test('custom endpoint: add, test, and AI tags new content in the background', as
   await expect(opts.getByTestId('model-test-result')).toContainText('成功：music / anime');
   await opts.screenshot({ path: 'test-results/models.png', fullPage: true });
 
-  // Rules alone can't tell this is anime; the model can.
+  // Nothing in the text says what this is: the on-device model is unsure, so the AI decides.
   const p = await open('a.test', songPage('Untitled Track 7', 'Nobody'));
   await audio(p).play();
   await expect.poll(() => calls.length).toBeGreaterThanOrEqual(2);
-  await expect(p.getByTestId('happydesk-mascot')).toHaveAttribute('data-pack', 'momo');
+  // The anime pool: Hoshiri or Viola.
+  await expect(p.getByTestId('happydesk-mascot')).toHaveAttribute('data-pack', /^(hoshiri|viola)$/);
+  await audio(p).pause();
+
+  // The on-device model is sure about this one: no AI request, and its own answer is used.
+  const before = calls.length;
+  const q = await open('b.test', songPage('Linkin Park - Numb (Official Music Video)', 'Linkin Park'));
+  await audio(q).play();
+  await expect(q.getByTestId('happydesk-mascot')).toHaveAttribute('data-pack', /^(rina|raku)$/);
+  expect(calls.length).toBe(before);
 });
 
 test('API key: entered in the dialog, persisted, removable', async ({ context, extensionId }) => {
@@ -137,4 +146,18 @@ test('Claude subscription sign-in is not offered; Anthropic is API key only', as
   await expect(opts.getByTestId('subscription').first()).toBeVisible();
   await expect(opts.getByTestId('subscription').filter({ hasText: /Anthropic|Claude/ })).toHaveCount(0);
   await expect(opts.getByTestId('key-provider').locator('option[value="anthropic"]')).toHaveCount(1);
+});
+
+test('the AI page says a free API is enough and marks providers that have one', async ({ context, extensionId }) => {
+  const opts = await context.newPage();
+  await opts.goto(`chrome-extension://${extensionId}/options.html#models`);
+  const note = opts.getByTestId('free-note');
+  await expect(note).toContainText('免费的 API 就够');
+  await expect(note.getByRole('link', { name: 'NVIDIA' })).toHaveAttribute('href', 'https://build.nvidia.com/');
+  // Every provider the note names can be picked below, and is marked there.
+  for (const id of ['nvidia', 'google', 'groq', 'openrouter'])
+    await expect(opts.getByTestId('key-provider').locator(`option[value="${id}"]`)).toContainText('有免费额度');
+  await expect(opts.getByTestId('key-provider').locator('option[value="anthropic"]')).not.toContainText('有免费额度');
+  await note.scrollIntoViewIfNeeded();
+  await opts.screenshot({ path: 'test-results/models-free-note.png' });
 });

@@ -18,11 +18,18 @@ describe('validatePack', () => {
     expect(validatePack(valid).ok).toBe(true);
   });
 
+  test('accepts the optional video kind and keeps it', () => {
+    const r = validatePack({ ...valid, tags: { type: ['video'], genre: [], vclass: ['ent'] } });
+    expect(r.ok && r.pack.tags.vclass).toEqual(['ent']);
+  });
+
   test.each([
     ['non-object', 42],
     ['missing idle', { ...valid, states: { playing: valid.states.playing } }],
     ['bad id', { ...valid, id: 'Bad ID!' }],
     ['unknown genre', { ...valid, tags: { type: [], genre: ['polka'] } }],
+    ['unknown video kind', { ...valid, tags: { type: ['video'], genre: [], vclass: ['drama'] } }],
+    ['video kind not a list', { ...valid, tags: { type: ['video'], genre: [], vclass: 'ent' } }],
     ['unknown state', { ...valid, states: { ...valid.states, dancing: valid.states.playing } }],
     ['path traversal', { ...valid, states: { idle: { ...valid.states.idle, src: '../secret.png' } } }],
     ['absolute path', { ...valid, states: { idle: { ...valid.states.idle, src: '/etc/x.png' } } }],
@@ -54,5 +61,20 @@ describe('assetFor', () => {
     expect(assetFor(r.pack, 'paused')).toBe(r.pack.states.idle);
     expect(assetFor(r.pack, 'playing')).toBe(r.pack.states.playing);
     expect(assetFor(r.pack, 'error')).toBe(r.pack.states.idle);
+  });
+});
+
+describe('per-language names', () => {
+  const base = {
+    id: 'x',
+    name: 'X',
+    tags: { type: [], genre: [] },
+    size: { w: 10, h: 10 },
+    states: { idle: { kind: 'sprite', src: 'a.png', frames: 1, cols: 1, fps: 1 } },
+  };
+  test('accepts en/ja/zh strings and rejects anything else', () => {
+    expect(validatePack({ ...base, names: { en: 'X', ja: 'エックス' } }).ok).toBe(true);
+    expect(validatePack({ ...base, names: { fr: 'X' } }).ok).toBe(false);
+    expect(validatePack({ ...base, names: { en: 3 } }).ok).toBe(false);
   });
 });

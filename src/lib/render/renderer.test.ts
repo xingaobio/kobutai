@@ -68,3 +68,62 @@ test('non-extension sprites are drawn on a canvas from a fetched bitmap', async 
   getContext.mockRestore();
   vi.unstubAllGlobals();
 });
+
+test('a still sprite holds its first frame and never ends', () => {
+  const r = new SpriteRenderer({ w: 100, h: 50 });
+  const onEnd = vi.fn();
+  r.show({ ...sprite, loop: false }, onEnd, { still: true });
+  expect(r.el.style.backgroundPosition).toBe('0px -50px');
+  vi.advanceTimersByTime(2000);
+  expect(r.el.style.backgroundPosition).toBe('0px -50px');
+  expect(r.currentFrame).toBe(0);
+  expect(onEnd).not.toHaveBeenCalled();
+  // Showing it again without `still` animates as usual.
+  r.show(sprite);
+  vi.advanceTimersByTime(100);
+  expect(r.el.style.backgroundPosition).toBe('-100px -50px');
+  r.destroy();
+});
+
+test('a still video is loaded but not played; a normal one plays', () => {
+  const play = vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue();
+  const pause = vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+  const r = new VideoRenderer({ w: 10, h: 10 });
+  const video: VideoAsset = { kind: 'video', src: 'https://x/a.webm' };
+  r.show(video, undefined, { still: true });
+  expect(r.el.autoplay).toBe(false);
+  expect(r.el.src).toBe('https://x/a.webm');
+  expect(play).not.toHaveBeenCalled();
+  expect(pause).toHaveBeenCalled();
+  r.show(video);
+  expect(r.el.autoplay).toBe(true);
+  expect(play).toHaveBeenCalledTimes(1);
+  r.destroy();
+  play.mockRestore();
+  pause.mockRestore();
+});
+
+test('stage passes the still option through', () => {
+  const host = document.createElement('div');
+  const stage = new Stage(host, { w: 100, h: 50 });
+  stage.show(sprite, undefined, { still: true });
+  vi.advanceTimersByTime(500);
+  expect((host.firstElementChild as HTMLElement).style.backgroundPosition).toBe('0px -50px');
+  stage.destroy();
+});
+
+test('a still sprite can hold a chosen frame', () => {
+  const r = new SpriteRenderer({ w: 100, h: 50 });
+  r.show(sprite, undefined, { still: true, frame: 3 });
+  // Frame 3 of a 2-column sheet starting on row 1: column 1, row 2.
+  expect(r.el.style.backgroundPosition).toBe('-100px -100px');
+  vi.advanceTimersByTime(1000);
+  expect(r.currentFrame).toBe(3);
+  // Out-of-range frames are clamped; an animating sprite ignores `frame`.
+  r.show(sprite, undefined, { still: true, frame: 99 });
+  expect(r.currentFrame).toBe(3);
+  r.show(sprite, undefined, { frame: 2 });
+  expect(r.currentFrame).toBe(0);
+  r.destroy();
+});
+

@@ -1,0 +1,195 @@
+/*
+ * Kobutai "sticker book" theme for the extension's own pages (popup, options).
+ * The overlay on other sites does not use it: that one stays plain on purpose.
+ */
+@font-face {
+  font-family: 'Kobutai Display';
+  /* ZCOOL KuaiLe (SIL OFL 1.1), subset to the characters our pages use: scripts/subset-font.py */
+  src: url('/fonts/kobutai-display.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Kobutai Display JA';
+  /* Zen Maru Gothic Bold (SIL OFL 1.1), kana plus the kanji the Japanese interface uses. */
+  src: url('/fonts/kobutai-display-ja.woff2') format('woff2');
+  font-display: swap;
+}
+/* Japanese headings use Japanese glyph shapes, not the Chinese display font's. */
+:root:lang(ja) {
+  --font-display: 'Kobutai Display JA', 'Hiragino Maru Gothic ProN', 'BIZ UDPGothic', system-ui, sans-serif;
+}
+
+:root {
+  --paper: #fbe9f1;
+  --dot: #f1bfd5;
+  --surface: #fff6fa;
+  --card: #ffffff;
+  --ink: #3a2748;
+  --muted: #6e5a7c;
+  --pink: #ff8dbb;
+  --pink-soft: #ffd3e5;
+  --sky-soft: #cdebfa;
+  --lemon-tape: rgba(255, 226, 122, 0.85);
+  --sky-tape: rgba(138, 212, 245, 0.85);
+  --pink-tape: rgba(255, 141, 187, 0.8);
+  --link: #b0185a;
+  --accent: #e0559b;
+  --line: #f1bfd5;
+  --dash: #e7a9c5;
+  --chip: #f3edf7;
+  --ok-bg: #e3f5ec;
+  --ok: #1f6b45;
+  --danger: #b0185a;
+  --shadow: 0 6px 16px rgba(58, 39, 72, 0.12);
+  --shadow-soft: 0 3px 10px rgba(58, 39, 72, 0.1);
+  --silhouette: brightness(0) opacity(0.16);
+  --sticker: drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 -2px 0 #fff);
+  --font-display: 'Kobutai Display', 'ZCOOL KuaiLe', 'Hiragino Maru Gothic ProN', 'Yuanti SC', 'PingFang SC', system-ui, sans-serif;
+  --font-body: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Hiragino Sans', 'Microsoft YaHei', sans-serif;
+  /* Older names still used by a few components. */
+  --text: var(--ink);
+  --bg: var(--paper);
+  --accent-soft: var(--pink-soft);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1e1724;
+    --dot: #3a2b44;
+    --surface: #2a2032;
+    --card: #2f2438;
+    --ink: #f6eef7;
+    --muted: #c3b5cc;
+    --pink-soft: #5a2a44;
+    --sky-soft: #234459;
+    --link: #ff9cc8;
+    --accent: #ff8dbb;
+    --line: #4a3755;
+    --dash: #6a4a5c;
+    --chip: #3a2e44;
+    --ok-bg: #1e3a2c;
+    --ok: #8fe0b4;
+    --danger: #ff9cc8;
+    --shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+    --shadow-soft: 0 3px 10px rgba(0, 0, 0, 0.3);
+    --silhouette: brightness(0) invert(1) opacity(0.16);
+    --sticker: drop-shadow(2px 0 0 #2f2438) drop-shadow(-2px 0 0 #2f2438) drop-shadow(0 -2px 0 #2f2438);
+    color-scheme: dark;
+  }
+}
+
+body {
+  margin: 0;
+  background-color: var(--paper);
+  background-image: radial-gradient(var(--dot) 1.3px, transparent 1.4px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font: 14px/1.55 var(--font-body);
+}
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+a {
+  color: var(--link);
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+/* Pill buttons used across the pages. */
+.btn {
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.btn.solid {
+  background: var(--ink);
+  color: var(--card);
+}
+.btn.soft {
+  border-color: transparent;
+  background: var(--chip);
+}
+.btn.small {
+  height: 30px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+.btn.danger {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: #fff;
+  font-weight: 700;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+.hint {
+  color: var(--muted);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.field input,
+.field select,
+input.text,
+select.text {
+  height: 40px;
+  box-sizing: border-box;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 2px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  min-width: 0;
+}
+.free {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--ok-bg);
+  color: var(--ok);
+  font-size: 11px;
+  font-weight: 700;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tilt {
+    transform: none !important;
+  }
+}

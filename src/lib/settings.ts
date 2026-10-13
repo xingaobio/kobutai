@@ -1,9 +1,13 @@
+import type { EncoreRate } from './emoji/encore';
+import type { BubbleStyle } from './emoji/kaomoji';
+import type { ShowWhen } from './ui/presence';
 import { storage } from '#imports';
 import type { GachaState } from './gacha/engine';
 import type { LoadedPack } from './pack/types';
 import type { RegistryMeta } from './registry';
 import type { Credential } from '@earendil-works/pi-ai';
 import { DEFAULT_LLM_SETTINGS, type LlmSettings } from './llm/config';
+import type { MatchIndex } from './match/auto';
 import { DEFAULT_LIBRARY } from './remote';
 import type { TagCacheStore } from './tagging/tagger';
 
@@ -12,16 +16,28 @@ export interface Layout {
   x: number;
   y: number;
   scale: number;
+  /**
+   * Unscaled size of the character the position was set for. Characters differ in size, so
+   * another character keeps the same bottom-right corner (see fitLayout). Absent in layouts
+   * saved before this field existed.
+   */
+  w?: number;
+  h?: number;
 }
 
 export const MIN_SCALE = 0.4;
 export const MAX_SCALE = 2;
-export const DEFAULT_SCALE = 0.6;
+/** About 150 px tall for the built-in characters (208 px cells, the character fills ~85%). */
+export const DEFAULT_SCALE = 0.85;
 
 export const hiddenSites = storage.defineItem<string[]>('local:hiddenSites', { fallback: [] });
 
+/**
+ * Per-site position and size. "layout2": sizes saved for the old wide placeholder
+ * characters made the slim new ones too small, so those saved layouts start over once.
+ */
 export function layoutKey(host: string): `local:${string}` {
-  return `local:layout:${host}`;
+  return `local:layout2:${host}`;
 }
 
 export async function getLayout(host: string): Promise<Layout | null> {
@@ -57,11 +73,23 @@ export function clampLayout(l: Layout, box: { w: number; h: number }, view: { w:
 }
 
 export function defaultLayout(box: { w: number; h: number }, view: { w: number; h: number }): Layout {
-  return clampLayout(
+  const l = clampLayout(
     { scale: DEFAULT_SCALE, x: view.w - box.w * DEFAULT_SCALE - 24, y: view.h - box.h * DEFAULT_SCALE - 24 },
     box,
     view,
   );
+  return { ...l, w: box.w, h: box.h };
+}
+
+/**
+ * The layout for a character of this size: the bottom-right corner stays where it was for
+ * the character the layout was set for (a wider character grows to the left and up instead
+ * of off the screen), then everything is kept inside the viewport.
+ */
+export function fitLayout(l: Layout, box: { w: number; h: number }, view: { w: number; h: number }): Layout {
+  const ref = { w: l.w ?? box.w, h: l.h ?? box.h };
+  const moved = { scale: l.scale, x: l.x + (ref.w - box.w) * l.scale, y: l.y + (ref.h - box.h) * l.scale };
+  return { ...clampLayout(moved, box, view), w: box.w, h: box.h };
 }
 
 // --- M2: gacha / AI / collection ---------------------------------------------
@@ -131,6 +159,13 @@ export async function recordDraw(packId: string, now = Date.now()): Promise<void
 /** Imported packs (e.g. from Petdex) with assets inlined as data URLs. */
 export const userPacks = storage.defineItem<LoadedPack[]>('local:userPacks', { fallback: [] });
 
+/**
+ * Ids of built-in and library characters the user deleted from the 图鉴. Those ship with
+ * the extension (or come back on the next library sync), so they are left out of the
+ * catalog instead of erased, and can be restored. Imported characters are really deleted.
+ */
+export const removedPacks = storage.defineItem<string[]>('local:removedPacks', { fallback: [] });
+
 /** Current draw + recent draws; session storage survives service-worker restarts. */
 export const gachaState = storage.defineItem<GachaState | null>('session:gachaState', { fallback: null });
 
@@ -156,3 +191,28 @@ export const remoteSync = storage.defineItem<RemoteSyncStatus | null>('local:rem
 
 /** Cross-context lock (background vs options page) so two syncs never interleave downloads and GC. */
 export const librarySyncLock = storage.defineItem<number | null>('session:librarySyncLock', { fallback: null });
+
+// --- Direct character matching (lib/match) ---------------------------------------
+
+/** When the character is on screen: only around playback (default), or on every page. */
+export const showWhen = storage.defineItem<ShowWhen>('local:showWhen', { fallback: 'playing' });
+
+/** What the bubble shows: animated emoji, kaomoji (颜文字), or both mixed (default). */
+export const bubbleStyle = storage.defineItem<BubbleStyle>('local:bubbleStyle', { fallback: 'mix' });
+
+/** How often a long play gets a new bubble or a little action from the same character. */
+export const encoreRate = storage.defineItem<EncoreRate>('local:encoreRate', { fallback: 'often' });
+
+/** The bubble next to the character (bundled Noto emoji and kaomoji, no network). On by default. */
+export const emojiBubbles = storage.defineItem<boolean>('local:emojiBubbles', { fallback: true });
+
+/** Opt-in: show the character a title names (downloads it from Petdex). Off by default. */
+export const autoMatch = storage.defineItem<boolean>('local:autoMatch', { fallback: false });
+/** The name the user signs shared characters with, remembered for next time. */
+export const shareAuthor = storage.defineItem<string>('local:shareAuthor', { fallback: '' });
+
+/** The part of the Petdex manifest the match rules refer to; refreshed at most daily. */
+export const matchIndex = storage.defineItem<MatchIndex | null>('local:matchIndex', { fallback: null });
+
+/** Packs downloaded by matching → last matched (ms). Used to keep only the most recent ones. */
+export const autoMatched = storage.defineItem<Record<string, number>>('local:autoMatched', { fallback: {} });

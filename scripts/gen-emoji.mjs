@@ -1,0 +1,135 @@
+// Renders the animated Noto emoji used by the emoji bubble into sprite sheets.
+//
+//   node scripts/gen-emoji.mjs
+//
+// Needs the internet (Lottie files from fonts.gstatic.com, the Lottie player from jsDelivr)
+// and Playwright's Chromium (`npx playwright install chromium`). Writes:
+//   public/emoji/<name>.webp       one 8-column sheet per emoji, transparent background
+//   src/lib/emoji/sheets.gen.ts    frame counts and timing for the renderer
+//
+// Pre-rendering keeps a Lottie player out of every web page and lets the bubble use
+// the same sprite renderer (and the same pause-to-freeze rule) as the characters.
+//
+// Artwork: Noto Emoji animations by Google, CC BY 4.0
+// (https://developers.googleblog.com/updates-to-emoji-new-characters-new-animation-new-color-customization-and-more/).
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { chromium } from '@playwright/test';
+
+/** name → [codepoint as in the Noto URLs, character]. Every one of these has an animated version. */
+const EMOJI = {
+  guitar: ['1f3b8', '🎸'],
+  'rock-hand': ['1f918', '🤘'],
+  'mirror-ball': ['1faa9', '🪩'],
+  dancer: ['1f483', '💃'],
+  violin: ['1f3bb', '🎻'],
+  drum: ['1f941', '🥁'],
+  notes: ['1f3b6', '🎶'],
+  coffee: ['2615', '☕'],
+  cool: ['1f60e', '😎'],
+  fire: ['1f525', '🔥'],
+  sparkles: ['2728', '✨'],
+  star: ['2b50', '⭐'],
+  heart: ['2764_fe0f', '❤️'],
+  'party-popper': ['1f389', '🎉'],
+  'party-face': ['1f973', '🥳'],
+  popcorn: ['1f37f', '🍿'],
+  eyes: ['1f440', '👀'],
+  thinking: ['1f914', '🤔'],
+  sleepy: ['1f634', '😴'],
+  cake: ['1f382', '🎂'],
+  rain: ['1f327_fe0f', '🌧️'],
+  sob: ['1f62d', '😭'],
+  joy: ['1f602', '😂'],
+  ghost: ['1f47b', '👻'],
+  rainbow: ['1f308', '🌈'],
+};
+
+const CELL = 96; // px per frame; shown at ~56 px, so sharp on 2x screens too
+const COLS = 8;
+const FPS = 12;
+const MAX_FRAMES = 32;
+const QUALITY = 0.82;
+const PLAYER = 'https://cdn.jsdelivr.net/npm/lottie-web@5.13.0/build/player/lottie_light_canvas.min.js';
+
+const root = new URL('..', import.meta.url);
+const outDir = new URL('public/emoji/', root);
+mkdirSync(outDir, { recursive: true });
+
+const browser = await chromium.launch({ channel: 'chromium' });
+const page = await browser.newPage();
+await page.setContent('<!doctype html><body style="margin:0;background:transparent"></body>');
+await page.addScriptTag({ url: PLAYER });
+
+const meta = {};
+let total = 0;
+for (const [name, [cp, char]] of Object.entries(EMOJI)) {
+  const res = await fetch(`https://fonts.gstatic.com/s/e/notoemoji/latest/${cp}/lottie.json`);
+  if (!res.ok) throw new Error(`${name} (${cp}): HTTP ${res.status}`);
+  const lottieJson = await res.json();
+
+  const out = await page.evaluate(
+    async ({ data, CELL, COLS, FPS, MAX_FRAMES, QUALITY }) => {
+      const holder = document.createElement('div');
+      holder.style.cssText = `width:${CELL}px;height:${CELL}px`;
+      document.body.replaceChildren(holder);
+      const anim = lottie.loadAnimation({
+        container: holder,
+        renderer: 'canvas',
+        loop: false,
+        autoplay: false,
+        animationData: data,
+        rendererSettings: { clearCanvas: true, dpr: 1, preserveAspectRatio: 'xMidYMid meet' },
+      });
+      await new Promise((r) => (anim.isLoaded ? r() : anim.addEventListener('DOMLoaded', r)));
+      const seconds = anim.totalFrames / anim.frameRate;
+      const frames = Math.max(2, Math.min(MAX_FRAMES, Math.round(seconds * FPS)));
+      const rows = Math.ceil(frames / COLS);
+      const sheet = document.createElement('canvas');
+      sheet.width = CELL * COLS;
+      sheet.height = CELL * rows;
+      const ctx = sheet.getContext('2d');
+      const src = holder.querySelector('canvas');
+      // The fullest frame stands in for the animation when it must hold still (some start empty).
+      let poster = 0;
+      let best = -1;
+      for (let i = 0; i < frames; i++) {
+        anim.goToAndStop((i / frames) * anim.totalFrames, true);
+        const x = (i % COLS) * CELL;
+        const y = Math.floor(i / COLS) * CELL;
+        ctx.drawImage(src, 0, 0, src.width, src.height, x, y, CELL, CELL);
+        const px = ctx.getImageData(x, y, CELL, CELL).data;
+        let covered = 0;
+        for (let j = 3; j < px.length; j += 4) if (px[j] > 32) covered++;
+        if (covered > best) [best, poster] = [covered, i];
+      }
+      anim.destroy();
+      // Real frame rate of the sampled animation, so it plays at its original speed.
+      return { frames, poster, fps: Math.round((frames / seconds) * 10) / 10, url: sheet.toDataURL('image/webp', QUALITY) };
+    },
+    { data: lottieJson, CELL, COLS, FPS, MAX_FRAMES, QUALITY },
+  );
+
+  const bytes = Buffer.from(out.url.split(',')[1], 'base64');
+  writeFileSync(new URL(`${name}.webp`, outDir), bytes);
+  meta[name] = { char, frames: out.frames, fps: out.fps, poster: out.poster };
+  total += bytes.length;
+  console.log(`${char} ${name}: ${out.frames} frames @ ${out.fps} fps, ${Math.round(bytes.length / 1024)} KB`);
+}
+await browser.close();
+
+const ts = `// Generated by scripts/gen-emoji.mjs: do not edit by hand.
+// Noto Emoji animations by Google, CC BY 4.0.
+
+/**
+ * Sprite sheets in public/emoji/<name>.webp: ${COLS} columns of ${CELL}×${CELL} px cells.
+ * \`poster\` is the frame shown when the emoji must hold still.
+ */
+export const EMOJI_CELL = ${CELL};
+export const EMOJI_COLS = ${COLS};
+
+export const EMOJI_SHEETS = ${JSON.stringify(meta, null, 2)} as const;
+
+export type EmojiName = keyof typeof EMOJI_SHEETS;
+`;
+writeFileSync(new URL('src/lib/emoji/sheets.gen.ts', root), ts);
+console.log(`\n${Object.keys(meta).length} emoji, ${Math.round(total / 1024)} KB in total`);

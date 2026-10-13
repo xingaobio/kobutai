@@ -5,8 +5,9 @@
 - **名称**：HappyDesk 悬浮角色播放器（en: HappyDesk – floating gacha media mascot）
 - **类别**：娱乐（Entertainment）
 - **语言**：中文（简体）、English
-- **主页**：https://github.com/xingaobio/happydesk
-- **隐私政策 URL**：仓库公开后使用 `https://github.com/xingaobio/happydesk/blob/main/PRIVACY.md`
+- **主页**：https://kobutai.pages.dev
+- **官网**：https://kobutai.pages.dev（Cloudflare Pages，项目名 kobutai）
+- **隐私政策 URL**：https://kobutai.pages.dev/privacy.html
 - **打包**：`npm run zip` → `.output/happydesk-<version>-chrome.zip`
 
 ## 简短描述（≤132 字符）
@@ -23,7 +24,8 @@ HappyDesk 在网页角落放一个会动的小角色，替代浏览器里藏得�
 • 图鉴：收集抽到过的角色，没抽到的显示为剪影。
 • 置顶悬浮窗：一键弹出到画中画窗口，切到别的应用也能看到。
 • 角色可以从 Petdex 社区导入，或订阅远程角色库。
-• 可选 AI 识别：连接你自己的模型——ChatGPT / GitHub Copilot 等订阅登录、OpenAI / Anthropic / DeepSeek 等 API key，或本地 Ollama——更准确地识别曲风（只发送标题、作者、域名）。
+• 内置离线识别：自带一个专门训练的小模型（约 2.6 MB），在本机判断正在播放的是音乐、视频、直播还是播客，以及 10 种曲风。装好就能用，不需要 API key，不录音，标题不离开你的电脑。
+• 可选 AI 增强：连接你自己的模型——ChatGPT / GitHub Copilot 等订阅登录、OpenAI / Anthropic / DeepSeek 等 API key，或本地 Ollama。只有内置模型没把握时（约三分之一的内容）才会询问，只发送标题、作者、域名。
 • 已适配 YouTube、YouTube Music、哔哩哔哩、Spotify 网页版，其他网站通用支持。
 
 开源、无广告、无统计，开发者不收集任何数据。
@@ -37,7 +39,8 @@ HappyDesk puts an animated mascot in the corner of every page and turns it into 
 • Collection book of every character you have drawn.
 • Pop out into an always-on-top Picture-in-Picture window.
 • Import pets from the Petdex community or subscribe to remote character libraries.
-• Optional AI tagging with your own model: sign in with a subscription (ChatGPT, GitHub Copilot…), use an API key (OpenAI, Anthropic, DeepSeek…), or a local Ollama server. Only title, artist and domain are sent.
+• Built-in offline recognition: a small purpose-trained model (about 2.6 MB) tells music, video, live streams and podcasts apart and picks one of 10 genres, right on your computer. Works out of the box: no API key, no audio recording, titles never leave your machine.
+• Optional AI boost with your own model: sign in with a subscription (ChatGPT, GitHub Copilot…), use an API key (OpenAI, Anthropic, DeepSeek…), or a local Ollama server. It is only asked when the built-in model is unsure (about a third of content), and only title, artist and domain are sent.
 • Tuned for YouTube, YouTube Music, Bilibili and Spotify Web; works generically elsewhere.
 
 Open source, no ads, no analytics, no data collection.
@@ -59,7 +62,7 @@ Open source, no ads, no analytics, no data collection.
 
 **远程代码**：不使用。所有代码都打包在扩展里；远程角色库只下载图片 / 视频和 JSON 数据，并经过格式校验。
 
-**数据使用声明**：不收集用户数据（见 PRIVACY.md）。可选的 AI 识别会把内容标题、作者、域名直接发给用户自己连接的模型服务商。
+**数据使用声明**：不收集用户数据（见 PRIVACY.md）。内容默认由扩展自带的模型在本机识别。可选的 AI 识别只在本机模型没把握时，把内容标题、作者、域名直接发给用户自己连接的模型服务商。
 
 ## 素材
 
@@ -70,7 +73,10 @@ Open source, no ads, no analytics, no data collection.
 ## 上架前检查
 
 - [ ] 仓库公开，`PRIVACY.md` 和默认角色库地址可以访问
-- [ ] 内置角色和远程库素材的版权已确认（当前都是本项目生成的原创占位角色，MIT）
+- [ ] 内置角色和远程库素材的版权已确认：内置角色是用 Google Flow（Nano Banana、Omni / Veo）生成的原创角色，需确认所用套餐的条款允许商用；远程库示例角色是本项目生成的原创占位角色（MIT）
 - [ ] Petdex 导入功能的版权提示仍然显示在导入页
+- [ ] 决定「自动匹配角色」是否随上架版本提供：默认关闭，但规则表里有商业 IP 和真人形象（见 `docs/SOURCES.md` 的"已知限制"）
+- [ ] 表情气泡的 CC BY 4.0 署名仍在设置页和 `public/emoji/LICENSE.md` 里
 - [ ] `npm run check` 和 `npm run e2e` 全部通过
 - [ ] `package.json` 版本号已更新
+- [ ] 分类模型训练数据中的 Apple 公开榜单：收费前核实使用条款，或去掉这部分数据重新训练（见 `docs/CLASSIFIER.md`）
