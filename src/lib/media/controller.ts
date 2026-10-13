@@ -22,6 +22,7 @@ function elementState(el: HTMLMediaElement): DetachedState {
     duration: Number.isFinite(el.duration) ? el.duration : 0,
     volume: el.volume,
     muted: el.muted,
+    ...(el.duration === Infinity ? { live: true } : {}),
   };
 }
 
@@ -99,6 +100,7 @@ export class PageMediaController implements MediaController {
       canSeek: s.duration > 0 && (st.via !== 'dom' || actions.has('seekto')),
       adapter: this.id,
       site: this.loc.hostname,
+      ...(s.live ? { live: true } : {}),
     };
   }
 

@@ -17,6 +17,8 @@ export interface MediaSnapshot {
   adapter: string;
   /** Page hostname. */
   site: string;
+  /** The player reports an endless duration: a live stream. */
+  live?: boolean;
 }
 
 export type MediaCommand =

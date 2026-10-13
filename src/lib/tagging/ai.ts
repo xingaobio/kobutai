@@ -1,5 +1,5 @@
 import { StringEnum, Type, clampThinkingLevel, type Models, type Tool } from '@earendil-works/pi-ai';
-import { CONTENT_TYPES, GENRES } from '../pack/types';
+import { CONTENT_TYPES, GENRES, VIDEO_CLASSES } from '../pack/types';
 import { isTags, type MediaInfo, type Tags } from './types';
 
 const NO_GENRE = 'none';
@@ -9,7 +9,11 @@ export const TAG_TOOL: Tool = {
   name: 'set_tags',
   description: 'Record what is playing.',
   parameters: Type.Object(
-    { type: StringEnum([...CONTENT_TYPES]), genre: StringEnum([...GENRES, NO_GENRE]) },
+    {
+      type: StringEnum([...CONTENT_TYPES]),
+      genre: StringEnum([...GENRES, NO_GENRE]),
+      vclass: Type.Optional(StringEnum([...VIDEO_CLASSES, NO_GENRE])),
+    },
     { additionalProperties: false },
   ),
   constrainedSampling: { type: 'json_schema', strict: 'prefer' },
@@ -18,6 +22,7 @@ export const TAG_TOOL: Tool = {
 const SYSTEM = `You classify what a person is currently playing in their browser, from metadata only.
 type: "music" (songs, MVs, covers, music mixes), "video" (any non-music video), "live" (a live stream), "podcast" (talk audio/shows), "other".
 genre (only when type is "music", otherwise "${NO_GENRE}"): jpop, anime (anime/game songs, vocaloid, utaite), western-pop, hiphop, rock, electronic, classical, lofi, cpop (Mandarin/Cantonese pop), other.
+vclass (only when type is "video", otherwise "${NO_GENRE}"): ent (games, comedy, vlogs, film/anime clips, memes, sports) or info (tutorials, explainers, news, reviews, lectures, documentaries).
 Answer by calling ${TAG_TOOL.name} exactly once.`;
 
 export interface ModelRef {
@@ -69,8 +74,12 @@ export async function classify(
       call?.type === 'toolCall'
         ? call.arguments
         : fromText(msg.content.flatMap((b) => (b.type === 'text' ? [b.text] : [])).join(''));
-    const r = (raw ?? {}) as { type?: unknown; genre?: unknown };
-    const candidate = { type: r.type, genre: r.type === 'music' && r.genre !== NO_GENRE ? r.genre : null };
+    const r = (raw ?? {}) as { type?: unknown; genre?: unknown; vclass?: unknown };
+    const candidate = {
+      type: r.type,
+      genre: r.type === 'music' && r.genre !== NO_GENRE ? r.genre : null,
+      ...(r.type === 'video' && (VIDEO_CLASSES as readonly unknown[]).includes(r.vclass) ? { vclass: r.vclass } : {}),
+    };
     if (!isTags(candidate)) return { ok: false, error: '模型的回答格式不对' };
     return { ok: true, tags: { ...candidate, source: 'ai' } };
   } catch (e) {

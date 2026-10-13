@@ -43,6 +43,7 @@ Chrome 扩展：网页上悬浮一个动画角色，根据当前播放内容从�
     "author": "...",
     "license": "...",
     "tags": { "type": ["music"], "genre": ["jpop", "anime"] }, // 空数组 = 通用池
+    // 可选："vclass": ["ent"] —— 只出现在娱乐类视频（或 ["info"] 讲解类）；不写 = 任何视频
     "size": { "w": 192, "h": 208 },
     "states": {
       "idle":    { "kind": "sprite", "src": "idle.webp", "frames": 8, "cols": 8, "fps": 8 },
@@ -76,9 +77,13 @@ Chrome 扩展：网页上悬浮一个动画角色，根据当前播放内容从�
 - **标签体系**（两层，约 10 个桶 + 通用池）：
   - 内容类型 `type`：`music | video | live | podcast | other`
   - 音乐风格 `genre`：`jpop | anime | western-pop | hiphop | rock | electronic | classical | lofi | cpop | other`
+  - 视频类别 `vclass`（只对视频）：`ent`（游戏、搞笑、vlog、影视和番剧片段、梗）| `info`（教程、讲解、新闻、评测、讲座）
 - **打标签流程**：
-  1. 先用本地关键词规则（标题/频道/域名）。
-  2. 若在「AI 模型」页连接并选好了模型，再让模型调用 `set_tags` 工具输出结构化标签（枚举约束，能用严格模式的服务商用严格模式；思考等级压到最低）。最多等 6 秒，超时先用规则结果，AI 结果晚到也会写入缓存。
+  1. 先用**本地分类模型**（`src/lib/tagging/model/`，模型文件在 `public/model/`，约 2.6 MB，第一次抽卡时加载）。只看标题、频道、域名、时长，不联网，单条不到 1 ms。说明见 `docs/CLASSIFIER.md`。
+     - 模型加载失败时退回本地关键词规则（`rules.ts`）。
+     - 模型没把握时返回空：类型为空记作 `other`、音乐曲风为空，都走通用池。
+  2. 模型的综合置信度（类型 × 曲风或视频类别）≥ 0.9 时直接采用，不问 AI。
+  3. 低于 0.9、且在「AI 模型」页连接并选好了模型时，再让模型调用 `set_tags` 工具输出结构化标签（枚举约束，能用严格模式的服务商用严格模式；思考等级压到最低）。最多等 6 秒，超时先用本地模型的结果，AI 结果晚到也会写入缓存。真实标题上约三分之一的内容会走到这一步。
      - 模型接入用 [pi-ai](https://github.com/earendil-works/pi/tree/main/packages/ai)（`@earendil-works/pi-ai`）：30 多家服务商的 API key、订阅登录（OAuth：ChatGPT、GitHub Copilot、Kimi、xAI、Meta、OpenRouter…）、OpenAI / Anthropic 兼容的自定义端点。
      - Claude Pro/Max 订阅登录不提供：Anthropic 条款不允许第三方应用使用；Claude 走 API key。Bedrock / Vertex 需要本机凭证文件，浏览器里用不了，不列出。
      - 订阅登录在浏览器里完成：pi-ai 的登录流程会起一个本机回调服务器（`node:http`），扩展里把它换成"虚拟服务器"（`src/lib/llm/shims/`），选项页监听登录标签页跳转到 `localhost` 的地址，把它交给登录流程；截获不到时可手动粘贴。

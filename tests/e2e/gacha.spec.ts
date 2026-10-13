@@ -77,8 +77,8 @@ test('import a Petdex pet, reroll once within the pool, and lock', async ({ open
   const opts = await context.newPage();
   await importSyntheticPet(opts, extensionId, 'blobby');
 
-  // K-pop has no dedicated pool → generic pool = [pixel, petdex-blobby].
-  const live = await play(open, 'kpop.test', "BTS (방탄소년단) 'Dynamite' Official MV", 'HYBE LABELS');
+  // Jazz ("other" genre) has no dedicated pool → generic pool = [pixel, petdex-blobby].
+  const live = await play(open, 'jazz.test', 'Miles Davis - So What (Official Audio)', 'Miles Davis');
   await expect.poll(async () => mascot(live).getAttribute('data-pack')).toMatch(/^(pixel|petdex-blobby)$/);
   const drawn = (await mascot(live).getAttribute('data-pack'))!;
 

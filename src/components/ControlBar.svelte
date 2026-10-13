@@ -30,7 +30,7 @@
   };
   const TYPE_LABEL: Record<string, string> = { music: '音乐', video: '视频', live: '直播', podcast: '播客', other: '其他' };
   const tagLabel = $derived(
-    draw && !draw.locked ? (draw.tags.genre ? GENRE_LABEL[draw.tags.genre] : TYPE_LABEL[draw.tags.type]) + (draw.tags.source === 'rules' ? '' : ' · AI') : '',
+    draw && !draw.locked ? (draw.tags.genre ? GENRE_LABEL[draw.tags.genre] : TYPE_LABEL[draw.tags.type]) + (draw.tags.source === 'ai' || draw.tags.source === 'cache' ? ' · AI' : '') : '',
   );
 
   let now = $state(Date.now());

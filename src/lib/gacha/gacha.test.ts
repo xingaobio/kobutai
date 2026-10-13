@@ -2,7 +2,7 @@ import { describe, expect, test, vi } from 'vitest';
 import type { MediaSnapshot } from '../media/types';
 import type { PackManifest } from '../pack/types';
 import type { Tags } from '../tagging/types';
-import { GachaEngine, RECENT_LIMIT, type GachaDeps, type GachaState } from './engine';
+import { GachaEngine, RECENT_LIMIT, infoOf, type GachaDeps, type GachaState } from './engine';
 import { pick, poolFor } from './pool';
 
 type P = Pick<PackManifest, 'id' | 'tags'>;
@@ -31,6 +31,28 @@ describe('poolFor', () => {
   test('no generic packs → everything', () => {
     expect(poolFor(PACKS.slice(0, 3), { type: 'other', genre: null })).toHaveLength(3);
   });
+  test('a known video kind prefers packs made for it, else any video pack', () => {
+    const packs = [
+      { id: 'popo', tags: { type: ['video', 'live'], genre: [], vclass: ['ent'] } },
+      { id: 'tingting', tags: { type: ['video', 'podcast'], genre: [], vclass: ['info'] } },
+      { id: 'prof', tags: { type: ['video'], genre: [] } },
+    ] as P[];
+    const ids = (t: Parameters<typeof poolFor>[1]) => poolFor(packs, t).map((p) => p.id);
+    expect(ids({ type: 'video', genre: null, vclass: 'ent' })).toEqual(['popo']);
+    expect(ids({ type: 'video', genre: null, vclass: 'info' })).toEqual(['tingting']);
+    expect(ids({ type: 'video', genre: null })).toEqual(['popo', 'tingting', 'prof']);
+    expect(ids({ type: 'podcast', genre: null })).toEqual(['tingting']);
+    // No pack lists the kind → every video pack, as before.
+    expect(poolFor(PACKS, { type: 'video', genre: null, vclass: 'ent' }).map((p) => p.id)).toEqual(['prof']);
+  });
+  test('a stored pack with a malformed video kind does not break drawing', () => {
+    const packs = [
+      { id: 'bad', tags: { type: ['video'], genre: [], vclass: 1 } },
+      { id: 'sub', tags: { type: ['video'], genre: [], vclass: 'entertainment' } },
+      { id: 'ok', tags: { type: ['video'], genre: [] } },
+    ] as unknown as P[];
+    expect(poolFor(packs, { type: 'video', genre: null, vclass: 'ent' }).map((p) => p.id)).toEqual(['bad', 'sub', 'ok']);
+  });
   test('genre packs restricted to another type are excluded', () => {
     const packs = [P('weird', ['video'], ['jpop']), P('g', [], [])];
     expect(poolFor(packs, { type: 'music', genre: 'jpop' }).map((p) => p.id)).toEqual(['g']);
@@ -49,7 +71,7 @@ const snap = (title: string, playing = true, site = 'www.youtube.com'): MediaSna
   canNext: false, canPrev: false, canSeek: true, adapter: 'youtube', site,
 });
 
-function setup(opts: { tags?: (title: string) => Tags; locked?: string | null; saved?: GachaState | null } = {}) {
+function setup(opts: { tags?: (title: string) => Tags; locked?: string | null; saved?: GachaState | null; packs?: P[] } = {}) {
   let n = 0;
   const recorded: string[] = [];
   const saves: GachaState[] = [];
@@ -58,7 +80,7 @@ function setup(opts: { tags?: (title: string) => Tags; locked?: string | null; s
     opts.tags ? opts.tags(info.title) : ({ type: 'music', genre: 'jpop', source: 'rules' } as Tags),
   );
   const deps: GachaDeps = {
-    packs: async () => PACKS,
+    packs: async () => opts.packs ?? PACKS,
     tag,
     // Deterministic rng cycling 0, 0.5, 0.99…
     rng: () => [0, 0.5, 0.99][n++ % 3]!,
@@ -196,4 +218,27 @@ describe('GachaEngine', () => {
     for (let i = 0; i < RECENT_LIMIT + 5; i++) await engine.onMedia(snap(`song ${i}`));
     expect(saves.at(-1)!.recent).toHaveLength(RECENT_LIMIT);
   });
+});
+
+test('infoOf passes a known duration only', () => {
+  const snap = { title: 'T', artist: 'A', site: 's.com', duration: 213 } as MediaSnapshot;
+  expect(infoOf(snap)).toEqual({ title: 'T', artist: 'A', site: 's.com', duration: 213 });
+  expect(infoOf({ ...snap, duration: 0 })).toEqual({ title: 'T', artist: 'A', site: 's.com' });
+});
+
+test('the video-kind preference picks the first character; "change once" can use any video character', async () => {
+  const packs = [
+    { id: 'popo', tags: { type: ['video'], genre: [], vclass: ['ent'] } },
+    { id: 'tingting', tags: { type: ['video'], genre: [], vclass: ['info'] } },
+  ] as P[];
+  const { engine } = setup({ packs, tags: () => ({ type: 'video', genre: null, vclass: 'ent', source: 'model' }) });
+  await engine.onMedia(snap('Funny video'));
+  expect(await engine.view()).toMatchObject({ packId: 'popo', canReroll: true, tags: { vclass: 'ent' } });
+  expect(await engine.reroll()).toBe(true);
+  expect((await engine.view())!.packId).toBe('tingting');
+});
+
+test('infoOf marks live streams', () => {
+  const s = { title: 'T', artist: 'A', site: 's.com', duration: 0, live: true } as MediaSnapshot;
+  expect(infoOf(s)).toEqual({ title: 'T', artist: 'A', site: 's.com', live: true });
 });

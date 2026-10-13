@@ -18,6 +18,7 @@ import {
   tagCache,
 } from '@/lib/settings';
 import { aiTags } from '@/lib/tagging/ai';
+import { LocalModel, extensionFetcher } from '@/lib/tagging/model/local';
 import { Tagger } from '@/lib/tagging/tagger';
 import type { MutableModels } from '@earendil-works/pi-ai';
 
@@ -45,8 +46,14 @@ export default defineBackground(() => {
   llmSettings.watch(() => (models = null));
   const migrated = migrateLegacyAi().catch((e) => console.warn('[happydesk] AI settings migration failed', e));
   const settings = async () => (await migrated, llmSettings.getValue());
-  const tagger = new Tagger(settings, { get: () => tagCache.getValue(), set: (v) => tagCache.setValue(v) }, (info, s) =>
-    aiTags(info, s, (models ??= createHdModels(credentials, s.custom))),
+  // The on-device classifier ships in public/model/ and loads on the first draw.
+  const localModel = new LocalModel(extensionFetcher((p) => browser.runtime.getURL(p)));
+  const tagger = new Tagger(
+    settings,
+    { get: () => tagCache.getValue(), set: (v) => tagCache.setValue(v) },
+    (info, s) => aiTags(info, s, (models ??= createHdModels(credentials, s.custom))),
+    undefined,
+    (info) => localModel.tag(info),
   );
   const engine = new GachaEngine({
     packs: () => catalog.all(),
