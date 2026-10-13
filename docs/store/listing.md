@@ -70,7 +70,9 @@ Open source, no ads, no analytics, no data collection.
 ## 上架前检查
 
 - [ ] 仓库公开，`PRIVACY.md` 和默认角色库地址可以访问
-- [ ] 内置角色和远程库素材的版权已确认（当前都是本项目生成的原创占位角色，MIT）
+- [ ] 内置角色和远程库素材的版权已确认：内置角色是用 Google Flow（Nano Banana、Omni / Veo）生成的原创角色，需确认所用套餐的条款允许商用；远程库示例角色是本项目生成的原创占位角色（MIT）
 - [ ] Petdex 导入功能的版权提示仍然显示在导入页
+- [ ] 决定「自动匹配角色」是否随上架版本提供：默认关闭，但规则表里有商业 IP 和真人形象（见 `docs/SOURCES.md` 的"已知限制"）
+- [ ] 表情气泡的 CC BY 4.0 署名仍在设置页和 `public/emoji/LICENSE.md` 里
 - [ ] `npm run check` 和 `npm run e2e` 全部通过
 - [ ] `package.json` 版本号已更新

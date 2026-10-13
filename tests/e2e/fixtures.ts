@@ -58,8 +58,10 @@ export const test = base.extend<{
     const context = await chromium.launchPersistentContext('', {
       channel: 'chromium',
       headless: !process.env.HEADED,
+      // The interface follows the browser language; most specs check the Chinese text.
+      locale: 'zh-CN',
       viewport: { width: 1200, height: 800 },
-      args: [`--disable-extensions-except=${EXT}`, `--load-extension=${EXT}`, '--autoplay-policy=no-user-gesture-required'],
+      args: [`--disable-extensions-except=${EXT}`, `--load-extension=${EXT}`, '--autoplay-policy=no-user-gesture-required', '--lang=zh-CN'],
     });
     await context.route(/^https?:\/\/[a-z]+\.test\//, async (route) => {
       const url = new URL(route.request().url());
@@ -81,7 +83,9 @@ export const test = base.extend<{
       const url = host.startsWith('https://') ? `${host}/` : `http://${host}/`;
       if (html) await page.route(url, (r) => r.fulfill({ body: html, contentType: 'text/html; charset=utf-8' }));
       await page.goto(url);
-      await page.getByTestId('happydesk-mascot').waitFor();
+      // The overlay is injected on every page; the character itself appears once
+      // something is playing with sound (see lib/ui/presence.ts).
+      await page.locator('happydesk-overlay').waitFor({ state: 'attached' });
       return page;
     });
   },

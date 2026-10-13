@@ -1,3 +1,4 @@
+import { t } from '../i18n/core';
 import {
   createModels,
   createProvider,
@@ -64,7 +65,7 @@ export function customProvider(c: CustomEndpoint): Provider {
         name: `${c.name} API key`,
         login: async (i) => {
           const key = (
-            await i.prompt({ type: 'secret', message: `${c.name} 的 API key（本地服务没有 key 就留空）` })
+            await i.prompt({ type: 'secret', message: t('models.customKeyPrompt', { name: c.name }) })
           ).trim();
           return { type: 'api_key', key: key || undefined };
         },

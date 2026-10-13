@@ -49,7 +49,9 @@ const snap = (title: string, playing = true, site = 'www.youtube.com'): MediaSna
   canNext: false, canPrev: false, canSeek: true, adapter: 'youtube', site,
 });
 
-function setup(opts: { tags?: (title: string) => Tags; locked?: string | null; saved?: GachaState | null } = {}) {
+function setup(
+  opts: { tags?: (title: string) => Tags; locked?: string | null; saved?: GachaState | null; packs?: () => P[] } = {},
+) {
   let n = 0;
   const recorded: string[] = [];
   const saves: GachaState[] = [];
@@ -58,7 +60,7 @@ function setup(opts: { tags?: (title: string) => Tags; locked?: string | null; s
     opts.tags ? opts.tags(info.title) : ({ type: 'music', genre: 'jpop', source: 'rules' } as Tags),
   );
   const deps: GachaDeps = {
-    packs: async () => PACKS,
+    packs: async () => (opts.packs ? opts.packs() : PACKS),
     tag,
     // Deterministic rng cycling 0, 0.5, 0.99…
     rng: () => [0, 0.5, 0.99][n++ % 3]!,
@@ -195,5 +197,208 @@ describe('GachaEngine', () => {
     const { engine, saves } = setup();
     for (let i = 0; i < RECENT_LIMIT + 5; i++) await engine.onMedia(snap(`song ${i}`));
     expect(saves.at(-1)!.recent).toHaveLength(RECENT_LIMIT);
+  });
+});
+
+describe('GachaEngine when characters are deleted', () => {
+  test('a deleted character leaves the screen: the content gets another one of its pool, and keeps its reroll', async () => {
+    let packs = PACKS;
+    const { engine, recorded } = setup({ packs: () => packs });
+    await engine.onMedia(snap('A'));
+    const first = (await engine.view())!.packId;
+    // Nothing is gone yet.
+    expect(await engine.prune()).toBe(false);
+
+    packs = PACKS.filter((p) => p.id !== first);
+    expect(await engine.prune()).toBe(true);
+    const v = (await engine.view())!;
+    expect(v.packId).toBe(first === 'jp1' ? 'jp2' : 'jp1');
+    expect(recorded).toEqual([first, v.packId]);
+    // Same content as before, so no new draw when the next snapshot arrives.
+    expect(await engine.onMedia(snap('A'))).toBe(false);
+    expect(v.contentKey).toBe((await engine.view())!.contentKey);
+    // The pool is down to one character, so there is nothing to reroll to; the reroll itself was not used up.
+    expect(v.canReroll).toBe(false);
+    packs = [...packs, P('jp3', ['music'], ['jpop'])];
+    expect((await engine.view())!.canReroll).toBe(true);
+  });
+
+  test('going back to earlier content never brings a deleted character back', async () => {
+    let packs = PACKS;
+    const tags = (title: string): Tags => ({ type: 'music', genre: title === 'B' ? 'rock' : 'jpop', source: 'rules' });
+    const { engine, tag } = setup({ packs: () => packs, tags });
+    await engine.onMedia(snap('A'));
+    const a = (await engine.view())!.packId;
+    await engine.onMedia(snap('B'));
+    expect((await engine.view())!.packId).toBe('rock');
+
+    // A's character is deleted while B is on screen: nothing visible changes…
+    packs = PACKS.filter((p) => p.id !== a);
+    expect(await engine.prune()).toBe(false);
+    expect((await engine.view())!.packId).toBe('rock');
+    // …and A is drawn again from what is left instead of restoring the deleted one.
+    expect(await engine.onMedia(snap('A'))).toBe(true);
+    expect((await engine.view())!.packId).toBe(a === 'jp1' ? 'jp2' : 'jp1');
+    expect(tag).toHaveBeenCalledTimes(3);
+  });
+
+  test('the last character of everything being deleted clears the draw', async () => {
+    let packs = PACKS;
+    const { engine } = setup({ packs: () => packs });
+    await engine.onMedia(snap('A'));
+    packs = [];
+    expect(await engine.prune()).toBe(true);
+    expect(await engine.view()).toBeNull();
+  });
+});
+
+describe('GachaEngine with a direct match', () => {
+  const MATCHED = P('petdex-miku', [], []);
+  const MATCHED_2 = P('petdex-miku-2', [], []);
+  function matching(
+    match: NonNullable<GachaDeps['match']>,
+    opts: { packs?: P[]; locked?: string | null; rematch?: GachaDeps['rematch'] } = {},
+  ) {
+    const recorded: string[] = [];
+    const engine = new GachaEngine({
+      packs: async () => opts.packs ?? [...PACKS, MATCHED],
+      tag: async () => ({ type: 'music', genre: 'jpop', source: 'rules' }),
+      match,
+      rematch: opts.rematch,
+      rng: () => 0,
+      locked: async () => opts.locked ?? null,
+      record: async (id) => void recorded.push(id),
+      load: async () => null,
+      save: async () => {},
+    });
+    return { engine, recorded };
+  }
+
+  test('a matched character that is installed wins over the pool and is flagged', async () => {
+    const match = vi.fn(async () => 'petdex-miku');
+    const { engine, recorded } = matching(match);
+    expect(await engine.onMedia(snap('【初音ミク】千本桜'))).toBe(true);
+    expect(await engine.view()).toMatchObject({ packId: 'petdex-miku', matched: true, canReroll: true });
+    expect(match).toHaveBeenCalledWith({ title: '【初音ミク】千本桜', artist: 'x', site: 'www.youtube.com' });
+    expect(recorded).toEqual(['petdex-miku']);
+  });
+
+  test('no match, an uninstalled pack or a failing matcher all fall back to the pool', async () => {
+    for (const match of [async () => null, async () => 'petdex-gone', async () => Promise.reject(new Error('boom'))]) {
+      const { engine } = matching(match);
+      expect(await engine.onMedia(snap('A'))).toBe(true);
+      const v = (await engine.view())!;
+      expect(v.packId).toBe('jp1');
+      expect(v.matched).toBeUndefined();
+    }
+  });
+
+  test('reroll of a matched character goes to another character of the same match', async () => {
+    const rematch = vi.fn(async () => 'petdex-miku-2');
+    const { engine, recorded } = matching(async () => 'petdex-miku', { rematch, packs: [...PACKS, MATCHED, MATCHED_2] });
+    await engine.onMedia(snap('A'));
+    expect(await engine.reroll()).toBe(true);
+    expect(rematch).toHaveBeenCalledWith({ title: 'A', artist: 'x', site: 'www.youtube.com' }, 'petdex-miku');
+    expect(await engine.view()).toMatchObject({ packId: 'petdex-miku-2', matched: true, canReroll: false });
+    expect(recorded).toEqual(['petdex-miku', 'petdex-miku-2']);
+    expect(await engine.reroll()).toBe(false);
+  });
+
+  test('a character the rematch has just downloaded is used (the pack list is read after it)', async () => {
+    const packs = [...PACKS, MATCHED];
+    const rematch = vi.fn(async () => {
+      packs.push(MATCHED_2); // "downloaded" during the rematch
+      return 'petdex-miku-2';
+    });
+    const { engine } = matching(async () => 'petdex-miku', { rematch, packs });
+    await engine.onMedia(snap('A'));
+    expect(await engine.reroll()).toBe(true);
+    expect((await engine.view())!.packId).toBe('petdex-miku-2');
+  });
+
+  test('a matched reroll survives a service-worker restart', async () => {
+    const saves: GachaState[] = [];
+    const deps: GachaDeps = {
+      packs: async () => [...PACKS, MATCHED, MATCHED_2],
+      tag: async () => ({ type: 'music', genre: 'jpop', source: 'rules' }),
+      match: async () => 'petdex-miku',
+      rematch: async () => 'petdex-miku-2',
+      rng: () => 0,
+      locked: async () => null,
+      record: async () => {},
+      load: async () => saves.at(-1) ?? null,
+      save: async (s) => void saves.push(JSON.parse(JSON.stringify(s))),
+    };
+    const first = new GachaEngine(deps);
+    await first.onMedia(snap('A'));
+    // Restarted worker: the stored draw still knows what was matched, so the reroll stays in the match.
+    const second = new GachaEngine(deps);
+    expect(await second.reroll()).toBe(true);
+    expect((await second.view())!.packId).toBe('petdex-miku-2');
+  });
+
+  test('a matched character with no other match rerolls to the ordinary pool', async () => {
+    const { engine } = matching(async () => 'petdex-miku', { rematch: async () => null });
+    await engine.onMedia(snap('A'));
+    expect(await engine.reroll()).toBe(true);
+    const v = (await engine.view())!;
+    expect(v.packId).toBe('jp1');
+    expect(v.matched).toBeUndefined();
+    expect(v.canReroll).toBe(false);
+  });
+
+  test('switching back restores the matched character without matching again', async () => {
+    const match = vi.fn(async (info: { title: string }) => (info.title === 'A' ? 'petdex-miku' : null));
+    const { engine } = matching(match);
+    await engine.onMedia(snap('A'));
+    await engine.onMedia(snap('B'));
+    expect((await engine.view())!.packId).toBe('jp1');
+    await engine.onMedia(snap('A'));
+    expect(await engine.view()).toMatchObject({ packId: 'petdex-miku', matched: true });
+    expect(match).toHaveBeenCalledTimes(2);
+  });
+
+  test('a locked character means no matching at all', async () => {
+    const match = vi.fn(async () => 'petdex-miku');
+    const { engine } = matching(match, { locked: 'rock' });
+    expect(await engine.onMedia(snap('A'))).toBe(false);
+    expect(match).not.toHaveBeenCalled();
+    expect((await engine.view())!.packId).toBe('rock');
+  });
+
+  describe('adopt: a match that arrives after the pool draw', () => {
+    const INFO = { title: 'A', artist: 'x', site: 'www.youtube.com' };
+
+    test('switches the content on screen to the character and flags it', async () => {
+      const { engine, recorded } = matching(async () => null);
+      await engine.onMedia(snap('A'));
+      expect((await engine.view())!.packId).toBe('jp1');
+      expect(await engine.adopt(INFO, 'petdex-miku')).toBe(true);
+      expect(await engine.view()).toMatchObject({ packId: 'petdex-miku', matched: true, canReroll: true });
+      expect(recorded).toEqual(['jp1', 'petdex-miku']);
+      // Adopting twice, or a pack that isn't installed, changes nothing.
+      expect(await engine.adopt(INFO, 'petdex-miku')).toBe(false);
+      expect(await engine.adopt(INFO, 'petdex-gone')).toBe(false);
+    });
+
+    test('content the user moved on from is updated for when they come back', async () => {
+      const { engine } = matching(async () => null);
+      await engine.onMedia(snap('A'));
+      await engine.onMedia(snap('B'));
+      expect(await engine.adopt(INFO, 'petdex-miku')).toBe(false);
+      expect((await engine.view())!.packId).toBe('jp1');
+      await engine.onMedia(snap('A'));
+      expect(await engine.view()).toMatchObject({ packId: 'petdex-miku', matched: true });
+    });
+
+    test('never undoes a reroll and ignores content that was never drawn', async () => {
+      const { engine } = matching(async () => null);
+      expect(await engine.adopt(INFO, 'petdex-miku')).toBe(false);
+      await engine.onMedia(snap('A'));
+      await engine.reroll();
+      const after = (await engine.view())!.packId;
+      expect(await engine.adopt(INFO, 'petdex-miku')).toBe(false);
+      expect((await engine.view())!.packId).toBe(after);
+    });
   });
 });

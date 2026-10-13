@@ -3,7 +3,7 @@ import Overlay from '@/components/Overlay.svelte';
 import { startFrameReporter } from '@/lib/media/frame';
 import type { BlobRequest, RuntimeRequest, SiteInfo } from '@/lib/messages';
 import { PackCatalog } from '@/lib/pack/catalog';
-import { defaultLayout, getLayout, hiddenSites, setLayout, setSiteHidden } from '@/lib/settings';
+import { bubbleStyle, defaultLayout, emojiBubbles, encoreRate, getLayout, hiddenSites, setLayout, setSiteHidden, showWhen } from '@/lib/settings';
 import { blobKey, isBlobRef } from '@/lib/blobstore';
 import { setSrcResolver } from '@/lib/render/renderer';
 import { live } from '@/lib/ui/live.svelte';
@@ -39,6 +39,14 @@ export default defineContentScript({
 
     live.hidden = (await hiddenSites.getValue()).includes(host);
     const unwatch = hiddenSites.watch((list) => (live.hidden = list.includes(host)));
+    live.bubbles = await emojiBubbles.getValue();
+    ctx.onInvalidated(emojiBubbles.watch((on) => (live.bubbles = on)));
+    live.bubbleStyle = await bubbleStyle.getValue();
+    ctx.onInvalidated(bubbleStyle.watch((v) => (live.bubbleStyle = v)));
+    live.encore = await encoreRate.getValue();
+    ctx.onInvalidated(encoreRate.watch((v) => (live.encore = v)));
+    live.showWhen = await showWhen.getValue();
+    ctx.onInvalidated(showWhen.watch((v) => (live.showWhen = v)));
     const onFullscreen = () => (live.fullscreen = !!document.fullscreenElement);
     document.addEventListener('fullscreenchange', onFullscreen);
     ctx.onInvalidated(() => {

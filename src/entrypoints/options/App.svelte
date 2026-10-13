@@ -1,9 +1,13 @@
 <script lang="ts">
+  import Icon from '@/components/Icon.svelte';
+  import LangSwitch from '@/components/LangSwitch.svelte';
+  import Logo from '@/components/Logo.svelte';
+  import { syncDocumentLang, t } from '@/lib/i18n/ui.svelte';
   import { blobKey, getBlob, isBlobRef } from '@/lib/blobstore';
   import { PackCatalog } from '@/lib/pack/catalog';
   import type { LoadedPack } from '@/lib/pack/types';
   import { setSrcResolver } from '@/lib/render/renderer';
-  import { collection, hiddenSites, lockedPack, type CollectionEntry } from '@/lib/settings';
+  import { autoMatched, collection, hiddenSites, lockedPack, type CollectionEntry } from '@/lib/settings';
   import CollectionView from './Collection.svelte';
   import ImportView from './Import.svelte';
   import ModelsView from './Models.svelte';
@@ -17,27 +21,43 @@
     return URL.createObjectURL(blob);
   });
 
-  const TABS = [
-    { id: 'collection', label: '图鉴' },
-    { id: 'import', label: '导入角色' },
-    { id: 'models', label: 'AI 模型' },
-    { id: 'settings', label: '设置' },
-  ] as const;
-  type Tab = (typeof TABS)[number]['id'];
-  const initial = location.hash.slice(1) as Tab;
-  let tab = $state<Tab>(TABS.some((t) => t.id === initial) ? initial : 'collection');
+  syncDocumentLang();
   $effect(() => {
-    history.replaceState(null, '', `#${tab}`);
+    document.title = t('app.title');
+  });
+
+  const TABS = ['collection', 'import', 'models', 'settings'] as const;
+  type Tab = (typeof TABS)[number];
+  const fromHash = (): Tab | null => {
+    const h = location.hash.slice(1);
+    return (TABS as readonly string[]).includes(h) ? (h as Tab) : null;
+  };
+  let tab = $state<Tab>(fromHash() ?? 'collection');
+  $effect(() => {
+    if (location.hash.slice(1) !== tab) history.replaceState(null, '', `#${tab}`);
+  });
+  // Links like "Import my own character" just change the hash.
+  addEventListener('hashchange', () => {
+    const next = fromHash();
+    if (next) tab = next;
   });
 
   let packs = $state<LoadedPack[]>([]);
+  /** Built-in / library characters deleted from the 图鉴. */
+  let removed = $state<LoadedPack[]>([]);
   let coll = $state<Record<string, CollectionEntry>>({});
   let locked = $state<string | null>(null);
   let hidden = $state<string[]>([]);
+  let matched = $state<Record<string, number>>({});
 
   const catalog = new PackCatalog();
+  const refreshRemoved = () => void catalog.removed().then((r) => (removed = r));
   void catalog.all().then((p) => (packs = p));
-  catalog.onChange((p) => (packs = p));
+  refreshRemoved();
+  catalog.onChange((p) => {
+    packs = p;
+    refreshRemoved();
+  });
   function follow<T>(item: { getValue(): Promise<T>; watch(cb: (v: T) => void): unknown }, set: (v: T) => void) {
     void item.getValue().then(set);
     item.watch(set);
@@ -45,22 +65,29 @@
   follow(collection, (v) => (coll = v));
   follow(lockedPack, (v) => (locked = v));
   follow(hiddenSites, (v) => (hidden = v));
+  follow(autoMatched, (v) => (matched = v));
 </script>
 
 <header>
-  <h1>HappyDesk</h1>
-  <div class="tabs" role="tablist">
-    {#each TABS as t (t.id)}
-      <button role="tab" aria-selected={tab === t.id} class:active={tab === t.id} onclick={() => (tab = t.id)}>{t.label}</button>
-    {/each}
+  <div class="inner">
+    <Logo size={34} />
+    <div class="tabs" role="tablist" aria-label={t('tabs.aria')}>
+      {#each TABS as id (id)}
+        <button role="tab" aria-selected={tab === id} class:active={tab === id} onclick={() => (tab = id)} data-tab={id}>
+          {#if id === 'models'}<span class="spark"><Icon name="sparkle" size={13} /></span>{/if}
+          {t(`tabs.${id}`)}
+        </button>
+      {/each}
+    </div>
+    <div class="lang"><LangSwitch /></div>
   </div>
 </header>
 
 <main>
   {#if tab === 'collection'}
-    <CollectionView {packs} collection={coll} {locked} />
+    <CollectionView {packs} {removed} collection={coll} {locked} {matched} />
   {:else if tab === 'import'}
-    <ImportView {packs} />
+    <ImportView {packs} collection={coll} {matched} />
   {:else if tab === 'models'}
     <ModelsView />
   {:else}
@@ -69,75 +96,57 @@
 </main>
 
 <style>
-  :global(:root) {
-    --bg: #f7f7fa;
-    --card: #ffffff;
-    --text: #18181e;
-    --muted: #6b6b78;
-    --line: #e4e4ea;
-    --accent: #e0559b;
-    --accent-soft: #ffe3f1;
-    --silhouette: brightness(0) opacity(0.25);
-    color-scheme: light;
-  }
-  @media (prefers-color-scheme: dark) {
-    :global(:root) {
-      --bg: #141418;
-      --card: #1e1e24;
-      --text: #f2f2f5;
-      --muted: #a0a0ad;
-      --line: #2e2e36;
-      --accent: #ff8fc7;
-      --accent-soft: #3a2230;
-      --silhouette: brightness(0) invert(1) opacity(0.2);
-      color-scheme: dark;
-    }
-  }
-  :global(body) {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font: 14px/1.55 system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  }
-  :global(button) {
-    font: inherit;
-  }
   header {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    padding: 16px max(16px, calc((100vw - 960px) / 2));
-    border-bottom: 1px solid var(--line);
-    background: var(--card);
+    background: var(--surface);
+    border-bottom: 4px solid var(--card);
     position: sticky;
     top: 0;
     z-index: 1;
-    flex-wrap: wrap;
   }
-  h1 {
-    font-size: 18px;
-    margin: 0;
+  .inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
   }
   .tabs {
     display: flex;
-    gap: 4px;
+    gap: 8px;
+    flex-wrap: wrap;
   }
   .tabs button {
     border: 0;
-    background: none;
-    color: var(--muted);
-    padding: 6px 12px;
-    border-radius: 8px;
+    background: var(--card);
+    color: var(--ink);
+    padding: 7px 16px;
+    border-radius: 999px;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
   }
   .tabs button.active {
-    background: var(--accent-soft);
-    color: var(--text);
-    font-weight: 600;
+    background: var(--pink);
+    color: #3a2748;
+    font-weight: 700;
+    transform: rotate(-2deg);
+  }
+  .lang {
+    margin-left: auto;
+  }
+  .spark {
+    color: var(--link);
+    display: inline-flex;
+  }
+  .active .spark {
+    color: inherit;
   }
   main {
-    max-width: 960px;
+    max-width: 1080px;
     margin: 0 auto;
-    padding: 24px 16px 64px;
+    padding: 32px 24px 64px;
   }
 </style>

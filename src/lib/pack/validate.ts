@@ -74,6 +74,12 @@ export function validatePack(input: unknown): ValidationResult {
 
   if (typeof input.id !== 'string' || !ID_RE.test(input.id)) errors.push('id: must match ' + ID_RE);
   if (typeof input.name !== 'string' || !input.name.trim()) errors.push('name: required');
+  if (input.names !== undefined) {
+    if (!isObj(input.names)) errors.push('names: must be an object');
+    else
+      for (const [k, v] of Object.entries(input.names))
+        if (!['en', 'ja', 'zh'].includes(k) || typeof v !== 'string') errors.push(`names.${k}: must be a string for en, ja or zh`);
+  }
   for (const k of ['author', 'license'] as const)
     if (input[k] !== undefined && typeof input[k] !== 'string') errors.push(`${k}: must be a string`);
 

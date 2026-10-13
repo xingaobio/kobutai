@@ -1,0 +1,56 @@
+{
+  "id": "ouen",
+  "name": "应援酱 Ouen",
+  "names": {
+    "en": "Ouen",
+    "ja": "オウエンちゃん",
+    "zh": "应援酱"
+  },
+  "author": "HappyDesk",
+  "license": "All rights reserved",
+  "tags": {
+    "type": [
+      "live"
+    ],
+    "genre": []
+  },
+  "size": {
+    "w": 136,
+    "h": 208
+  },
+  "states": {
+    "idle": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 18,
+      "cols": 8,
+      "row": 0,
+      "fps": 8.0
+    },
+    "playing": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 10,
+      "cols": 8,
+      "row": 3,
+      "fps": 11.43
+    },
+    "paused": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 1,
+      "cols": 8,
+      "row": 5,
+      "fps": 1
+    },
+    "click": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 24,
+      "cols": 8,
+      "row": 6,
+      "fps": 12.0,
+      "loop": false
+    }
+  }
+}

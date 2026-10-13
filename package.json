@@ -12,6 +12,7 @@
     "postinstall": "wxt prepare",
     "typecheck": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
     "test": "vitest run",
+    "match:check": "MATCH_LIVE=1 vitest run src/lib/match/table.live.test.ts",
     "check": "npm run typecheck && npm run test && npm run build",
     "e2e": "HAPPYDESK_E2E=1 wxt build && playwright test"
   },

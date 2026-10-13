@@ -31,7 +31,7 @@ export async function openPip(styleRoot: ShadowRoot, send: (msg: ToBackground) =
     return false;
   }
   const doc = win.document;
-  doc.title = 'HappyDesk';
+  doc.title = 'Kobutai';
   const base = doc.createElement('style');
   base.textContent = BASE_CSS;
   doc.head.append(base);

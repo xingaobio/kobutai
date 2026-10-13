@@ -2,11 +2,44 @@
   import type { LoadedPack } from '@/lib/pack/types';
   import { syncAllLibraries } from '@/lib/librarySync';
   import { DEFAULT_LIBRARY } from '@/lib/remote';
-  import { libraries, lockedPack, remoteSync, setSiteHidden, type RemoteSyncStatus } from '@/lib/settings';
+  import { bubbleStyle, emojiBubbles, encoreRate, libraries, lockedPack, remoteSync, setSiteHidden, showWhen, type RemoteSyncStatus } from '@/lib/settings';
+  import { IDLE_GRACE_MS, type ShowWhen } from '@/lib/ui/presence';
+  import { ENCORE_GAP_MS, type EncoreRate } from '@/lib/emoji/encore';
+  import type { BubbleStyle } from '@/lib/emoji/kaomoji';
+  import { LANGS, LANG_NAMES, uiLang, type LangPref } from '@/lib/i18n/core';
+  import { locale, localName, t } from '@/lib/i18n/ui.svelte';
 
   let { hidden, locked, packs }: { hidden: string[]; locked: string | null; packs: LoadedPack[] } = $props();
 
-  const lockedName = $derived(packs.find((p) => p.id === locked)?.name ?? locked);
+  const lockedPackObj = $derived(packs.find((p) => p.id === locked));
+  const lockedName = $derived(lockedPackObj ? localName(lockedPackObj) : locked);
+
+  // --- Interface language ---
+  let langPref = $state<LangPref>('auto');
+  void uiLang.getValue().then((v) => (langPref = v));
+  uiLang.watch((v) => (langPref = v ?? 'auto'));
+
+  // --- When the character shows ---
+  let when = $state<ShowWhen>('playing');
+  void showWhen.getValue().then((v) => (when = v));
+  showWhen.watch((v) => (when = v));
+
+  // --- Emoji bubble ---
+  let bubbles = $state(true);
+  void emojiBubbles.getValue().then((v) => (bubbles = v));
+  emojiBubbles.watch((v) => (bubbles = v));
+  let style = $state<BubbleStyle>('mix');
+  void bubbleStyle.getValue().then((v) => (style = v));
+  bubbleStyle.watch((v) => (style = v));
+  const STYLES: BubbleStyle[] = ['mix', 'emoji', 'kaomoji'];
+  // --- Encores in a long play ---
+  let encore = $state<EncoreRate>('often');
+  void encoreRate.getValue().then((v) => (encore = v));
+  encoreRate.watch((v) => (encore = v));
+  const minutes = (rate: 'often' | 'sometimes') => ENCORE_GAP_MS[rate].map((ms) => ms / 60_000).join('–');
+  const ENCORES: EncoreRate[] = ['often', 'sometimes', 'off'];
+  const encoreText = (r: EncoreRate) => (r === 'off' ? t('set.encore.off') : t(`set.encore.${r}`, { m: minutes(r) }));
+
 
   // --- Remote libraries ---
   let libs = $state<string[]>([]);
@@ -26,11 +59,11 @@
     try {
       url = new URL(newLib.trim());
     } catch {
-      libError = '不是有效的网址';
+      libError = t('common.invalidUrl');
       return;
     }
     if (url.protocol !== 'https:') {
-      libError = '只支持 https 地址';
+      libError = t('set.lib.httpsOnly');
       return;
     }
     // Hosts without CORS headers need host access; ask only for that origin.
@@ -53,140 +86,231 @@
 </script>
 
 <section>
-  <h2>远程角色库</h2>
-  <p class="hint">
-    从网上的角色库（一个 <code>index.json</code> 加若干角色文件夹）下载角色，离线也能用。每 12 小时自动更新一次。当前有 <b data-testid="remote-count">{remoteCount}</b> 个远程角色。
-  </p>
-  <ul>
-    {#each libs as url (url)}
-      <li data-testid="library">
-        <span class="url">{url}{url === DEFAULT_LIBRARY ? '（默认）' : ''}</span>
-        <button
-          onclick={async () => {
-            await libraries.setValue(libs.filter((u) => u !== url));
-            await syncNow();
-          }}>移除</button
-        >
-      </li>
-    {/each}
-  </ul>
-  <form
-    class="inline"
-    onsubmit={(e) => {
-      e.preventDefault();
-      void addLibrary();
-    }}
-  >
-    <input type="url" placeholder="https://…/index.json" bind:value={newLib} aria-label="角色库地址" required />
-    <button type="submit">添加</button>
-    <button type="button" onclick={syncNow} disabled={syncing} data-testid="sync-now">{syncing ? '同步中…' : '立即同步'}</button>
-  </form>
-  {#if libError}<p class="err">{libError}</p>{/if}
-  {#if status}
-    <p class="hint" data-testid="sync-status">
-      上次同步：{new Date(status.at).toLocaleString()} · {status.ok ? '成功' : '失败'} · {status.count} 个角色
-    </p>
-    {#if status.errors.length}
-      <details><summary>{status.errors.length} 个问题</summary><ul class="errors">{#each status.errors as e}<li>{e}</li>{/each}</ul></details>
-    {/if}
-  {/if}
+  <div class="intro">
+    <h1 class="display">{t('set.title')}</h1>
+    <p class="hint">{t('set.intro')}</p>
+  </div>
 
-  <h2>锁定的角色</h2>
-  {#if locked}
-    <p>当前锁定：<b>{lockedName}</b>，不会再自动抽卡。<button onclick={() => lockedPack.setValue(null)}>解锁</button></p>
-  {:else}
-    <p class="hint">没有锁定。可以在悬浮控制条或图鉴里锁定一个角色。</p>
-  {/if}
-
-  <h2>隐藏角色的网站</h2>
-  {#if hidden.length}
-    <ul>
-      {#each hidden as host (host)}
-        <li><span>{host}</span><button onclick={() => setSiteHidden(host, false)}>恢复显示</button></li>
+  <div class="cols">
+    <div class="card">
+      <h2 class="display">{t('set.lang.title')}</h2>
+      <label class="check">
+        <input type="radio" name="ui-lang" checked={langPref === 'auto'} onchange={() => uiLang.setValue('auto')} data-testid="lang-auto" />
+        {t('set.lang.auto')}
+      </label>
+      {#each LANGS as l (l)}
+        <label class="check">
+          <input type="radio" name="ui-lang" checked={langPref === l} onchange={() => uiLang.setValue(l)} data-testid="lang-{l}" />
+          <span lang={l === 'zh' ? 'zh-CN' : l}>{LANG_NAMES[l]}</span>
+        </label>
       {/each}
-    </ul>
-  {:else}
-    <p class="hint">没有隐藏的网站。</p>
-  {/if}
+      <p class="hint small">{t('set.lang.hint')}</p>
+    </div>
+
+    <div class="card">
+      <h2 class="display">{t('set.when.title')}</h2>
+      <label class="check">
+        <input type="radio" name="show-when" checked={when === 'playing'} onchange={() => showWhen.setValue('playing')} data-testid="show-when-playing" />
+        {t('set.when.playing')}
+      </label>
+      <label class="check">
+        <input type="radio" name="show-when" checked={when === 'always'} onchange={() => showWhen.setValue('always')} data-testid="show-when-always" />
+        {t('set.when.always')}
+      </label>
+      <p class="hint small">{t('set.when.hint', { m: IDLE_GRACE_MS / 60_000 })}</p>
+    </div>
+
+    <div class="card">
+      <h2 class="display">{t('set.bubble.title')}</h2>
+      <label class="check">
+        <input type="checkbox" checked={bubbles} onchange={(e) => emojiBubbles.setValue(e.currentTarget.checked)} data-testid="emoji-bubbles" />
+        {t('set.bubble.on')}
+      </label>
+      {#each STYLES as value (value)}
+        <label class="check indent">
+          <input type="radio" name="bubble-style" checked={style === value} disabled={!bubbles} onchange={() => bubbleStyle.setValue(value)} data-testid="bubble-style-{value}" />
+          {t(`set.bubble.${value}`)}
+        </label>
+      {/each}
+      <p class="sub">{t('set.encore.title')}</p>
+      {#each ENCORES as value (value)}
+        <label class="check indent">
+          <input type="radio" name="encore-rate" checked={encore === value} onchange={() => encoreRate.setValue(value)} data-testid="encore-{value}" />
+          {encoreText(value)}
+        </label>
+      {/each}
+      <p class="hint small">
+        {t('set.encore.hint')}
+        <a href="https://github.com/googlefonts/noto-emoji" target="_blank" rel="noreferrer">Google Noto Emoji</a>{t('set.encore.open')}<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>{t('set.encore.close')}
+      </p>
+    </div>
+
+    <div class="card">
+      <h2 class="display">{t('set.lock.title')}</h2>
+      {#if locked}
+        <div class="row-line">
+          <span>{t('set.lock.current')}<b>{lockedName}</b>{t('set.lock.currentEnd')}</span>
+          <button class="btn small" onclick={() => lockedPack.setValue(null)}>{t('set.lock.unlock')}</button>
+        </div>
+      {:else}
+        <p class="hint small">{t('set.lock.none')}</p>
+      {/if}
+
+      <h2 class="display second">{t('set.hidden.title')}</h2>
+      {#if hidden.length}
+        <ul>
+          {#each hidden as host (host)}
+            <li><span class="url">{host}</span><button class="btn small" onclick={() => setSiteHidden(host, false)}>{t('set.hidden.show')}</button></li>
+          {/each}
+        </ul>
+      {:else}
+        <p class="hint small">{t('set.hidden.none')}</p>
+      {/if}
+    </div>
+
+    <div class="card">
+      <h2 class="display">{t('set.lib.title')}</h2>
+      <p class="hint small">
+        {t('set.lib.hint')} {t('set.lib.count')}<b data-testid="remote-count">{remoteCount}</b>{t('set.lib.countEnd')}
+      </p>
+      <ul>
+        {#each libs as url (url)}
+          <li data-testid="library">
+            <span class="url">{url}{url === DEFAULT_LIBRARY ? t('set.lib.default') : ''}</span>
+            <button
+              class="btn small soft"
+              onclick={async () => {
+                await libraries.setValue(libs.filter((u) => u !== url));
+                await syncNow();
+              }}>{t('common.remove')}</button
+            >
+          </li>
+        {/each}
+      </ul>
+      <form
+        class="inline"
+        onsubmit={(e) => {
+          e.preventDefault();
+          void addLibrary();
+        }}
+      >
+        <input class="text" type="url" placeholder="https://…/index.json" bind:value={newLib} aria-label={t('set.lib.urlAria')} required />
+        <button class="btn" type="submit">{t('common.add')}</button>
+        <button class="btn" type="button" onclick={syncNow} disabled={syncing} data-testid="sync-now">{syncing ? t('set.lib.syncing') : t('set.lib.sync')}</button>
+      </form>
+      {#if libError}<p class="err">{libError}</p>{/if}
+      {#if status}
+        <p class="hint small" data-testid="sync-status">
+          {t('set.lib.last', { at: new Date(status.at).toLocaleString(locale()), result: status.ok ? t('set.lib.ok') : t('set.lib.failed'), n: status.count })}
+        </p>
+        {#if status.errors.length}
+          <details class="small"><summary>{t('set.lib.problems', { n: status.errors.length })}</summary><ul class="errors">{#each status.errors as e}<li>{e}</li>{/each}</ul></details>
+        {/if}
+      {/if}
+    </div>
+  </div>
 </section>
 
 <style>
+  .intro {
+    max-width: 680px;
+  }
+  h1 {
+    margin: 0;
+    font-size: 44px;
+    line-height: 1.1;
+  }
+  .intro p {
+    margin: 4px 0 0;
+  }
   h2 {
-    font-size: 17px;
-    margin: 28px 0 4px;
+    margin: 0 0 4px;
+    font-size: 22px;
   }
-  h2:first-child {
-    margin-top: 0;
+  h2.second {
+    margin-top: 18px;
   }
-  .hint {
-    color: var(--muted);
-    margin: 0 0 12px;
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+    gap: 20px;
+    align-items: start;
+    margin-top: 24px;
   }
-  form {
+  .card {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    max-width: 520px;
+    gap: 6px;
+    min-width: 0;
   }
-  input[type='url'] {
-    padding: 8px 10px;
-    border-radius: 8px;
-    border: 1px solid var(--line);
-    background: var(--card);
-    color: var(--text);
-    font: inherit;
+  .card p {
+    margin: 4px 0 0;
   }
-  button {
-    border: 1px solid var(--line);
-    background: var(--card);
-    color: var(--text);
-    border-radius: 8px;
-    padding: 5px 12px;
+  .check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     cursor: pointer;
+    padding: 2px 0;
   }
-  button:disabled {
-    opacity: 0.5;
+  .check input {
+    accent-color: var(--accent);
+    width: 16px;
+    height: 16px;
+    margin: 0;
   }
-  form.inline {
-    flex-direction: row;
-    flex-wrap: wrap;
-    max-width: 640px;
-    margin-top: 8px;
+  .indent {
+    padding-left: 24px;
   }
-  form.inline input {
-    flex: 1;
-    min-width: 220px;
-    padding: 6px 10px;
-    border-radius: 8px;
-    border: 1px solid var(--line);
-    background: var(--card);
-    color: var(--text);
-    font: inherit;
+  .sub {
+    margin-top: 10px !important;
   }
-  .url {
-    word-break: break-all;
-    margin-right: 8px;
-  }
-  .err {
-    color: #c0392b;
-  }
-  ul.errors li {
-    display: list-item;
+  .small {
     font-size: 12px;
-    color: var(--muted);
-    border: 0;
+  }
+  .row-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
   }
   ul {
     list-style: none;
-    padding: 0;
     margin: 0;
-    max-width: 640px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
   li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--line);
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: var(--paper);
+  }
+  ul.errors li {
+    display: list-item;
+    background: none;
+    padding: 2px 0;
+    color: var(--muted);
+  }
+  .url {
+    word-break: break-all;
+  }
+  form.inline {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  form.inline input {
+    flex: 1;
+    min-width: 200px;
+  }
+  .err {
+    color: var(--danger);
   }
 </style>

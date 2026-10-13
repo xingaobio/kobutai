@@ -1,11 +1,15 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
+  import Bubble from './Bubble.svelte';
   import Character from './Character.svelte';
   import ControlBar from './ControlBar.svelte';
+  import { localName, t } from '../lib/i18n/ui.svelte';
   import type { StateName } from '../lib/pack/types';
   import type { ToBackground } from '../lib/messages';
   import { clampLayout, type Layout } from '../lib/settings';
   import { currentPack, live } from '../lib/ui/live.svelte';
+  import { presence } from '../lib/ui/presence';
+  import { contentKey } from '../lib/tagging/types';
 
   let {
     layout: initial,
@@ -35,9 +39,51 @@
   let hovering = $state(false);
   let barH = $state(150);
   let poke = $state(0);
+  let act = $state(0);
   let hideTimer: ReturnType<typeof setTimeout> | undefined;
 
   const box = $derived({ w: pack.size.w * layout.scale, h: pack.size.h * layout.scale });
+  // The emoji bubble sits at the character's top-right corner, overlapping it a little
+  // (most sheets leave empty space above the head); it flips to the left at the
+  // screen's right edge and stays inside the screen at the top edge.
+  // A kaomoji bubble is wider than an emoji one, so the real width decides the side,
+  // and on the left the bubble is anchored by its right edge.
+  let bubbleW = $state(0);
+  const bubble = $derived.by(() => {
+    const size = Math.round(Math.min(72, Math.max(40, box.w * 0.42)));
+    const w = Math.max(bubbleW, size);
+    const right = layout.x + box.w - size * 0.3 + w <= view.w;
+    return {
+      size,
+      side: (right ? 'right' : 'left') as 'right' | 'left',
+      left: right ? box.w - size * 0.3 : undefined,
+      right: right ? undefined : box.w - size * 0.3,
+      top: Math.max(-layout.y, -size * 0.35),
+    };
+  });
+  // Like Chrome's media button: on screen while something plays with sound (in any
+  // tab), and for a few minutes after it stops; otherwise out of the way.
+  let tick = $state(0);
+  const shown = $derived.by(() => {
+    void tick; // re-check when the grace period runs out
+    return presence(live.registry, Date.now(), live.showWhen);
+  });
+  // Wait for the first draw instead of flashing the first pack in the list and then
+  // switching (with several characters per pool that flash is a different character).
+  const present = $derived(shown.show && (!!live.draw || live.showWhen === 'always'));
+  /** The character on screen is the draw for what is playing now (not the previous content's). */
+  const drawnForNow = $derived.by(() => {
+    const snap = live.registry.primary?.snapshot;
+    const draw = live.draw;
+    if (!draw || !snap?.title) return false;
+    return draw.locked || draw.contentKey === contentKey({ site: snap.site, title: snap.title, artist: snap.artist });
+  });
+  $effect(() => {
+    const until = shown.until;
+    if (until === null) return;
+    const timer = setTimeout(() => tick++, Math.max(0, until - Date.now()) + 50);
+    return () => clearTimeout(timer);
+  });
   const mood = $derived<StateName>(
     live.registry.primary ? (live.registry.primary.snapshot.playing ? 'playing' : 'paused') : 'idle',
   );
@@ -119,7 +165,7 @@
   }
 </script>
 
-{#if !live.hidden && !live.fullscreen && !live.pip}
+{#if present && !live.hidden && !live.fullscreen && !live.pip}
   <div
     class="root"
     data-testid="happydesk-overlay"
@@ -136,17 +182,27 @@
       data-testid="happydesk-mascot"
       data-mood={mood}
       data-pack={pack.id}
+      data-drawn={drawnForNow}
       role="button"
       tabindex="-1"
-      aria-label={pack.name}
+      aria-label={localName(pack)}
       onpointerdown={dragStart}
     >
       <div class="scaler" style:transform="scale({layout.scale})">
-        <Character {pack} {mood} {poke} />
+        <Character {pack} {mood} {poke} {act} />
       </div>
     </div>
+    <div
+      class="bubble-slot"
+      style:left={bubble.left === undefined ? undefined : `${bubble.left}px`}
+      style:right={bubble.right === undefined ? undefined : `${bubble.right}px`}
+      style:top="{bubble.top}px"
+      bind:clientWidth={bubbleW}
+    >
+      <Bubble size={bubble.size} side={bubble.side} onact={() => act++} />
+    </div>
     {#if hovering}
-      <div class="resize" role="presentation" title="拖动缩放" onpointerdown={resizeStart}></div>
+      <div class="resize" role="presentation" title={t('overlay.resize')} onpointerdown={resizeStart}></div>
     {/if}
   </div>
 
@@ -163,7 +219,7 @@
       <ControlBar
         registry={live.registry}
         draw={live.draw}
-        packName={pack.name}
+        packName={localName(pack)}
         {send}
         onHideSite={hideSite}
         onPip={openPip}
@@ -194,6 +250,11 @@
   .scaler {
     transform-origin: 0 0;
     width: max-content;
+  }
+  .bubble-slot {
+    position: absolute;
+    width: max-content;
+    pointer-events: none;
   }
   .resize {
     position: absolute;

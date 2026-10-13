@@ -2,6 +2,7 @@
   import type { AuthEvent, AuthInteraction, AuthPrompt, AuthType, Models } from '@earendil-works/pi-ai';
   import { onDestroy, onMount } from 'svelte';
   import { deliverLoopback, isLoopbackPending } from '@/lib/llm/shims/node-http';
+  import { t } from '@/lib/i18n/ui.svelte';
 
   let {
     models,
@@ -33,11 +34,9 @@
   let copied = $state(false);
   const ac = new AbortController();
 
-  const OPTION_LABELS: Record<string, string> = {
-    browser: '浏览器登录（推荐）',
-    device_code: '设备码登录',
-    copy_code: '复制授权码登录',
-  };
+  const OPTION_KEYS = { browser: 'login.opt.browser', device_code: 'login.opt.device', copy_code: 'login.opt.copy' } as const;
+  const optionLabel = (o: { id: string; label: string }) =>
+    o.id in OPTION_KEYS ? t(OPTION_KEYS[o.id as keyof typeof OPTION_KEYS]) : o.label;
 
   const open = (url: string) => void browser.tabs.create({ url });
 
@@ -126,21 +125,21 @@
 
 <div class="backdrop">
   <div class="dialog" role="dialog" aria-modal="true" aria-label={title} data-testid="login-dialog">
-    <h3>连接 {title}</h3>
+    <h3>{t('login.title', { name: title })}</h3>
 
     {#if device}
-      <p>在打开的页面里输入这个代码：</p>
+      <p>{t('login.enterCode')}</p>
       <p class="code">
         <code data-testid="device-code">{device.code}</code>
-        <button type="button" onclick={() => copy(device!.code)}>{copied ? '已复制' : '复制'}</button>
+        <button type="button" onclick={() => copy(device!.code)}>{copied ? t('login.copied') : t('login.copy')}</button>
       </p>
-      <p class="hint">页面没打开？<a href={device.uri} target="_blank" rel="noreferrer">{device.uri}</a></p>
+      <p class="hint">{t('login.notOpened')}<a href={device.uri} target="_blank" rel="noreferrer">{device.uri}</a></p>
     {/if}
 
     {#if authUrl}
       <p class="hint">
-        已在新标签页打开登录页面，登录完成后这里会自动继续。
-        <a href={authUrl} target="_blank" rel="noreferrer">没打开？点这里</a>
+        {t('login.opened')}
+        <a href={authUrl} target="_blank" rel="noreferrer">{t('login.openManually')}</a>
       </p>
     {/if}
 
@@ -159,7 +158,7 @@
         <p>{p.message}</p>
         <div class="options">
           {#each p.options as o (o.id)}
-            <button type="button" onclick={() => submit(o.id)}>{OPTION_LABELS[o.id] ?? o.label}</button>
+            <button type="button" onclick={() => submit(o.id)}>{optionLabel(o)}</button>
           {/each}
         </div>
       {:else}
@@ -170,7 +169,7 @@
           }}
         >
           <label>
-            {p.type === 'manual_code' ? '如果没有自动继续，把登录后浏览器地址栏里的网址（或页面显示的授权码）粘贴到这里：' : p.message}
+            {p.type === 'manual_code' ? t('login.manual') : p.message}
             <!-- svelte-ignore a11y_autofocus -->
             <input
               type={p.type === 'secret' ? 'password' : 'text'}
@@ -181,17 +180,17 @@
               data-testid="login-input"
             />
           </label>
-          <button class="primary" type="submit">确定</button>
+          <button class="primary" type="submit">{t('common.ok')}</button>
         </form>
       {/if}
     {:else if !error}
-      <p class="hint">请稍候…</p>
+      <p class="hint">{t('login.wait')}</p>
     {/if}
 
-    {#if error}<p class="err" data-testid="login-error">连接失败：{error}</p>{/if}
+    {#if error}<p class="err" data-testid="login-error">{t('login.failed', { error })}</p>{/if}
 
     <div class="actions">
-      <button type="button" onclick={cancel}>{error ? '关闭' : '取消'}</button>
+      <button type="button" onclick={cancel}>{error ? t('common.close') : t('common.cancel')}</button>
     </div>
   </div>
 </div>

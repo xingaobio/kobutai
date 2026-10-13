@@ -7,8 +7,15 @@ import type { SpriteAsset, StateAsset, VideoAsset } from '../pack/types';
 export interface Renderer {
   readonly el: HTMLElement;
   /** Start `asset`. `onEnd` fires once when a non-looping asset finishes. */
-  show(asset: StateAsset, onEnd?: () => void): void;
+  show(asset: StateAsset, onEnd?: () => void, opts?: ShowOptions): void;
   destroy(): void;
+}
+
+export interface ShowOptions {
+  /** Hold one frame instead of animating (the character while playback is paused). */
+  still?: boolean;
+  /** Which frame a still sprite holds (default: the first). */
+  frame?: number;
 }
 
 export interface CellSize {
@@ -64,14 +71,14 @@ export class SpriteRenderer implements Renderer {
     });
   }
 
-  show(asset: StateAsset, onEnd?: () => void): void {
+  show(asset: StateAsset, onEnd?: () => void, opts: ShowOptions = {}): void {
     if (asset.kind !== 'sprite') throw new Error('SpriteRenderer only renders sprite assets');
     this.stop();
     const token = ++this.token;
-    this.frame = 0;
+    this.frame = opts.still && opts.frame ? Math.min(Math.max(0, Math.floor(opts.frame)), asset.frames - 1) : 0;
     if (isExtensionUrl(asset.src)) {
       this.useCss(asset);
-      this.start(asset, onEnd);
+      this.start(asset, onEnd, opts.still);
       return;
     }
     this.useCanvas();
@@ -80,7 +87,7 @@ export class SpriteRenderer implements Renderer {
       (bmp) => {
         if (token !== this.token) return;
         this.bitmap = bmp;
-        this.start(asset, onEnd);
+        this.start(asset, onEnd, opts.still);
       },
       (e) => console.warn('[happydesk] sprite failed to load', asset.src.slice(0, 80), e),
     );
@@ -104,8 +111,10 @@ export class SpriteRenderer implements Renderer {
     }
   }
 
-  private start(asset: SpriteAsset, onEnd?: () => void) {
+  private start(asset: SpriteAsset, onEnd?: () => void, still = false) {
     this.draw(asset);
+    // Held on its first frame: nothing to step through, and it never "ends".
+    if (still) return;
     if (asset.frames <= 1) {
       onEnd?.();
       return;
@@ -177,13 +186,17 @@ export class VideoRenderer implements Renderer {
     this.el.dataset.happydesk = 'true';
   }
 
-  show(asset: StateAsset, onEnd?: () => void): void {
+  show(asset: StateAsset, onEnd?: () => void, opts: ShowOptions = {}): void {
     if (asset.kind !== 'video') throw new Error('VideoRenderer only renders video assets');
     const video: VideoAsset = asset;
+    const still = !!opts.still;
     if (this.endHandler) this.el.removeEventListener('ended', this.endHandler);
     this.endHandler = undefined;
     this.el.loop = video.loop ?? true;
-    if (!this.el.loop && onEnd) {
+    // A held video is loaded so its first frame shows, but never played.
+    this.el.autoplay = !still;
+    this.el.preload = 'auto';
+    if (!still && !this.el.loop && onEnd) {
       this.endHandler = () => onEnd();
       this.el.addEventListener('ended', this.endHandler, { once: true });
     }
@@ -192,7 +205,8 @@ export class VideoRenderer implements Renderer {
       if (token !== this.token) return;
       if (this.el.src !== url) this.el.src = url;
       else this.el.currentTime = 0;
-      void this.el.play().catch(() => {});
+      if (still) this.el.pause();
+      else void this.el.play().catch(() => {});
     };
     if (isExtensionUrl(video.src) || /^https?:/.test(video.src)) start(video.src);
     else resolveSrc(video.src).then(start, (e) => console.warn('[happydesk] video failed to load', e));
@@ -216,14 +230,14 @@ export class Stage {
     private size: CellSize,
   ) {}
 
-  show(asset: StateAsset, onEnd?: () => void): void {
+  show(asset: StateAsset, onEnd?: () => void, opts?: ShowOptions): void {
     const wanted = asset.kind === 'sprite' ? SpriteRenderer : VideoRenderer;
     if (!(this.renderer instanceof wanted)) {
       this.renderer?.destroy();
       this.renderer = new wanted(this.size);
       this.container.replaceChildren(this.renderer.el);
     }
-    this.renderer.show(asset, onEnd);
+    this.renderer.show(asset, onEnd, opts);
   }
 
   destroy(): void {

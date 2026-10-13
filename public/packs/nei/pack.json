@@ -1,0 +1,59 @@
+{
+  "id": "nei",
+  "name": "霓 Nei",
+  "names": {
+    "en": "Nei",
+    "ja": "ネイ",
+    "zh": "霓"
+  },
+  "author": "HappyDesk",
+  "license": "All rights reserved",
+  "tags": {
+    "type": [
+      "music"
+    ],
+    "genre": [
+      "electronic",
+      "western-pop"
+    ]
+  },
+  "size": {
+    "w": 104,
+    "h": 208
+  },
+  "states": {
+    "idle": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 16,
+      "cols": 8,
+      "row": 0,
+      "fps": 7.84
+    },
+    "playing": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 24,
+      "cols": 8,
+      "row": 2,
+      "fps": 11.76
+    },
+    "paused": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 1,
+      "cols": 8,
+      "row": 5,
+      "fps": 1
+    },
+    "click": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 24,
+      "cols": 8,
+      "row": 6,
+      "fps": 12.0,
+      "loop": false
+    }
+  }
+}

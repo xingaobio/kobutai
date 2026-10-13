@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kobutai Privacy Policy</title>
+<meta name="description" content="What the Kobutai Chrome extension stores, when it goes online, and who it talks to.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Zen+Maru+Gothic:wght@700&display=swap">
+<style>
+:root {
+  --paper: #fbe9f1; --dot: #f1bfd5; --surface: #fff6fa; --card: #ffffff; --ink: #3a2748; --muted: #6e5a7c;
+  --pink: #ff8dbb; --pink-soft: #ffd3e5; --link: #b0185a; --line: #f1bfd5; --hair: #e9d5df; --chip: #f3edf7;
+  --shadow: 0 6px 16px rgba(58, 39, 72, .12);
+  --display: 'ZCOOL KuaiLe', 'Zen Maru Gothic', system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #1e1724; --dot: #3a2b44; --surface: #2a2032; --card: #2f2438; --ink: #f6eef7; --muted: #c3b5cc;
+    --pink-soft: #5a2a44; --link: #ff9cc8; --line: #4a3755; --hair: #4a3755; --chip: #3a2e44; --shadow: 0 6px 16px rgba(0,0,0,.35); color-scheme: dark; }
+}
+:lang(ja) { --display: 'Zen Maru Gothic', system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); font: 16px/1.7 system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--paper) radial-gradient(var(--dot) 1.3px, transparent 1.4px) 0 0 / 18px 18px; }
+a { color: var(--link); }
+header { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--surface) 90%, transparent); backdrop-filter: blur(8px); border-bottom: 2px solid var(--line); }
+header .in { max-width: 860px; margin: 0 auto; padding: 0 20px; height: 60px; display: flex; align-items: center; gap: 12px; }
+.logo { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); text-decoration: none; }
+.logo .mark { width: 30px; height: 30px; border-radius: 30%; background: var(--pink); color: #3a2748; display: grid; place-items: center; transform: rotate(-6deg); }
+.logo .word { font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 22px; line-height: 1; }
+.spacer { flex: 1; }
+.langs { display: inline-flex; background: var(--card); border: 1px solid var(--hair); border-radius: 999px; padding: 3px; }
+.langs button { border: 0; background: none; color: var(--muted); font: 600 13px/1 system-ui, sans-serif; padding: 7px 10px; border-radius: 999px; cursor: pointer; }
+.langs button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+main { max-width: 860px; margin: 32px auto 48px; padding: 0 20px; }
+article { background: var(--card); border-radius: 18px; box-shadow: var(--shadow); padding: 36px 40px; }
+@media (max-width: 600px) { article { padding: 24px 20px; } }
+article[hidden] { display: none; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 5vw, 40px); line-height: 1.2; margin: 0 0 6px; }
+h2 { font-family: var(--display); font-weight: 700; font-size: 23px; margin: 34px 0 10px; }
+.date { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+.lead { background: var(--pink-soft); border-radius: 12px; padding: 14px 18px; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--hair); }
+th { background: var(--chip); font-weight: 700; }
+code { background: var(--chip); border-radius: 5px; padding: 1px 5px; font-size: .92em; }
+li { margin: 6px 0; }
+footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 20px 40px; }
+footer a { color: var(--muted); }
+:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; border-radius: 6px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="in">
+    <a class="logo" href="index.html"><span class="mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V6l10-2v12"/><circle cx="7" cy="18" r="2.5"/><circle cx="17" cy="16" r="2.5"/></svg></span><span class="word">Kobutai</span></a>
+    <span class="spacer"></span>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-lang="en">EN</button><button type="button" data-lang="ja">日本語</button><button type="button" data-lang="zh">中文</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ============================ English ============================ -->
+<article lang="en" data-lang="en">
+  <h1>Privacy Policy</h1>
+  <p class="date">Last updated: 11 October 2026</p>
+  <p class="lead">Kobutai is an open-source browser extension. <strong>The developer runs no servers and does not collect, receive or sell any user data.</strong> The extension has no analytics, tracking or ads.</p>
+
+  <h2>What the extension reads and stores in your browser</h2>
+  <div class="tbl"><table>
+    <tr><th>Data</th><th>Why</th><th>Where it lives</th></tr>
+    <tr><td>The media that is playing: title, artist, cover URL, position, volume, site domain</td><td>Show the control bar, control playback across tabs, tag the content</td><td>Memory only; gone when the tab closes</td></tr>
+    <tr><td>Overlay position and size (per site), sites where the character is hidden, interface language, the name you sign shared characters with</td><td>Remember your settings</td><td><code>chrome.storage.local</code> (this device)</td></tr>
+    <tr><td>Your album (which characters you've drawn and how often), tag cache (content → type/genre)</td><td>Draws and the album</td><td><code>chrome.storage.local</code> (this device)</td></tr>
+    <tr><td>Locked character ID</td><td>Sync between browsers signed in to the same Google account</td><td><code>chrome.storage.sync</code> (synced by Chrome; the developer can't see it)</td></tr>
+    <tr><td>The current draw, the characters for the last 50 items played (title/artist/domain), which media is primary</td><td>Restore after the background restarts; bring back the same character when you return to something</td><td><code>chrome.storage.session</code> (cleared when the browser closes)</td></tr>
+    <tr><td>Characters you import or download</td><td>Show the characters</td><td>The extension's own IndexedDB (this device)</td></tr>
+    <tr><td>With “auto-match characters” on: the part of the Petdex list the match table uses (names and asset URLs), auto-downloaded characters and when they were last used</td><td>Find and keep matched characters</td><td><code>chrome.storage.local</code> and IndexedDB (this device)</td></tr>
+    <tr><td>API keys, subscription sign-in tokens (OAuth), custom model endpoints and the chosen model</td><td>Optional AI tagging</td><td><code>chrome.storage.local</code> (this device, not synced)</td></tr>
+  </table></div>
+  <p>The extension <strong>does not read</strong> page text, forms, cookies or your browsing history, and never sends full page URLs to anyone.</p>
+
+  <h2>When it goes online, and to whom</h2>
+  <p>Network requests happen only in these cases, and always straight from your browser:</p>
+  <ol>
+    <li><strong>AI tagging (off by default).</strong> Only if you connect <em>your own</em> model provider on the “AI” page (API key, subscription sign-in or custom endpoint) and turn it on. For each new item, its <strong>title, artist and site domain</strong> are sent to the provider you chose (for example OpenAI, Anthropic, DeepSeek, OpenRouter, or your own Ollama server) to work out the type and genre. That provider's privacy policy applies. Results are cached on your device, so the same item is never sent twice.
+      <ul><li><strong>When connecting:</strong> subscription sign-in opens the provider's sign-in page and exchanges tokens with its authorisation server; expired tokens are refreshed with that provider automatically.</li></ul></li>
+    <li><strong>Remote character library.</strong> Every 12 hours (30 minutes after a failure) the extension downloads characters from the libraries you subscribe to (by default the project's GitHub repository <code>library/</code> folder on <code>raw.githubusercontent.com</code>). A library's <code>pack.json</code> may point to assets on other https addresses, which are then fetched too. No personal data is sent, but those servers see your IP address, as with any website.</li>
+    <li><strong>Petdex import.</strong> Only when you search or import on the settings page: the extension fetches the pet list from <code>assets.petdex.dev</code>, then downloads the assets of the pet you picked from the https addresses in that list.</li>
+    <li><strong>Cover art.</strong> The control bar shows the cover image provided by the site that is playing (https only). Your browser loads it from that image's server, without a Referer.</li>
+    <li><strong>Auto-match characters (off by default).</strong> Only when you turn it on. The extension checks the title and artist against a built-in rule table <strong>on your device; titles and artists are never sent anywhere.</strong> On a match with a character that hasn't been downloaded yet, it fetches the pet list from <code>assets.petdex.dev</code> (at most once a day) and that one character's assets. No personal data is sent, but Petdex's servers see your IP address and which character was downloaded, from which they could roughly infer that you're playing something related to it. Characters already downloaded don't trigger any request.</li>
+  </ol>
+  <p>The built-in characters and the emoji used in bubbles ship inside the extension; showing them doesn't go online.</p>
+  <p><strong>Sharing a character you drew</strong> sends nothing by itself: the extension saves a zip to your Downloads folder and, if you click, opens a GitHub page or your email app. You decide whether to send the file. If it's accepted, its name, your credit name and the sprite sheet are published in the project's GitHub repository under CC BY 4.0.</p>
+
+  <h2>Permissions</h2>
+  <ul>
+    <li><code>storage</code>: save the settings and data listed above.</li>
+    <li><code>alarms</code>: wake the background once an hour to check whether the remote library needs updating.</li>
+    <li>Content scripts on all sites: show the floating character on any page, read that page's media state and carry out the controls you click.</li>
+    <li>Optional <code>https://*/*</code> and <code>http://*/*</code> host permissions: <strong>not granted by default.</strong> They're requested for one specific site only when needed:
+      <ul>
+        <li>adding a custom character library that doesn't allow cross-origin access: that one site;</li>
+        <li>connecting a model provider: its API and sign-in servers (for example <code>api.openai.com</code>, <code>auth.openai.com</code>); subscription sign-in also requests <code>localhost</code> / <code>127.0.0.1</code> to read the local address the provider redirects to after sign-in (the extension opens no local port);</li>
+        <li>adding a custom model endpoint: that one address (local servers are usually <code>http://localhost</code>).</li>
+      </ul></li>
+  </ul>
+
+  <h2>Deleting your data</h2>
+  <p>Removing the extension at <code>chrome://extensions</code> deletes everything it stored. You can also clear the tag cache and delete imported characters from the settings pages.</p>
+
+  <h2>Contact</h2>
+  <p>Questions and suggestions are welcome as GitHub issues: <a href="https://github.com/xingaobio/happydesk">github.com/xingaobio/happydesk</a></p>
+</article>
+
+<!-- ============================ 日本語 ============================ -->
+<article lang="ja" data-lang="ja" hidden>
+  <h1>プライバシーポリシー</h1>
+  <p class="date">最終更新日：2026 年 10 月 11 日</p>
+  <p class="lead">Kobutai はオープンソースのブラウザ拡張機能です。<strong>開発者はサーバーを運営しておらず、ユーザーのデータを収集・受信・販売することは一切ありません。</strong>アクセス解析・トラッキング・広告も入っていません。</p>
+
+  <h2>ブラウザ内で読み取り・保存するもの</h2>
+  <div class="tbl"><table>
+    <tr><th>データ</th><th>用途</th><th>保存場所</th></tr>
+    <tr><td>再生中のメディア：タイトル、アーティスト、カバー画像の URL、再生位置、音量、サイトのドメイン</td><td>コントロールバーの表示、タブをまたいだ操作、コンテンツの分類</td><td>メモリ上のみ。タブを閉じると消えます</td></tr>
+    <tr><td>オーバーレイの位置とサイズ（サイトごと）、キャラを隠すサイトの一覧、表示言語、共有時のクレジット名</td><td>設定を覚えておくため</td><td><code>chrome.storage.local</code>（この端末）</td></tr>
+    <tr><td>アルバム（引いたキャラの ID と回数）、分類キャッシュ（コンテンツ → 種類／ジャンル）</td><td>抽選とアルバム</td><td><code>chrome.storage.local</code>（この端末）</td></tr>
+    <tr><td>ロックしたキャラの ID</td><td>同じ Google アカウントでログインしたブラウザ間で同期</td><td><code>chrome.storage.sync</code>（Chrome が同期。開発者は見られません）</td></tr>
+    <tr><td>現在の抽選結果、直近 50 件の再生内容（タイトル／アーティスト／ドメイン）に対応するキャラ、メインのメディアの順番</td><td>バックグラウンド再起動後の復元、前の内容に戻ったときに同じキャラを出すため</td><td><code>chrome.storage.session</code>（ブラウザを閉じると消去）</td></tr>
+    <tr><td>インポート・ダウンロードしたキャラの素材</td><td>キャラの表示</td><td>拡張機能専用の IndexedDB（この端末）</td></tr>
+    <tr><td>「キャラ自動マッチ」がオンのとき：マッチ表で使う Petdex のキャラ一覧の一部（名前と素材の URL）、自動ダウンロードしたキャラと最終使用日時</td><td>マッチしたキャラを見つけて保持するため</td><td><code>chrome.storage.local</code> と IndexedDB（この端末）</td></tr>
+    <tr><td>追加した API キー、サブスクリプションのログイン情報（OAuth トークン）、カスタムのモデルエンドポイントと選んだモデル</td><td>任意の AI 判定</td><td><code>chrome.storage.local</code>（この端末のみ、同期しません）</td></tr>
+  </table></div>
+  <p>ページの本文、フォーム、Cookie、閲覧履歴は<strong>読み取りません</strong>。ページの完全な URL を誰かに送ることもありません。</p>
+
+  <h2>通信するタイミングと送り先</h2>
+  <p>ネットワーク通信が発生するのは次の場合だけで、すべてあなたのブラウザから直接送られます。</p>
+  <ol>
+    <li><strong>AI 判定（初期状態はオフ）</strong>：「AI」ページで<em>あなた自身の</em>モデルサービス（API キー、サブスクリプションのログイン、カスタムエンドポイント）を接続して有効にした場合のみ。新しいコンテンツごとに、その<strong>タイトル・アーティスト・サイトのドメイン</strong>を、選んだサービス（OpenAI、Anthropic、DeepSeek、OpenRouter、自前の Ollama サーバーなど）に直接送り、種類とジャンルを判定します。そのサービスのプライバシーポリシーが適用されます。結果は端末にキャッシュされ、同じ内容を二度送ることはありません。
+      <ul><li><strong>接続時</strong>：サブスクリプションのログインではサービスのログインページを開き、その認可サーバーとトークンを交換します。トークンの期限が切れると、拡張機能がそのサービスで自動的に更新します。</li></ul></li>
+    <li><strong>リモートのキャラライブラリ</strong>：12 時間ごと（失敗時は 30 分後）に、購読しているライブラリからキャラをダウンロードします（初期設定は本プロジェクトの GitHub リポジトリの <code>library/</code>、<code>raw.githubusercontent.com</code>）。ライブラリの <code>pack.json</code> がほかの https アドレスの素材を参照している場合は、そこにもアクセスします。個人データは含みませんが、ふつうのウェブサイトと同じく、相手のサーバーには IP アドレスが見えます。</li>
+    <li><strong>Petdex からのインポート</strong>：設定ページで検索やインポートをしたときだけ、<code>assets.petdex.dev</code> からキャラ一覧を取得し、選んだキャラの素材を一覧にある https アドレスからダウンロードします。</li>
+    <li><strong>カバー画像</strong>：コントロールバーには、再生中のサイトが提供するカバー画像（https のみ）を表示します。その際ブラウザは画像のサーバーから Referer なしで読み込みます。</li>
+    <li><strong>キャラ自動マッチ（初期状態はオフ）</strong>：設定でオンにしたときだけ動きます。タイトルとアーティストは内蔵のルール表を使って<strong>端末内で照合し、どこにも送りません。</strong>マッチしたキャラがまだダウンロードされていない場合は、<code>assets.petdex.dev</code> からキャラ一覧（1 日 1 回まで）とそのキャラ 1 体分の素材を取得します。個人データは含みませんが、Petdex のサーバーには IP アドレスと、どのキャラがダウンロードされたかが見えるため、それに関係する内容を再生していることがおおよそ推測できます。ダウンロード済みのキャラが再びマッチしても通信は発生しません。</li>
+  </ol>
+  <p>内蔵キャラと吹き出しの絵文字素材は拡張機能に同梱されており、表示時に通信はしません。</p>
+  <p><strong>自分で描いたキャラの共有</strong>では、拡張機能が自動で何かを送ることはありません。ダウンロードフォルダに zip を保存し、クリックしたときだけ GitHub のページかメールアプリを開きます。送るかどうかはあなたが決めます。採用された場合、キャラの名前・クレジット名・スプライトシートがプロジェクトの GitHub リポジトリで CC BY 4.0 として公開されます。</p>
+
+  <h2>権限について</h2>
+  <ul>
+    <li><code>storage</code>：上の表の設定やデータを保存するため。</li>
+    <li><code>alarms</code>：1 時間に 1 回バックグラウンドを起動し、リモートライブラリの更新が必要か確認するため。</li>
+    <li>すべてのサイトでのコンテンツスクリプト：どのページにもキャラを表示し、そのページのメディアの状態を読み取り、あなたが押した操作を実行するため。</li>
+    <li>任意の <code>https://*/*</code>・<code>http://*/*</code> ホスト権限：<strong>初期状態では付与されません。</strong>必要になったときに、特定のサイトについてだけ許可を求めます。
+      <ul>
+        <li>クロスオリジンアクセスに対応していないカスタムライブラリを追加するとき：そのサイトだけ。</li>
+        <li>モデルサービスを接続するとき：その API とログイン用のサーバー（例：<code>api.openai.com</code>、<code>auth.openai.com</code>）。サブスクリプションのログインでは、ログイン後のリダイレクト先を読み取って自動でログインを完了するため、<code>localhost</code> / <code>127.0.0.1</code> も求めます（拡張機能がローカルでポートを開くことはありません）。</li>
+        <li>カスタムのモデルエンドポイントを追加するとき：そのアドレスだけ（ローカルサーバーは通常 <code>http://localhost</code>）。</li>
+      </ul></li>
+  </ul>
+
+  <h2>データの削除</h2>
+  <p><code>chrome://extensions</code> で拡張機能を削除すると、保存したデータはすべて消えます。設定ページから分類キャッシュの消去や、インポートしたキャラの削除もできます。</p>
+
+  <h2>お問い合わせ</h2>
+  <p>ご質問やご要望は GitHub の issue にお寄せください：<a href="https://github.com/xingaobio/happydesk">github.com/xingaobio/happydesk</a></p>
+</article>
+
+<!-- ============================ 中文 ============================ -->
+<article lang="zh-Hans" data-lang="zh" hidden>
+  <h1>隐私政策</h1>
+  <p class="date">最后更新：2026-10-11</p>
+  <p class="lead">Kobutai 小舞台是一个开源浏览器扩展。<strong>开发者不运营任何服务器，不收集、不接收、不出售任何用户数据。</strong>扩展没有统计、埋点或广告。</p>
+
+  <h2>扩展在你的浏览器里读取和保存什么</h2>
+  <div class="tbl"><table>
+    <tr><th>数据</th><th>用途</th><th>存在哪里</th></tr>
+    <tr><td>正在播放的媒体：标题、作者、封面地址、播放进度、音量、网站域名</td><td>显示控制条、跨标签页控制、给内容打标签</td><td>只在内存里，标签页关闭即消失</td></tr>
+    <tr><td>浮层位置和大小（按网站）、隐藏角色的网站列表、界面语言、分享角色时的署名</td><td>记住你的设置</td><td><code>chrome.storage.local</code>（本机）</td></tr>
+    <tr><td>图鉴（抽到过的角色 ID 和次数）、识别缓存（内容 → 类型/曲风）</td><td>抽卡、图鉴</td><td><code>chrome.storage.local</code>（本机）</td></tr>
+    <tr><td>锁定的角色 ID</td><td>在你登录同一 Google 账号的浏览器之间同步</td><td><code>chrome.storage.sync</code>（由 Chrome 同步，开发者看不到）</td></tr>
+    <tr><td>当前抽卡结果、最近 50 个播放内容（标题/作者/域名）对应的角色、主媒体顺序</td><td>后台重启后恢复；切回之前的内容时恢复当时的角色</td><td><code>chrome.storage.session</code>（浏览器关闭即清空）</td></tr>
+    <tr><td>你导入或下载的角色素材</td><td>显示角色</td><td>扩展自己的 IndexedDB（本机）</td></tr>
+    <tr><td>「自动匹配角色」开启后：匹配表用到的那部分 Petdex 角色列表（名称和素材地址）、自动下载的角色及其最近使用时间</td><td>找到并保留匹配到的角色</td><td><code>chrome.storage.local</code> 和 IndexedDB（本机）</td></tr>
+    <tr><td>你添加的 API key、订阅登录凭证（OAuth 令牌）、自定义模型端点和所选模型</td><td>可选的 AI 识别</td><td><code>chrome.storage.local</code>（本机，不同步）</td></tr>
+  </table></div>
+  <p>扩展<strong>不读取</strong>网页正文、表单、Cookie、浏览历史，也不会把完整网址发给任何人。</p>
+
+  <h2>什么时候会联网，发给谁</h2>
+  <p>只有下面几种情况会发出网络请求，而且都直接从你的浏览器发出：</p>
+  <ol>
+    <li><strong>AI 识别（默认关闭）</strong>：只有你在「AI 识别」页连接了<em>你自己的</em>模型服务商（API key、订阅登录或自定义端点）并启用时，每遇到一个新内容，会把这一条内容的<strong>标题、作者、网站域名</strong>直接发给你选的那个服务商（例如 OpenAI、Anthropic、DeepSeek、OpenRouter，或你自己的 Ollama 服务器），用来判断类型和曲风。适用该服务商的隐私政策。结果缓存在本机，同一内容不会重复发送。
+      <ul><li><strong>连接时</strong>：订阅登录会打开服务商的登录页面，并和服务商的授权服务器交换令牌；令牌过期时扩展会自动向该服务商刷新。</li></ul></li>
+    <li><strong>远程角色库</strong>：扩展每 12 小时（失败后 30 分钟）从你订阅的角色库下载角色（默认是本项目 GitHub 仓库的 <code>library/</code>，地址为 <code>raw.githubusercontent.com</code>）。角色库里的 <code>pack.json</code> 可以引用其他 https 地址上的素材，这时也会访问那些地址。请求不包含任何个人数据，但对方服务器会像访问任何网站一样看到你的 IP 地址。</li>
+    <li><strong>Petdex 导入</strong>：只有你在设置页主动搜索或导入时，才会访问 <code>assets.petdex.dev</code> 下载宠物列表，再从列表里给出的 https 地址下载你选中的那个宠物的素材。</li>
+    <li><strong>封面图</strong>：控制条会显示正在播放内容的封面图（由播放网站提供，仅限 https）。显示时浏览器会从该图片所在服务器加载图片，且不带 Referer。</li>
+    <li><strong>自动匹配角色（默认关闭）</strong>：只有你在设置页打开时才生效。扩展在本机用内置的规则表检查标题和作者里有没有已知的角色、作品或热梗，<strong>标题和作者不会发给任何人</strong>。命中、且对应的角色还没有下载过时，会从 <code>assets.petdex.dev</code> 下载宠物列表（每天最多一次）和那一个角色的素材。请求不包含任何个人数据，但 Petdex 的服务器会看到你的 IP 地址，以及下载的是哪个角色，从中可以大致推断你在播放和它有关的内容。已经下载过的角色再次命中时不会联网。</li>
+  </ol>
+  <p>内置角色和表情气泡的表情素材都打包在扩展里，显示它们不联网。</p>
+  <p><strong>分享自己画的角色</strong>时扩展本身不发送任何东西：它把 zip 保存到你的下载文件夹，你点了才会打开 GitHub 页面或邮件应用，发不发由你决定。被选中后，角色名、你的署名和精灵图会以 CC BY 4.0 公开在本项目的 GitHub 仓库里。</p>
+
+  <h2>权限说明</h2>
+  <ul>
+    <li><code>storage</code>：保存上面表格里的设置和数据。</li>
+    <li><code>alarms</code>：每小时唤醒一次后台，检查远程角色库是否需要更新。</li>
+    <li>在所有网站运行内容脚本：用来在任意网页上显示悬浮角色、读取该页面正在播放的媒体状态并执行你点的播放控制。</li>
+    <li>可选的 <code>https://*/*</code>、<code>http://*/*</code> 主机权限：<strong>默认不授予</strong>，用到时只针对具体网站向你申请：
+      <ul>
+        <li>添加一个不支持跨域访问的自定义角色库时，申请那一个网站；</li>
+        <li>连接一个模型服务商时，申请它的 API 和登录服务器（例如 <code>api.openai.com</code>、<code>auth.openai.com</code>）；订阅登录还会申请 <code>localhost</code> / <code>127.0.0.1</code>，用来读取登录完成后跳转到的本机地址、自动完成登录（扩展不会在本机开端口）；</li>
+        <li>添加自定义模型端点时，申请那一个地址（本地服务通常是 <code>http://localhost</code>）。</li>
+      </ul></li>
+  </ul>
+
+  <h2>删除数据</h2>
+  <p>在 <code>chrome://extensions</code> 移除扩展即可删除它保存的全部数据。设置页里也可以清空识别缓存、删除导入的角色。</p>
+
+  <h2>联系</h2>
+  <p>问题和建议请在 GitHub 仓库提 issue：<a href="https://github.com/xingaobio/happydesk">github.com/xingaobio/happydesk</a></p>
+</article>
+</main>
+<footer><a href="index.html">← Kobutai</a></footer>
+
+<script>
+const LANGS = ['en', 'ja', 'zh'];
+const TITLES = { en: 'Kobutai Privacy Policy', ja: 'Kobutai プライバシーポリシー', zh: 'Kobutai 小舞台隐私政策' };
+function pick() {
+  try { const q = new URLSearchParams(location.search).get('lang'); if (LANGS.includes(q)) return q; } catch {}
+  try { const s = localStorage.getItem('kobutai-lang'); if (LANGS.includes(s)) return s; } catch {}
+  for (const l of navigator.languages || [navigator.language || 'en']) {
+    const x = (l || '').toLowerCase();
+    if (x.startsWith('ja')) return 'ja'; if (x.startsWith('zh')) return 'zh'; if (x.startsWith('en')) return 'en';
+  }
+  return 'en';
+}
+function apply(l) {
+  document.documentElement.lang = l === 'zh' ? 'zh-Hans' : l;
+  document.title = TITLES[l];
+  document.querySelectorAll('article').forEach((a) => { a.hidden = a.dataset.lang !== l; });
+  document.querySelectorAll('.langs button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
+}
+document.querySelectorAll('.langs button').forEach((b) => b.addEventListener('click', () => {
+  try { localStorage.setItem('kobutai-lang', b.dataset.lang); } catch {}
+  apply(b.dataset.lang);
+}));
+apply(pick());
+</script>
+</body>
+</html>

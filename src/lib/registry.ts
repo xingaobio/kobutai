@@ -1,4 +1,5 @@
 import type { MediaSnapshot } from './media/types';
+import { audible } from './ui/presence';
 
 export interface MediaEntry {
   /** `${tabId}:${frameId}` */
@@ -10,6 +11,8 @@ export interface MediaEntry {
   startedAt: number;
   /** When the snapshot was received; used to interpolate progress. */
   at: number;
+  /** When this entry was last heard (playing, not muted); 0 = not since the worker started. */
+  heardAt: number;
 }
 
 export interface RegistryState {
@@ -68,7 +71,8 @@ export class MediaRegistry {
       // A new playback start elsewhere overrides an older manual pick.
       if (this.manual !== key) this.manual = null;
     }
-    this.entries.set(key, { key, tabId, frameId, snapshot, startedAt, at: now });
+    const heardAt = audible(snapshot) ? now : (prev?.heardAt ?? 0);
+    this.entries.set(key, { key, tabId, frameId, snapshot, startedAt, at: now, heardAt });
   }
 
   removeTab(tabId: number): void {

@@ -8,14 +8,21 @@ export interface Draw {
   packId: string;
   tags: Pick<Tags, 'type' | 'genre' | 'source'>;
   rerolled: boolean;
+  /** The character was chosen because the content names it, not drawn from a pool. */
+  matched?: boolean;
+  /** Kept for matched draws, so "换一次" can ask for another character of the same match. */
+  info?: MediaInfo;
 }
 
 /** What overlays need to render the current draw. */
 export interface DrawView {
+  /** Which content this draw belongs to (contentKey), so overlays can tell a fresh draw from the last one. */
+  contentKey?: string;
   packId: string;
   tags: Draw['tags'];
   locked: boolean;
   canReroll: boolean;
+  matched?: boolean;
 }
 
 export interface GachaState {
@@ -26,6 +33,13 @@ export interface GachaState {
 export interface GachaDeps {
   packs(): Promise<Pick<PackManifest, 'id' | 'tags'>[]>;
   tag(info: MediaInfo): Promise<Tags>;
+  /**
+   * Optional direct match: the id of a pack that depicts what this content names
+   * (see lib/match). It wins over the pool draw when that pack is installed.
+   */
+  match?(info: MediaInfo): Promise<string | null>;
+  /** Another matched character for this content (reroll of a matched draw), or null. */
+  rematch?(info: MediaInfo, current: string): Promise<string | null>;
   rng(): number;
   locked(): Promise<string | null>;
   /** Called for every pack that is drawn (collection / 图鉴). */
@@ -78,15 +92,23 @@ export class GachaEngine {
     const locked = await this.lockedId();
     const packs = await this.deps.packs();
     if (locked) {
-      return { packId: locked, tags: this.current?.tags ?? { type: 'other', genre: null, source: 'rules' }, locked: true, canReroll: false };
+      return {
+        contentKey: this.current?.contentKey,
+        packId: locked,
+        tags: this.current?.tags ?? { type: 'other', genre: null, source: 'rules' },
+        locked: true,
+        canReroll: false,
+      };
     }
     if (!this.current) return null;
     const pool = poolFor(packs, this.current.tags);
     return {
+      contentKey: this.current.contentKey,
       packId: this.current.packId,
       tags: this.current.tags,
       locked: false,
       canReroll: !this.current.rerolled && pool.some((p) => p.id !== this.current!.packId),
+      ...(this.current.matched ? { matched: true } : {}),
     };
   }
 
@@ -122,20 +144,99 @@ export class GachaEngine {
     await this.ready;
     const cur = this.current;
     if (!cur || cur.rerolled || (await this.lockedId())) return false;
+    // A matched character rerolls to another character of the same match (another Miku…).
+    if (cur.matched && cur.info && this.deps.rematch) {
+      const other = await this.deps.rematch(cur.info, cur.packId).catch(() => null);
+      // Read the pack list after the rematch: it may have just downloaded that character.
+      if (other && other !== cur.packId && (await this.deps.packs()).some((p) => p.id === other)) {
+        this.record(other);
+        return this.setCurrent({ ...cur, packId: other, rerolled: true });
+      }
+    }
+    // Otherwise (or when the match has only one character): the content's ordinary pool.
     const pool = poolFor(await this.deps.packs(), cur.tags).filter((p) => p.id !== cur.packId);
     const next = pick(pool, this.deps.rng);
     if (!next) return false;
     this.record(next.id);
-    return this.setCurrent({ ...cur, packId: next.id, rerolled: true });
+    return this.setCurrent({ contentKey: cur.contentKey, packId: next.id, tags: cur.tags, rerolled: true });
+  }
+
+  /**
+   * A match that arrived after its content was already drawn from the pool (the
+   * character was still downloading): switch that content to the character.
+   * Returns true when what is on screen changed.
+   */
+  async adopt(info: MediaInfo, packId: string): Promise<boolean> {
+    await this.ready;
+    const key = contentKey(info);
+    const isCurrent = this.current?.contentKey === key;
+    const draw = isCurrent ? this.current! : this.recent.get(key);
+    // A reroll is the user's choice; never undo it.
+    if (!draw || draw.rerolled || draw.packId === packId) return false;
+    if (!(await this.deps.packs()).some((p) => p.id === packId)) return false;
+    const next: Draw = { ...draw, packId, matched: true, info };
+    this.record(packId);
+    if (isCurrent) return this.setCurrent(next) && !(await this.lockedId());
+    this.recent.set(key, next);
+    this.save();
+    return false;
+  }
+
+  /**
+   * The pack list changed. A character that is gone (deleted from the 图鉴, its
+   * library removed…) must not stay on screen or come back from the recent draws:
+   * the current content gets another character of its pool. Returns true when what
+   * is on screen changed.
+   */
+  async prune(): Promise<boolean> {
+    await this.ready;
+    const packs = await this.deps.packs();
+    const have = new Set(packs.map((p) => p.id));
+    let dropped = false;
+    for (const [key, d] of this.recent) {
+      if (have.has(d.packId) || key === this.current?.contentKey) continue;
+      this.recent.delete(key);
+      dropped = true;
+    }
+    const cur = this.current;
+    if (!cur || have.has(cur.packId)) {
+      if (dropped) this.save();
+      return false;
+    }
+    // Not a reroll: the user's one "换一次" for this content is still theirs.
+    const next = pick(poolFor(packs, cur.tags), this.deps.rng);
+    if (!next) {
+      this.recent.delete(cur.contentKey);
+      this.current = null;
+      this.save();
+      return true;
+    }
+    this.record(next.id);
+    return this.setCurrent({ contentKey: cur.contentKey, packId: next.id, tags: cur.tags, rerolled: cur.rerolled });
+  }
+
+  private save(): void {
+    void this.deps.save({ current: this.current, recent: [...this.recent.values()] }).catch(() => {});
   }
 
   private async draw(key: string, info: MediaInfo): Promise<Draw | null> {
-    const tags = await this.deps.tag(info);
-    const pool = poolFor(await this.deps.packs(), tags);
-    const chosen = pick(pool, this.deps.rng);
+    // Tagging and matching don't depend on each other; a failed match is just "no match".
+    const [tags, matchedId] = await Promise.all([
+      this.deps.tag(info),
+      this.deps.match ? this.deps.match(info).catch(() => null) : null,
+    ]);
+    const packs = await this.deps.packs();
+    const matched = matchedId ? packs.find((p) => p.id === matchedId) : undefined;
+    const chosen = matched ?? pick(poolFor(packs, tags), this.deps.rng);
     if (!chosen) return null;
     this.record(chosen.id);
-    return { contentKey: key, packId: chosen.id, tags: { type: tags.type, genre: tags.genre, source: tags.source }, rerolled: false };
+    return {
+      contentKey: key,
+      packId: chosen.id,
+      tags: { type: tags.type, genre: tags.genre, source: tags.source },
+      rerolled: false,
+      ...(matched ? { matched: true, info } : {}),
+    };
   }
 
   private setCurrent(d: Draw): boolean {
@@ -143,7 +244,7 @@ export class GachaEngine {
     this.recent.delete(d.contentKey);
     this.recent.set(d.contentKey, d);
     while (this.recent.size > RECENT_LIMIT) this.recent.delete(this.recent.keys().next().value!);
-    void this.deps.save({ current: d, recent: [...this.recent.values()] }).catch(() => {});
+    this.save();
     return true;
   }
 }

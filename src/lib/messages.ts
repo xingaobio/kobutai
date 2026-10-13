@@ -3,6 +3,8 @@ import type { DrawView } from './gacha/engine';
 import type { RegistryState } from './registry';
 
 export const PORT_NAME = 'happydesk';
+/** Extension pages (the toolbar popup) that show the state and send commands but report no media. */
+export const VIEW_PORT_NAME = 'kobutai-view';
 
 /** Content script (any frame) → background. */
 export type ToBackground =

@@ -1,3 +1,4 @@
+import { t } from './i18n/core';
 import type { LoadedPack, SpriteAsset, StateName } from './pack/types';
 
 /**
@@ -72,7 +73,7 @@ export function gridFor(width: number, height: number): { cellW: number; cellH: 
   const cellH = (cellW * PETDEX_CELL.h) / PETDEX_CELL.w;
   const rows = Math.round(height / cellH);
   if (!Number.isFinite(rows) || rows < PETDEX_ROWS.length || Math.abs(rows * cellH - height) > cellH * 0.05)
-    throw new Error(`不是 Petdex 精灵图：${width}×${height}（需要 8 列 × 9 行，每格 192×208 比例）`);
+    throw new Error(t('err.notPetdex', { w: width, h: height }));
   return { cellW, cellH, rows };
 }
 

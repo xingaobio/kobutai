@@ -18,6 +18,7 @@ export interface PortLike {
 export class Hub {
   readonly registry = new MediaRegistry();
   private ports = new Map<string, PortLike>();
+  private viewers = new Set<PortLike>();
   private draw: DrawView | null = null;
   /** Called after any registry change (e.g. to feed the gacha engine). */
   onUpdate: () => void = () => {};
@@ -55,6 +56,16 @@ export class Hub {
     if (frameId === 0) this.post(port, { t: 'state', state: this.registry.state(), draw: this.draw });
   }
 
+  /** A page that only watches and controls (the popup): it gets state, and may send anything but snapshots. */
+  connectViewer(port: PortLike): void {
+    this.viewers.add(port);
+    port.onMessage.addListener((msg) => {
+      if (msg.t !== 'snapshot') this.handle(-1, -1, msg);
+    });
+    port.onDisconnect.addListener(() => this.viewers.delete(port));
+    this.post(port, { t: 'state', state: this.registry.state(), draw: this.draw });
+  }
+
   private handle(tabId: number, frameId: number, msg: ToBackground): void {
     switch (msg.t) {
       case 'snapshot':
@@ -86,6 +97,7 @@ export class Hub {
   private broadcast(): void {
     const state = this.registry.state();
     for (const [key, port] of this.ports) if (key.endsWith(':0')) this.post(port, { t: 'state', state, draw: this.draw });
+    for (const port of this.viewers) this.post(port, { t: 'state', state, draw: this.draw });
   }
 
   private post(port: PortLike, msg: ToContent): void {

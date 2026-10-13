@@ -1,0 +1,57 @@
+{
+  "id": "popo",
+  "name": "爆爆 Popo",
+  "names": {
+    "en": "Popo",
+    "ja": "ポポ",
+    "zh": "爆爆"
+  },
+  "author": "HappyDesk",
+  "license": "All rights reserved",
+  "tags": {
+    "type": [
+      "video",
+      "live"
+    ],
+    "genre": []
+  },
+  "size": {
+    "w": 96,
+    "h": 208
+  },
+  "states": {
+    "idle": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 14,
+      "cols": 8,
+      "row": 0,
+      "fps": 8.0
+    },
+    "playing": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 12,
+      "cols": 8,
+      "row": 2,
+      "fps": 12.0
+    },
+    "paused": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 1,
+      "cols": 8,
+      "row": 4,
+      "fps": 1
+    },
+    "click": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 24,
+      "cols": 8,
+      "row": 5,
+      "fps": 12.0,
+      "loop": false
+    }
+  }
+}

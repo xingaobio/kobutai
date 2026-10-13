@@ -56,3 +56,18 @@ describe('assetFor', () => {
     expect(assetFor(r.pack, 'error')).toBe(r.pack.states.idle);
   });
 });
+
+describe('per-language names', () => {
+  const base = {
+    id: 'x',
+    name: 'X',
+    tags: { type: [], genre: [] },
+    size: { w: 10, h: 10 },
+    states: { idle: { kind: 'sprite', src: 'a.png', frames: 1, cols: 1, fps: 1 } },
+  };
+  test('accepts en/ja/zh strings and rejects anything else', () => {
+    expect(validatePack({ ...base, names: { en: 'X', ja: 'エックス' } }).ok).toBe(true);
+    expect(validatePack({ ...base, names: { fr: 'X' } }).ok).toBe(false);
+    expect(validatePack({ ...base, names: { en: 3 } }).ok).toBe(false);
+  });
+});

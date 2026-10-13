@@ -25,8 +25,8 @@ export default defineConfig({
     optional_host_permissions: ['https://*/*', 'http://*/*'],
     ...(E2E ? { host_permissions: ['https://*/*', 'http://*/*'] } : {}),
     // use_dynamic_url: pages can't probe chrome-extension://<id>/packs/… to detect the extension.
-    web_accessible_resources: [{ resources: ['packs/*'], matches: ['<all_urls>'], use_dynamic_url: true }],
-    action: { default_title: 'HappyDesk' },
+    web_accessible_resources: [{ resources: ['packs/*', 'emoji/*'], matches: ['<all_urls>'], use_dynamic_url: true }],
+    action: { default_title: 'Kobutai' },
   },
   vite: () => ({
     // pi-ai's sign-in flows import a loopback server and randomBytes; see src/lib/llm/shims.

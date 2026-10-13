@@ -47,6 +47,8 @@ export interface PackTags {
 export interface PackManifest {
   id: string;
   name: string;
+  /** Optional per-language display names ("en", "ja", "zh"); `name` is the fallback. */
+  names?: Partial<Record<'en' | 'ja' | 'zh', string>>;
   author?: string;
   license?: string;
   tags: PackTags;
