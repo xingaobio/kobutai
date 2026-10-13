@@ -5,8 +5,9 @@
 - **名称**：HappyDesk 悬浮角色播放器（en: HappyDesk – floating gacha media mascot）
 - **类别**：娱乐（Entertainment）
 - **语言**：中文（简体）、English
-- **主页**：https://github.com/xingaobio/happydesk
-- **隐私政策 URL**：仓库公开后使用 `https://github.com/xingaobio/happydesk/blob/main/PRIVACY.md`
+- **主页**：https://kobutai.pages.dev
+- **官网**：https://kobutai.pages.dev（Cloudflare Pages，项目名 kobutai）
+- **隐私政策 URL**：https://kobutai.pages.dev/privacy.html
 - **打包**：`npm run zip` → `.output/happydesk-<version>-chrome.zip`
 
 ## 简短描述（≤132 字符）

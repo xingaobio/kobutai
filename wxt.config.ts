@@ -17,7 +17,7 @@ export default defineConfig({
     name: '__MSG_extName__',
     description: '__MSG_extDescription__',
     default_locale: 'zh_CN',
-    homepage_url: 'https://github.com/xingaobio/happydesk',
+    homepage_url: 'https://kobutai.pages.dev',
     permissions: ['storage', 'alarms'],
     // Requested at runtime, per origin: a character library on a host without CORS, or a model
     // provider the user connects (its API and sign-in hosts; localhost to finish browser sign-in;
