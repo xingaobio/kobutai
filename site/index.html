@@ -225,6 +225,9 @@ summary::-webkit-details-marker { display: none; }
 summary::after { content: '+'; color: var(--accent); font-size: 22px; line-height: 1; }
 details[open] summary::after { content: '–'; }
 details p { margin: 0 0 16px; color: var(--muted); }
+a.more { color: var(--link); font-weight: 600; text-decoration: none; }
+a.more:hover { text-decoration: underline; }
+.mock a.more { display: inline-block; margin: 2px 0 8px; font-size: 13.5px; }
 
 /* final */
 .final { text-align: center; padding: 80px 0 64px; }
@@ -362,6 +365,7 @@ footer a { color: var(--muted); }
           <p data-i18n="f1.d">A small model we trained for Kobutai (about 2.6 MB) reads the title, artist and site right on your computer: music, video, live or podcast, and one of 10 genres. No key, no recording, nothing sent.</p>
           <div class="mock">
             <div class="flow"><span class="q">“Neon Static” · Paper Comets</span><span class="arrow">→</span><span class="badge"><svg width="12" height="12"><use href="#i-sparkle"/></svg><span data-i18n="g.music">Music</span> · <span data-i18n="g.rock">Rock</span></span><span class="arrow">→</span><span class="q">Rina</span></div>
+            <a class="more" href="https://github.com/xingaobio/kobutai-model" data-i18n="f1.link">How the model was trained: report, charts and code →</a>
             <div class="note" data-i18n="f1.offline">Optional: connect your own AI for a second opinion. It’s only asked when the built-in model is unsure, about one song in three.</div>
             <div class="chips"><span class="lbl" data-i18n="f1.free">Free tiers that work:</span><span class="chip free">Google AI Studio</span><span class="chip free">Groq</span><span class="chip free">NVIDIA</span><span class="chip free">OpenRouter :free</span></div>
             <div class="chips"><span class="lbl" data-i18n="f1.more">Or your own:</span><span class="chip">OpenAI</span><span class="chip">Anthropic</span><span class="chip">DeepSeek</span><span class="chip">Ollama</span><span class="chip">+30</span></div>
@@ -417,6 +421,7 @@ footer a { color: var(--muted); }
     <div class="wrap">
       <div class="sec-head"><h2 class="display" data-i18n="faq.t">Questions</h2></div>
       <div class="faq">
+        <details><summary data-i18n="q0">Can I try it now?</summary><p><span data-i18n="a0">Yes. While it waits for the Chrome Web Store, you can build it from the open-source code in a few minutes and load it into Chrome.</span> <a class="more" href="https://github.com/xingaobio/kobutai#try-it-beta" data-href-zh="https://github.com/xingaobio/kobutai#试用测试版" data-i18n="a0.link">How to install the beta →</a></p></details>
         <details><summary data-i18n="q1">Is it really free?</summary><p data-i18n="a1">Yes. No ads, no in-app purchases, no premium tier. If you turn on AI you use your own key, and free tiers are enough.</p></details>
         <details><summary data-i18n="q2">Do I need an AI key?</summary><p data-i18n="a2">No. A small built-in model recognises what’s playing offline. Connecting your own AI is optional, and it’s only asked when the built-in model is unsure.</p></details>
         <details><summary data-i18n="q3">Will it get in my way?</summary><p data-i18n="a3">It only appears while something is actually making sound, and tucks itself away 5 minutes after everything stops. You can drag it, resize it, or hide it on specific sites.</p></details>
@@ -499,6 +504,8 @@ const T = {
     'q2': 'Do I need an AI key?', 'a2': 'No. A small built-in model recognises what’s playing offline. Connecting your own AI is optional, and it’s only asked when the built-in model is unsure.',
     'q3': 'Will it get in my way?', 'a3': 'It only appears while something is actually making sound, and tucks itself away 5 minutes after everything stops. You can drag it, resize it, or hide it on specific sites.',
     'q4': 'Can I make my own character?', 'a4': 'Yes. Any Petdex-format pet (pet.json + spritesheet.webp) can be imported, and the GitHub repo explains the character format.',
+    'q0': 'Can I try it now?', 'a0': 'Yes. While it waits for the Chrome Web Store, you can build it from the open-source code in a few minutes and load it into Chrome.', 'a0.link': 'How to install the beta →',
+    'f1.link': 'How the model was trained: report, charts and code →',
     'q5': 'Which languages does it support?', 'a5': 'English, Japanese and Chinese. It follows your browser’s language, and you can switch any time from the top of the settings page.',
     'final.t': 'Give your music a little stage.',
     'footer.art': 'Character art © Kobutai · code under the MIT license',
@@ -535,6 +542,8 @@ const T = {
     'q2': 'AI のキーは必要？', 'a2': 'いいえ。内蔵の小さなモデルがオフラインで判定します。自分の AI をつなぐのは任意で、内蔵モデルが迷ったときだけ問い合わせます。',
     'q3': '邪魔にならない？', 'a3': '実際に音が鳴っているときだけ表示され、すべて止まってから 5 分で自動的に隠れます。ドラッグやサイズ変更、サイトごとの非表示もできます。',
     'q4': '自分でキャラを作れる？', 'a4': 'はい。Petdex 形式（pet.json + spritesheet.webp）のキャラならインポートできます。キャラの形式は GitHub で説明しています。',
+    'q0': '今すぐ試せる？', 'a0': 'はい。Chrome ウェブストアへの公開までのあいだ、オープンソースのコードから数分でビルドして Chrome に読み込めます。', 'a0.link': 'ベータ版のインストール方法 →',
+    'f1.link': 'モデルの学習の記録：レポート・グラフ・コード →',
     'q5': '対応言語は？', 'a5': '日本語・英語・中国語に対応。ブラウザの言語に合わせて表示され、設定ページの上部からいつでも切り替えられます。',
     'final.t': '音楽に、小さなステージを。',
     'footer.art': 'キャラクターイラスト © Kobutai・コードは MIT ライセンス',
@@ -571,6 +580,8 @@ const T = {
     'q2': '一定要 AI key 吗？', 'a2': '不需要。内置的小模型离线就能识别。连上你自己的 AI 是可选的，只在内置模型没把握时才会问它。',
     'q3': '会不会挡住网页？', 'a3': '只有真的在出声时才出现，所有声音停下 5 分钟后自动收起。也可以拖动、调大小，或者在指定网站隐藏。',
     'q4': '能做自己的角色吗？', 'a4': '可以。任何 Petdex 格式的角色（pet.json + spritesheet.webp）都能导入，角色格式的说明在 GitHub 仓库里。',
+    'q0': '现在能试用吗？', 'a0': '可以。上架 Chrome 应用商店之前，可以用开源代码几分钟构建好，加载到 Chrome 里试用。', 'a0.link': '测试版安装方法 →',
+    'f1.link': '模型是怎么训练的：报告、图表和代码 →',
     'q5': '支持哪些语言？', 'a5': '中文、英文和日文。默认跟随浏览器语言，也可以随时在设置页顶部切换。',
     'final.t': '给音乐一个小舞台。',
     'footer.art': '角色美术 © Kobutai · 代码 MIT 协议',
@@ -649,6 +660,8 @@ function applyLang(l) {
   document.documentElement.lang = l === 'zh' ? 'zh-Hans' : l;
   document.title = t('meta.title');
   document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = t(el.dataset.i18n); });
+  // Links whose target depends on the language (the README's Chinese section has its own anchor).
+  document.querySelectorAll('[data-href-zh]').forEach((el) => { el.dataset.hrefEn ??= el.getAttribute('href'); el.setAttribute('href', l === 'zh' ? el.dataset.hrefZh : el.dataset.hrefEn); });
   document.querySelectorAll('.langs button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
   setupInstall();
   renderAlbum();
