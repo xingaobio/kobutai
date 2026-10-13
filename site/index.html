@@ -358,13 +358,13 @@ footer a { color: var(--muted); }
       <div class="feats">
         <article class="feat">
           <span class="tape"></span>
-          <h3 class="display"><span class="ic" style="background:#ffe27a"><svg width="20" height="20"><use href="#i-sparkle"/></svg></span><span data-i18n="f1.t">AI hears the genre</span></h3>
-          <p data-i18n="f1.d">Kobutai sends only the title, artist and site name to the model you choose, once per song. It’s so light that free API tiers are plenty.</p>
+          <h3 class="display"><span class="ic" style="background:#ffe27a"><svg width="20" height="20"><use href="#i-sparkle"/></svg></span><span data-i18n="f1.t">Knows the genre, offline</span></h3>
+          <p data-i18n="f1.d">A small model we trained for Kobutai (about 2.6 MB) reads the title, artist and site right on your computer: music, video, live or podcast, and one of 10 genres. No key, no recording, nothing sent.</p>
           <div class="mock">
             <div class="flow"><span class="q">“Neon Static” · Paper Comets</span><span class="arrow">→</span><span class="badge"><svg width="12" height="12"><use href="#i-sparkle"/></svg><span data-i18n="g.music">Music</span> · <span data-i18n="g.rock">Rock</span></span><span class="arrow">→</span><span class="q">Rina</span></div>
+            <div class="note" data-i18n="f1.offline">Optional: connect your own AI for a second opinion. It’s only asked when the built-in model is unsure, about one song in three.</div>
             <div class="chips"><span class="lbl" data-i18n="f1.free">Free tiers that work:</span><span class="chip free">Google AI Studio</span><span class="chip free">Groq</span><span class="chip free">NVIDIA</span><span class="chip free">OpenRouter :free</span></div>
             <div class="chips"><span class="lbl" data-i18n="f1.more">Or your own:</span><span class="chip">OpenAI</span><span class="chip">Anthropic</span><span class="chip">DeepSeek</span><span class="chip">Ollama</span><span class="chip">+30</span></div>
-            <div class="note" data-i18n="f1.offline">No key? Built-in rules work offline.</div>
           </div>
         </article>
         <article class="feat">
@@ -406,7 +406,7 @@ footer a { color: var(--muted); }
         </div>
         <ul>
           <li><span class="ck"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg></span><span data-i18n="p.1">Your album, settings and imported characters all stay in your browser.</span></li>
-          <li><span class="ck"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg></span><span data-i18n="p.2">AI is off by default. Turn it on and only the title, artist and site name go to the provider you picked.</span></li>
+          <li><span class="ck"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg></span><span data-i18n="p.2">What’s playing is recognised on your device, so nothing is sent. If you connect your own AI, only the title, artist and site name of items the built-in model is unsure about go to the provider you picked.</span></li>
           <li><span class="ck"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg></span><span data-i18n="p.3">No ads, no analytics. Open source under the MIT license.</span></li>
         </ul>
       </div>
@@ -418,7 +418,7 @@ footer a { color: var(--muted); }
       <div class="sec-head"><h2 class="display" data-i18n="faq.t">Questions</h2></div>
       <div class="faq">
         <details><summary data-i18n="q1">Is it really free?</summary><p data-i18n="a1">Yes. No ads, no in-app purchases, no premium tier. If you turn on AI you use your own key, and free tiers are enough.</p></details>
-        <details><summary data-i18n="q2">Do I need an AI key?</summary><p data-i18n="a2">No. Without one, Kobutai guesses the genre offline with built-in rules. A key just makes the guesses sharper.</p></details>
+        <details><summary data-i18n="q2">Do I need an AI key?</summary><p data-i18n="a2">No. A small built-in model recognises what’s playing offline. Connecting your own AI is optional, and it’s only asked when the built-in model is unsure.</p></details>
         <details><summary data-i18n="q3">Will it get in my way?</summary><p data-i18n="a3">It only appears while something is actually making sound, and tucks itself away 5 minutes after everything stops. You can drag it, resize it, or hide it on specific sites.</p></details>
         <details><summary data-i18n="q4">Can I make my own character?</summary><p data-i18n="a4">Yes. Any Petdex-format pet (pet.json + spritesheet.webp) can be imported, and the GitHub repo explains the character format.</p></details>
         <details><summary data-i18n="q5">Which languages does it support?</summary><p data-i18n="a5">English, Japanese and Chinese. It follows your browser’s language, and you can switch any time from the top of the settings page.</p></details>
@@ -477,13 +477,13 @@ const T = {
     'hero.title': "A tiny stage for whatever you're playing.",
     'hero.sub': 'Play a song on any tab and a little chibi performer shows up, drawn to match the genre. Hover it to control your music from anywhere.',
     'hero.name': 'Kobutai means “tiny stage” in Japanese and Chinese.',
-    'demo.pick': 'Try it: pick something to play', 'demo.listening': 'AI is listening…', 'demo.draw': 'Draw again', 'demo.lock': 'Lock', 'demo.locked': 'Locked',
+    'demo.pick': 'Try it: pick something to play', 'demo.listening': 'Listening…', 'demo.draw': 'Draw again', 'demo.lock': 'Lock', 'demo.locked': 'Locked',
     'demo.lockhint': 'Locked: this character stays for every song.', 'demo.play': 'Play', 'demo.pause': 'Pause',
     'album.title': 'Collect all 12', 'album.sub': 'Every new song is one draw from that genre’s pool. No rarity tiers, nothing to buy, just stickers for your album. Hover a card to wake it up.',
     'album.yours': 'Your own', 'album.yoursSub': 'Import from Petdex or a sprite sheet',
     'f.title': "Small, but it's paying attention",
-    'f1.t': 'AI hears the genre', 'f1.d': 'Kobutai sends only the title, artist and site name to the model you choose, once per song. It’s so light that free API tiers are plenty.',
-    'f1.free': 'Free tiers that work:', 'f1.more': 'Or your own:', 'f1.offline': 'No key? Built-in rules work offline.',
+    'f1.t': 'Knows the genre, offline', 'f1.d': 'A small model we trained for Kobutai (about 2.6 MB) reads the title, artist and site right on your computer: music, video, live or podcast, and one of 10 genres. No key, no recording, nothing sent.',
+    'f1.free': 'Free tiers that work:', 'f1.more': 'Or your own:', 'f1.offline': 'Optional: connect your own AI for a second opinion. It’s only asked when the built-in model is unsure, about one song in three.',
     'f2.t': 'Bring your own characters', 'f2.d': 'Search thousands of community pets on Petdex, or drop in a sprite sheet you drew yourself. Imported characters join the draw, and ones you drew can be shared: picked ones go out to everyone in the weekly update, credited to you.',
     'f2.drop': 'Drop pet.json + spritesheet.webp', 'f2.search': 'Search Petdex…',
     'f2.match': 'Auto-match (beta): when a title mentions a well-known character or meme, that character shows up. Matching happens on your device.',
@@ -492,11 +492,11 @@ const T = {
     'f4.t': 'Little moods', 'f4.d': 'A kaomoji bubble says what’s on. During long videos and streams a new one pops up every few minutes, sometimes with a little move. When everything goes quiet, the stage packs itself away.',
     'p.t': 'No account. No tracking. No servers of ours.', 'p.link': 'Read the full privacy policy →',
     'p.1': 'Your album, settings and imported characters all stay in your browser.',
-    'p.2': 'AI is off by default. Turn it on and only the title, artist and site name go to the provider you picked.',
+    'p.2': 'What’s playing is recognised on your device, so nothing is sent. If you connect your own AI, only the title, artist and site name of items the built-in model is unsure about go to the provider you picked.',
     'p.3': 'No ads, no analytics. Open source under the MIT license.',
     'faq.t': 'Questions',
-    'q1': 'Is it really free?', 'a1': 'Yes. No ads, no in-app purchases, no premium tier. If you turn on AI you use your own key, and free tiers are enough.',
-    'q2': 'Do I need an AI key?', 'a2': 'No. Without one, Kobutai guesses the genre offline with built-in rules. A key just makes the guesses sharper.',
+    'q1': 'Is it really free?', 'a1': 'Yes. No ads, no in-app purchases, no premium tier. The built-in model needs no key; if you also connect an AI, you use your own key, and free tiers are enough.',
+    'q2': 'Do I need an AI key?', 'a2': 'No. A small built-in model recognises what’s playing offline. Connecting your own AI is optional, and it’s only asked when the built-in model is unsure.',
     'q3': 'Will it get in my way?', 'a3': 'It only appears while something is actually making sound, and tucks itself away 5 minutes after everything stops. You can drag it, resize it, or hide it on specific sites.',
     'q4': 'Can I make my own character?', 'a4': 'Yes. Any Petdex-format pet (pet.json + spritesheet.webp) can be imported, and the GitHub repo explains the character format.',
     'q5': 'Which languages does it support?', 'a5': 'English, Japanese and Chinese. It follows your browser’s language, and you can switch any time from the top of the settings page.',
@@ -513,13 +513,13 @@ const T = {
     'hero.title': '再生中の音楽に、小さなステージを。',
     'hero.sub': 'どのタブで曲を流しても、ジャンルに合ったちびキャラが登場します。カーソルを合わせれば、どこからでも再生を操作できます。',
     'hero.name': 'こぶたい＝小さなステージ。',
-    'demo.pick': '試してみよう：再生するものを選んでね', 'demo.listening': 'AI が聴いています…', 'demo.draw': 'もう一回', 'demo.lock': 'ロック', 'demo.locked': 'ロック中',
+    'demo.pick': '試してみよう：再生するものを選んでね', 'demo.listening': '聴いています…', 'demo.draw': 'もう一回', 'demo.lock': 'ロック', 'demo.locked': 'ロック中',
     'demo.lockhint': 'ロック中：曲が変わってもこのキャラのまま。', 'demo.play': '再生', 'demo.pause': '一時停止',
     'album.title': '12 人を集めよう', 'album.sub': '新しい曲ごとに、そのジャンルのキャラから 1 回抽選。レア度も課金もなく、アルバムにシールが増えていくだけ。カードにカーソルを合わせると動き出します。',
     'album.yours': 'あなたのキャラ', 'album.yoursSub': 'Petdex やスプライトシートから追加',
     'f.title': '小さいけど、ちゃんと聴いてる',
-    'f1.t': 'ジャンルは AI が判定', 'f1.d': '曲名・アーティスト・サイト名だけを、選んだモデルに 1 曲につき 1 回送るだけ。とても軽いので、無料枠の API で十分です。',
-    'f1.free': '無料で使えるもの：', 'f1.more': '手持ちのキーも：', 'f1.offline': 'キーがなくても、内蔵ルールでオフライン判定できます。',
+    'f1.t': 'ジャンルをオフラインで判定', 'f1.d': 'Kobutai のために学習させた小さなモデル（約 2.6 MB）が、曲名・アーティスト・サイト名をあなたのパソコンの中で読み取り、音楽・動画・ライブ・ポッドキャストと 10 種類のジャンルを判定します。キー不要、録音なし、何も送りません。',
+    'f1.free': '無料で使えるもの：', 'f1.more': '手持ちのキーも：', 'f1.offline': 'お好みで、自分の AI をつないでセカンドオピニオンにできます。内蔵モデルが迷ったとき（3 曲に 1 曲ほど）だけ問い合わせます。',
     'f2.t': '自分のキャラを連れてこよう', 'f2.d': 'Petdex にある何千ものコミュニティキャラから探すか、自分で描いたスプライトシートをドロップ。追加したキャラも抽選に加わります。自分で描いたキャラは投稿でき、選ばれると毎週のアップデートであなたの名前付きでみんなに届きます。',
     'f2.drop': 'pet.json と spritesheet.webp をドロップ', 'f2.search': 'Petdex を検索…',
     'f2.match': '自動マッチ（ベータ）：タイトルに有名なキャラやミームが出てくると、そのキャラが登場。照合は端末の中だけで行います。',
@@ -528,11 +528,11 @@ const T = {
     'f4.t': 'ちいさな気分', 'f4.d': '何が流れているかを顔文字でお知らせ。長い動画や配信では数分ごとに新しい顔文字が出て、ときどきちょっとした動きも。音が止まると、ステージは自動で片付きます。',
     'p.t': 'アカウント不要。トラッキングなし。サーバーもなし。', 'p.link': 'プライバシーポリシー全文 →',
     'p.1': 'アルバム・設定・追加したキャラは、すべてあなたのブラウザの中に保存されます。',
-    'p.2': 'AI は最初はオフ。オンにしても送るのは曲名・アーティスト・サイト名だけで、送り先はあなたが選んだサービスだけです。',
+    'p.2': '再生中の内容は端末の中で判定するので、何も送りません。自分の AI をつないだ場合も、内蔵モデルが迷った内容の曲名・アーティスト・サイト名だけを、あなたが選んだサービスに送ります。',
     'p.3': '広告も分析ツールもなし。MIT ライセンスのオープンソースです。',
     'faq.t': 'よくある質問',
-    'q1': '本当に無料？', 'a1': 'はい。広告・アプリ内課金・有料プランはありません。AI を使うときは自分のキーを使いますが、無料枠で十分です。',
-    'q2': 'AI のキーは必要？', 'a2': 'いいえ。なくても内蔵ルールでオフライン判定します。キーがあると判定がより正確になります。',
+    'q1': '本当に無料？', 'a1': 'はい。広告・アプリ内課金・有料プランはありません。内蔵モデルにキーは不要です。AI もつなぐ場合は自分のキーを使いますが、無料枠で十分です。',
+    'q2': 'AI のキーは必要？', 'a2': 'いいえ。内蔵の小さなモデルがオフラインで判定します。自分の AI をつなぐのは任意で、内蔵モデルが迷ったときだけ問い合わせます。',
     'q3': '邪魔にならない？', 'a3': '実際に音が鳴っているときだけ表示され、すべて止まってから 5 分で自動的に隠れます。ドラッグやサイズ変更、サイトごとの非表示もできます。',
     'q4': '自分でキャラを作れる？', 'a4': 'はい。Petdex 形式（pet.json + spritesheet.webp）のキャラならインポートできます。キャラの形式は GitHub で説明しています。',
     'q5': '対応言語は？', 'a5': '日本語・英語・中国語に対応。ブラウザの言語に合わせて表示され、設定ページの上部からいつでも切り替えられます。',
@@ -549,13 +549,13 @@ const T = {
     'hero.title': '给你正在放的歌，搭一个小舞台。',
     'hero.sub': '在任何标签页放一首歌，就会出现一个和曲风相配的 Q 版小角色。鼠标移上去，在哪个页面都能控制播放。',
     'hero.name': 'Kobutai 是“小舞台”的日文读音。',
-    'demo.pick': '试一试：选一首来放', 'demo.listening': 'AI 正在听…', 'demo.draw': '换一次', 'demo.lock': '锁定', 'demo.locked': '已锁定',
+    'demo.pick': '试一试：选一首来放', 'demo.listening': '正在听…', 'demo.draw': '换一次', 'demo.lock': '锁定', 'demo.locked': '已锁定',
     'demo.lockhint': '已锁定：换歌也不换角色。', 'demo.play': '播放', 'demo.pause': '暂停',
     'album.title': '集齐 12 个角色', 'album.sub': '每首新歌，从对应曲风的池子里抽一次。没有稀有度，也不用花钱，只是往图鉴里贴一张贴纸。鼠标移到卡片上，角色会动起来。',
     'album.yours': '你自己的角色', 'album.yoursSub': '从 Petdex 或精灵图导入',
     'f.title': '小小的，但一直在听',
-    'f1.t': 'AI 听出曲风', 'f1.d': '只把标题、作者和网站名发给你选的模型，每首歌只问一次。用量很小，免费 API 就够。',
-    'f1.free': '免费可用：', 'f1.more': '也可以用你自己的：', 'f1.offline': '没有 key？内置规则离线也能用。',
+    'f1.t': '离线听出曲风', 'f1.d': '我们为 Kobutai 训练的小模型（约 2.6 MB）在你的电脑上读标题、作者和网站名，判断是音乐、视频、直播还是播客，以及 10 种曲风。不用 key，不录音，什么都不发送。',
+    'f1.free': '免费可用：', 'f1.more': '也可以用你自己的：', 'f1.offline': '可选：连上你自己的 AI 做第二意见。只在内置模型没把握时才问它，大约三首里一首。',
     'f2.t': '带上你自己的角色', 'f2.d': '在 Petdex 上搜几千个社区角色，或者直接拖入你自己画的精灵图。导入的角色也会进抽卡池；自己画的还可以投稿，选中后会署上你的名字，在每周更新里送到所有人手上。',
     'f2.drop': '拖入 pet.json + spritesheet.webp', 'f2.search': '搜索 Petdex…',
     'f2.match': '自动匹配（测试版）：标题里出现知名角色或热梗时，直接换上对应角色。匹配在你自己的电脑上完成。',
@@ -564,11 +564,11 @@ const T = {
     'f4.t': '小表情', 'f4.d': '角色旁边会冒出颜文字，告诉你在放什么。长视频和直播里每隔几分钟换一个，有时还会做个小动作。所有声音都停下后，小舞台会自己收起来。',
     'p.t': '不用注册，不追踪，没有我们的服务器。', 'p.link': '阅读完整隐私政策 →',
     'p.1': '图鉴、设置、导入的角色，全部只存在你的浏览器里。',
-    'p.2': 'AI 默认关闭。打开后也只把标题、作者和网站名发给你选的服务商。',
+    'p.2': '正在播放的内容在你的设备上识别，什么都不发送。连上你自己的 AI 时，也只把内置模型没把握的那些内容的标题、作者和网站名发给你选的服务商。',
     'p.3': '没有广告，没有统计。MIT 协议开源。',
     'faq.t': '常见问题',
-    'q1': '真的免费吗？', 'a1': '是的。没有广告、没有内购、没有高级版。打开 AI 时用的是你自己的 key，免费额度就够。',
-    'q2': '一定要 AI key 吗？', 'a2': '不需要。没有 key 时会用内置规则离线判断曲风，有 key 只是猜得更准。',
+    'q1': '真的免费吗？', 'a1': '是的。没有广告、没有内购、没有高级版。内置模型不需要 key；如果另外连 AI，用的是你自己的 key，免费额度就够。',
+    'q2': '一定要 AI key 吗？', 'a2': '不需要。内置的小模型离线就能识别。连上你自己的 AI 是可选的，只在内置模型没把握时才会问它。',
     'q3': '会不会挡住网页？', 'a3': '只有真的在出声时才出现，所有声音停下 5 分钟后自动收起。也可以拖动、调大小，或者在指定网站隐藏。',
     'q4': '能做自己的角色吗？', 'a4': '可以。任何 Petdex 格式的角色（pet.json + spritesheet.webp）都能导入，角色格式的说明在 GitHub 仓库里。',
     'q5': '支持哪些语言？', 'a5': '中文、英文和日文。默认跟随浏览器语言，也可以随时在设置页顶部切换。',
@@ -753,7 +753,7 @@ function renderDemo() {
   else {
     badge.className = 'badge';
     badge.innerHTML = '<svg width="11" height="11"><use href="#i-sparkle"/></svg>';
-    badge.append(document.createTextNode('AI · ' + t('g.' + tr.genre)));
+    badge.append(document.createTextNode(t('g.' + tr.genre)));
     $('charName').textContent = nm(D.char);
   }
   $('stageSprite').setAttribute('aria-label', D.listening ? t('demo.listening') : nm(D.char));

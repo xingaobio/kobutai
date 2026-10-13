@@ -89,7 +89,7 @@ footer a { color: var(--muted); }
   <h2>When it goes online, and to whom</h2>
   <p>Network requests happen only in these cases, and always straight from your browser:</p>
   <ol>
-    <li><strong>AI tagging (off by default).</strong> Only if you connect <em>your own</em> model provider on the “AI” page (API key, subscription sign-in or custom endpoint) and turn it on. For each new item, its <strong>title, artist and site domain</strong> are sent to the provider you chose (for example OpenAI, Anthropic, DeepSeek, OpenRouter, or your own Ollama server) to work out the type and genre. That provider's privacy policy applies. Results are cached on your device, so the same item is never sent twice.
+    <li><strong>AI tagging (off by default).</strong> Only if you connect <em>your own</em> model provider on the “AI” page (API key, subscription sign-in or custom endpoint) and turn it on. What's playing is recognised by a small model built into the extension, on your device, and nothing is sent. Only for a new item the built-in model is unsure about are its <strong>title, artist and site domain</strong> sent to the provider you chose (for example OpenAI, Anthropic, DeepSeek, OpenRouter, or your own Ollama server) to work out the type and genre. That provider's privacy policy applies. Results are cached on your device, so the same item is never sent twice.
       <ul><li><strong>When connecting:</strong> subscription sign-in opens the provider's sign-in page and exchanges tokens with its authorisation server; expired tokens are refreshed with that provider automatically.</li></ul></li>
     <li><strong>Remote character library.</strong> Every 12 hours (30 minutes after a failure) the extension downloads characters from the libraries you subscribe to (by default the project's GitHub repository <code>library/</code> folder on <code>raw.githubusercontent.com</code>). A library's <code>pack.json</code> may point to assets on other https addresses, which are then fetched too. No personal data is sent, but those servers see your IP address, as with any website.</li>
     <li><strong>Petdex import.</strong> Only when you search or import on the settings page: the extension fetches the pet list from <code>assets.petdex.dev</code>, then downloads the assets of the pet you picked from the https addresses in that list.</li>
@@ -142,7 +142,7 @@ footer a { color: var(--muted); }
   <h2>通信するタイミングと送り先</h2>
   <p>ネットワーク通信が発生するのは次の場合だけで、すべてあなたのブラウザから直接送られます。</p>
   <ol>
-    <li><strong>AI 判定（初期状態はオフ）</strong>：「AI」ページで<em>あなた自身の</em>モデルサービス（API キー、サブスクリプションのログイン、カスタムエンドポイント）を接続して有効にした場合のみ。新しいコンテンツごとに、その<strong>タイトル・アーティスト・サイトのドメイン</strong>を、選んだサービス（OpenAI、Anthropic、DeepSeek、OpenRouter、自前の Ollama サーバーなど）に直接送り、種類とジャンルを判定します。そのサービスのプライバシーポリシーが適用されます。結果は端末にキャッシュされ、同じ内容を二度送ることはありません。
+    <li><strong>AI 判定（初期状態はオフ）</strong>：「AI」ページで<em>あなた自身の</em>モデルサービス（API キー、サブスクリプションのログイン、カスタムエンドポイント）を接続して有効にした場合のみ。再生中の内容は拡張機能に内蔵した小さなモデルが端末の中で判定し、何も送りません。内蔵モデルが迷った新しいコンテンツについてだけ、その<strong>タイトル・アーティスト・サイトのドメイン</strong>を、選んだサービス（OpenAI、Anthropic、DeepSeek、OpenRouter、自前の Ollama サーバーなど）に直接送り、種類とジャンルを判定します。そのサービスのプライバシーポリシーが適用されます。結果は端末にキャッシュされ、同じ内容を二度送ることはありません。
       <ul><li><strong>接続時</strong>：サブスクリプションのログインではサービスのログインページを開き、その認可サーバーとトークンを交換します。トークンの期限が切れると、拡張機能がそのサービスで自動的に更新します。</li></ul></li>
     <li><strong>リモートのキャラライブラリ</strong>：12 時間ごと（失敗時は 30 分後）に、購読しているライブラリからキャラをダウンロードします（初期設定は本プロジェクトの GitHub リポジトリの <code>library/</code>、<code>raw.githubusercontent.com</code>）。ライブラリの <code>pack.json</code> がほかの https アドレスの素材を参照している場合は、そこにもアクセスします。個人データは含みませんが、ふつうのウェブサイトと同じく、相手のサーバーには IP アドレスが見えます。</li>
     <li><strong>Petdex からのインポート</strong>：設定ページで検索やインポートをしたときだけ、<code>assets.petdex.dev</code> からキャラ一覧を取得し、選んだキャラの素材を一覧にある https アドレスからダウンロードします。</li>
@@ -195,7 +195,7 @@ footer a { color: var(--muted); }
   <h2>什么时候会联网，发给谁</h2>
   <p>只有下面几种情况会发出网络请求，而且都直接从你的浏览器发出：</p>
   <ol>
-    <li><strong>AI 识别（默认关闭）</strong>：只有你在「AI 识别」页连接了<em>你自己的</em>模型服务商（API key、订阅登录或自定义端点）并启用时，每遇到一个新内容，会把这一条内容的<strong>标题、作者、网站域名</strong>直接发给你选的那个服务商（例如 OpenAI、Anthropic、DeepSeek、OpenRouter，或你自己的 Ollama 服务器），用来判断类型和曲风。适用该服务商的隐私政策。结果缓存在本机，同一内容不会重复发送。
+    <li><strong>AI 识别（默认关闭）</strong>：只有你在「AI 识别」页连接了<em>你自己的</em>模型服务商（API key、订阅登录或自定义端点）并启用时，才可能发送：正在播放的内容默认由扩展自带的小模型在本机识别，不发送任何数据；只有遇到内置模型没把握的新内容，才会把这一条内容的<strong>标题、作者、网站域名</strong>直接发给你选的那个服务商（例如 OpenAI、Anthropic、DeepSeek、OpenRouter，或你自己的 Ollama 服务器），用来判断类型和曲风。适用该服务商的隐私政策。结果缓存在本机，同一内容不会重复发送。
       <ul><li><strong>连接时</strong>：订阅登录会打开服务商的登录页面，并和服务商的授权服务器交换令牌；令牌过期时扩展会自动向该服务商刷新。</li></ul></li>
     <li><strong>远程角色库</strong>：扩展每 12 小时（失败后 30 分钟）从你订阅的角色库下载角色（默认是本项目 GitHub 仓库的 <code>library/</code>，地址为 <code>raw.githubusercontent.com</code>）。角色库里的 <code>pack.json</code> 可以引用其他 https 地址上的素材，这时也会访问那些地址。请求不包含任何个人数据，但对方服务器会像访问任何网站一样看到你的 IP 地址。</li>
     <li><strong>Petdex 导入</strong>：只有你在设置页主动搜索或导入时，才会访问 <code>assets.petdex.dev</code> 下载宠物列表，再从列表里给出的 https 地址下载你选中的那个宠物的素材。</li>
