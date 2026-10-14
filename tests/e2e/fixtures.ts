@@ -2,7 +2,7 @@ import { test as base, chromium, type BrowserContext, type Page } from '@playwri
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
-// Built by `npm run e2e` (HAPPYDESK_E2E=1), see wxt.config.ts.
+// Built by `npm run e2e` (KOBUTAI_E2E=1), see wxt.config.ts.
 const EXT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../.output-e2e/chrome-mv3');
 
 /** 5 s mono 8 kHz 16-bit sine tone. */

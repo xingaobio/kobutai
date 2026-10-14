@@ -61,7 +61,7 @@ export default defineBackground(() => {
   const credentials = storageCredentialStore(llmCredentials);
   let models: MutableModels | null = null;
   llmSettings.watch(() => (models = null));
-  const migrated = migrateLegacyAi().catch((e) => console.warn('[happydesk] AI settings migration failed', e));
+  const migrated = migrateLegacyAi().catch((e) => console.warn('[kobutai] AI settings migration failed', e));
   const settings = async () => (await migrated, llmSettings.getValue());
   // The on-device classifier ships in public/model/ and loads on the first draw.
   const localModel = new LocalModel(extensionFetcher((p) => browser.runtime.getURL(p)));
@@ -125,7 +125,7 @@ export default defineBackground(() => {
   const run = (fn: () => Promise<unknown>) => {
     chain = chain.then(fn).then(
       async () => hub.setDraw(await engine.view()),
-      (e) => console.warn('[happydesk] gacha error', e),
+      (e) => console.warn('[kobutai] gacha error', e),
     );
   };
 
@@ -162,7 +162,7 @@ export default defineBackground(() => {
   });
 
   // Refresh remote libraries every 12 h (30 min after a failure). The alarm wakes the worker hourly to check.
-  const checkLibraries = () => void syncIfStale().catch((e) => console.warn('[happydesk] library sync failed', e));
+  const checkLibraries = () => void syncIfStale().catch((e) => console.warn('[kobutai] library sync failed', e));
   browser.alarms.onAlarm.addListener((a) => {
     if (a.name === 'library-sync') checkLibraries();
   });

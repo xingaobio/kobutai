@@ -2,6 +2,8 @@
 
 （曾用名 HappyDesk。英文、日文、中文都写作 Kobutai / 小舞台 / こぶたい。）
 
+> 代码里有一些内部标识仍叫 `happydesk`：IndexedDB 数据库名、消息通道名、页面元素名（`happydesk-overlay`）、`data-happydesk-*` 属性和测试用的 `data-testid`。用户看不到它们，而改掉数据库名会让已安装用户丢失导入的角色等本地数据，所以有意保留，不要批量替换。
+
 一个 Chrome 扩展：网页上悬浮一个动画角色，根据你正在播放的内容出场；鼠标悬停弹出媒体控制条，可以跨标签页控制播放。
 
 - 设计文档：[docs/product/DESIGN.md](../product/DESIGN.md)
@@ -22,7 +24,7 @@ npm install
 npm run dev        # 启动带热重载的 Chrome
 npm run check      # 类型检查 + 单元测试 + 构建
 npm run e2e        # 构建后用 Playwright 加载扩展跑端到端测试
-npm run zip        # 打包上架用的 .output/happydesk-<version>-chrome.zip
+npm run zip        # 打包上架用的 .output/kobutai-<version>-chrome.zip
 ```
 
 手动加载：`npm run build`，然后在 `chrome://extensions` 打开开发者模式，"加载已解压的扩展程序"选择 `.output/chrome-mv3`。

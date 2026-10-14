@@ -119,7 +119,7 @@ export class LocalModel {
       .then(([cfg, bin, tsv]) => Classifier.load(cfg as ModelConfig, bin, tsv))
       .catch((e: unknown) => {
         // Missing or corrupt files: warn once; the worker retries on its next start.
-        console.warn('[happydesk] local model unavailable, using keyword rules:', e);
+        console.warn('[kobutai] local model unavailable, using keyword rules:', e);
         return null;
       });
     return this.loading;

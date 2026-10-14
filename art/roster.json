@@ -3,7 +3,7 @@
     "name": "莉娜 Rina",
     "scene": "激烈唱跳：摇滚主唱 + 吉他",
     "batch": 1,
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -19,7 +19,7 @@
     "name": "星璃 Hoshiri",
     "scene": "偶像唱跳",
     "batch": 1,
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -35,7 +35,7 @@
     "name": "青歌 Qingge",
     "scene": "安静地唱：抒情",
     "batch": 1,
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -51,7 +51,7 @@
     "name": "霓 Nei",
     "scene": "跳舞：DJ / 电音",
     "batch": 1,
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -67,7 +67,7 @@
     "name": "麻糬 Mochi",
     "scene": "安静陪伴：Lo-fi",
     "batch": 1,
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -83,7 +83,7 @@
     "name": "爆爆 Popo",
     "scene": "看视频、看直播的观众",
     "batch": 1,
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -97,7 +97,7 @@
     "name": "小喜 Kiki",
     "scene": "吉祥物：认不出内容时出场",
     "batch": 1,
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [],
@@ -108,7 +108,7 @@
     "name": "乐酷 Raku",
     "scene": "激烈说唱",
     "batch": 2,
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -125,7 +125,7 @@
     "name": "薇奥 Viola",
     "scene": "安静演奏：小提琴",
     "batch": 2,
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -142,7 +142,7 @@
     "name": "艾莉亚 Aria",
     "scene": "流行舞台唱跳",
     "batch": 2,
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -159,7 +159,7 @@
     "name": "应援酱 Ouen",
     "scene": "打 call 应援",
     "batch": 2,
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -172,7 +172,7 @@
     "name": "听听 Tingting",
     "scene": "认真听播客",
     "batch": 2,
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -190,7 +190,7 @@
       "trigger": "late-night",
       "zh": "凌晨 0～4 点在听音乐时出现"
     },
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -214,7 +214,7 @@
       "trigger": "repeat-3",
       "zh": "同一首歌听到第 3 遍时出现"
     },
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [
@@ -242,7 +242,7 @@
       "trigger": "poke-10",
       "zh": "10 秒内连续点角色 10 次时出现"
     },
-    "author": "HappyDesk",
+    "author": "Kobutai",
     "license": "All rights reserved",
     "tags": {
       "type": [],

@@ -99,5 +99,5 @@ GitHub 没有统一的检索入口：搜索出 172 个相关仓库，目录结�
 curl -sS -o /dev/null -D - -H 'Origin: chrome-extension://x' https://assets.petdex.dev/manifests/petdex-v1.json | grep -iE '^HTTP|access-control'
 
 npm run match:check                                   # 匹配表里的角色是否都还在
-PETDEX_LIVE=1 npx playwright test match-live          # 真实浏览器 + 真实 Petdex（先 HAPPYDESK_E2E=1 npx wxt build）
+PETDEX_LIVE=1 npx playwright test match-live          # 真实浏览器 + 真实 Petdex（先 KOBUTAI_E2E=1 npx wxt build）
 ```

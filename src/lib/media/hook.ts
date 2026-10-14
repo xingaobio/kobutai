@@ -158,7 +158,7 @@ export function installHook(win: Window & typeof globalThis): void {
       try {
         h(cmd.action === 'seekto' ? { action: cmd.action, seekTime: cmd.seekTime } : { action: cmd.action });
       } catch (err) {
-        console.warn('[happydesk] media session handler failed', err);
+        console.warn('[kobutai] media session handler failed', err);
       }
       return;
     }

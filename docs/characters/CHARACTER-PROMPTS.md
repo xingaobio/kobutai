@@ -246,7 +246,7 @@ Using the attached image as the exact character (do not redesign anything), draw
 ### 7. 小喜 Kiki：吉祥物（通用）
 
 - **tags**：type 空，genre 空（通用池：认不出内容时出场）
-- **性格**：好奇、开朗，是 HappyDesk 的"桌面精灵"
+- **性格**：好奇、开朗，是 Kobutai 的"桌面精灵"
 - **代表颜文字**：`♪(´▽｀)`
 - **{NAME}**：`Kiki`
 - **{LOOK}**：`a cheerful little desk spirit girl with sunny yellow short hair and a single curl shaped like a music note on top, big orange eyes, white headphones resting around her neck, a yellow hoodie with a round smiley badge, and a star-shaped hairpin`

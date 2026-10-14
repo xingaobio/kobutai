@@ -37,7 +37,7 @@ export class Tagger {
 
   async tag(info: MediaInfo): Promise<Tags> {
     const local = await this.local(info).catch((e: unknown) => {
-      console.warn('[happydesk] local model failed, using keyword rules:', e);
+      console.warn('[kobutai] local model failed, using keyword rules:', e);
       return null;
     });
     const fallback: Tags = local ? withoutConfidence(local) : ruleTags(info);

@@ -95,7 +95,7 @@ export class AutoMatcher {
       this.queue = run.catch(() => {});
       return await run;
     } catch (e) {
-      console.warn('[happydesk] character match failed', e);
+      console.warn('[kobutai] character match failed', e);
       return null;
     }
   }
@@ -118,7 +118,7 @@ export class AutoMatcher {
         await this.evict(id);
         return id;
       } catch (e) {
-        console.warn('[happydesk] could not download matched character', pet.slug, e);
+        console.warn('[kobutai] could not download matched character', pet.slug, e);
       }
     }
     return null;

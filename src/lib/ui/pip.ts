@@ -27,7 +27,7 @@ export async function openPip(styleRoot: ShadowRoot, send: (msg: ToBackground) =
   try {
     win = await api.requestWindow({ width: 320, height: 420 });
   } catch (e) {
-    console.warn('[happydesk] picture-in-picture unavailable', e);
+    console.warn('[kobutai] picture-in-picture unavailable', e);
     return false;
   }
   const doc = win.document;

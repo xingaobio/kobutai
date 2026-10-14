@@ -31,7 +31,7 @@ export async function loadPackIndex(
   rootUrl: string,
   source: LoadedPack['source'],
   fetchJson: FetchJson = defaultFetchJson,
-  onError: (id: string, errors: string[]) => void = (id, e) => console.warn(`[happydesk] pack ${id}:`, e),
+  onError: (id: string, errors: string[]) => void = (id, e) => console.warn(`[kobutai] pack ${id}:`, e),
 ): Promise<LoadedPack[]> {
   const root = rootUrl.endsWith('/') ? rootUrl : rootUrl + '/';
   const index = (await fetchJson(root + 'index.json')) as Partial<PackIndex>;

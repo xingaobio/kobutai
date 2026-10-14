@@ -5,7 +5,7 @@ import { defineConfig } from 'wxt';
  * E2E builds go to their own folder with host access pre-granted: Playwright can't click Chrome's
  * native permission prompt, and an already granted permissions.request() resolves without one.
  */
-const E2E = !!process.env.HAPPYDESK_E2E;
+const E2E = !!process.env.KOBUTAI_E2E;
 
 const shim = (name: string) => fileURLToPath(new URL(`./src/lib/llm/shims/${name}.ts`, import.meta.url));
 

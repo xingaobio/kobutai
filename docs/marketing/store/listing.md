@@ -2,13 +2,13 @@
 
 ## 基本信息
 
-- **名称**：HappyDesk 悬浮角色播放器（en: HappyDesk – floating gacha media mascot）
+- **名称**：Kobutai 小舞台（en: Kobutai – a tiny stage for what you play；ja: Kobutai 小舞台）。和 `public/_locales/*/messages.json` 的 `extName` 保持一致
 - **类别**：娱乐（Entertainment）
 - **语言**：中文（简体）、English
 - **主页**：https://kobutai.pages.dev
 - **官网**：https://kobutai.pages.dev（Cloudflare Pages，项目名 kobutai）
 - **隐私政策 URL**：https://kobutai.pages.dev/privacy.html
-- **打包**：`npm run zip` → `.output/happydesk-<version>-chrome.zip`
+- **打包**：`npm run zip` → `.output/kobutai-<version>-chrome.zip`
 
 ## 简短描述（≤132 字符）
 
@@ -17,7 +17,7 @@
 
 ## 详细描述（zh_CN）
 
-HappyDesk 在网页角落放一个会动的小角色，替代浏览器里藏得很深的媒体控制：
+Kobutai 在网页角落放一个会动的小角色，替代浏览器里藏得很深的媒体控制：
 
 • 悬停角色就能播放 / 暂停、切歌、拖进度、调音量，并且能控制其他标签页里正在播放的内容。
 • 抽卡：每开始播放一首新歌或一个新视频，就会根据内容类型和曲风（J-Pop、动漫、欧美、说唱、摇滚、电子、古典、Lo-fi、华语…）随机抽一个角色出场。每首可以"换一次"，也可以锁定喜欢的角色。
@@ -32,7 +32,7 @@ HappyDesk 在网页角落放一个会动的小角色，替代浏览器里藏得�
 
 ## Detailed description (en)
 
-HappyDesk puts an animated mascot in the corner of every page and turns it into a media remote:
+Kobutai puts an animated mascot in the corner of every page and turns it into a media remote:
 
 • Hover the mascot to play/pause, skip, seek and change volume — for media playing in any tab.
 • Gacha: each new song or video draws a random character from the pool that matches its type and genre. Reroll once per track, or lock a favourite.

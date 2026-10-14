@@ -1,4 +1,6 @@
-# HappyDesk 设计文档
+# Kobutai 设计文档
+
+（曾用名 HappyDesk。）
 
 > 状态：已确认（2026-10-02）。本文是 grilling 会话达成的共识，改动需经用户确认。
 

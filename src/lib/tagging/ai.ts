@@ -92,6 +92,6 @@ export async function classify(
 export async function aiTags(info: MediaInfo, ref: ModelRef, models: Models): Promise<Tags | null> {
   const r = await classify(info, ref, models);
   if (r.ok) return r.tags;
-  console.warn('[happydesk] AI tagging failed, using rules:', r.error);
+  console.warn('[kobutai] AI tagging failed, using rules:', r.error);
   return null;
 }

@@ -98,7 +98,7 @@ export class GachaEngine {
 
   /** Collection bookkeeping must never block or break a draw. */
   private record(packId: string): void {
-    this.deps.record(packId).catch((e) => console.warn('[happydesk] could not record draw', e));
+    this.deps.record(packId).catch((e) => console.warn('[kobutai] could not record draw', e));
   }
 
   async view(): Promise<DrawView | null> {

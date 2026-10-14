@@ -14,7 +14,7 @@
     "test": "vitest run",
     "match:check": "MATCH_LIVE=1 vitest run src/lib/match/table.live.test.ts",
     "check": "npm run typecheck && npm run test && npm run build",
-    "e2e": "HAPPYDESK_E2E=1 wxt build && playwright test"
+    "e2e": "KOBUTAI_E2E=1 wxt build && playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",

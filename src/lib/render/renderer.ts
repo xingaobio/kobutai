@@ -89,7 +89,7 @@ export class SpriteRenderer implements Renderer {
         this.bitmap = bmp;
         this.start(asset, onEnd, opts.still);
       },
-      (e) => console.warn('[happydesk] sprite failed to load', asset.src.slice(0, 80), e),
+      (e) => console.warn('[kobutai] sprite failed to load', asset.src.slice(0, 80), e),
     );
   }
 
@@ -209,7 +209,7 @@ export class VideoRenderer implements Renderer {
       else void this.el.play().catch(() => {});
     };
     if (isExtensionUrl(video.src) || /^https?:/.test(video.src)) start(video.src);
-    else resolveSrc(video.src).then(start, (e) => console.warn('[happydesk] video failed to load', e));
+    else resolveSrc(video.src).then(start, (e) => console.warn('[kobutai] video failed to load', e));
   }
 
   destroy(): void {
