@@ -1,7 +1,7 @@
 // Rasterised assets: the remote character library (library/, PNG sheets) and the
 // extension icons (public/icon/*.png). Uses Playwright's Chromium to render SVG.
 // Run: node scripts/gen-raster.mjs
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { chromium } from '@playwright/test';
 import { FRAMES, H, ROWS, W, frame, packJson, sheet } from './mascot.mjs';
@@ -31,13 +31,15 @@ for (const c of LIBRARY) {
 }
 writeFileSync(join(libDir, 'index.json'), JSON.stringify({ packs: LIBRARY.map((c) => c.id) }, null, 2) + '\n');
 
-// Icon: Momo's first idle frame, cropped to the body.
-const momo = { id: 'momo', body: '#ff8fc7', accent: '#5ee6d6', prop: 'mic' };
-const iconSvg = (size) =>
-  `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="26 52 140 150">${frame(momo, 'idle', 0)}</svg>`;
+// Icon: the Kobutai sticker mark (public/logo.svg).
+const logoSvg = readFileSync(join(ROOT, 'public', 'logo.svg'), 'utf8');
+const iconSvg = (size) => logoSvg.replace('<svg ', `<svg width="${size}" height="${size}" `);
 const iconDir = join(ROOT, 'public', 'icon');
 mkdirSync(iconDir, { recursive: true });
 for (const size of [16, 32, 48, 96, 128]) writeFileSync(join(iconDir, `${size}.png`), await render(page, iconSvg(size), size, size));
+writeFileSync(join(ROOT, 'site', 'assets', 'favicon-32.png'), await render(page, iconSvg(32), 32, 32));
+writeFileSync(join(ROOT, 'site', 'assets', 'icon-128.png'), await render(page, iconSvg(128), 128, 128));
+const momo = { id: 'momo', body: '#ff8fc7', accent: '#5ee6d6', prop: 'mic' };
 // Store listing tile (440×280, promo).
 writeFileSync(
   join(ROOT, 'docs', 'store', 'promo-440x280.png'),
