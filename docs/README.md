@@ -15,6 +15,7 @@
 | [DEVELOPMENT.md](development/DEVELOPMENT.md) | 开发说明：运行、构建、测试、角色包格式、角色库 |
 | [CLASSIFIER.md](development/CLASSIFIER.md) | 内置的本地内容分类模型 |
 | [SOURCES.md](development/SOURCES.md) | 角色图源：验证过什么、代码用了哪条 |
+| [DESKTOP.md](development/DESKTOP.md) | Windows 桌面版（Tauri）：架构、接口合同、里程碑 |
 
 ## 角色内容 `characters/`
 
