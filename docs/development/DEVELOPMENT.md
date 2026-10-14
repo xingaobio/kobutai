@@ -4,16 +4,16 @@
 
 一个 Chrome 扩展：网页上悬浮一个动画角色，根据你正在播放的内容出场；鼠标悬停弹出媒体控制条，可以跨标签页控制播放。
 
-- 设计文档：[docs/DESIGN.md](DESIGN.md)
-- 进度与验收：[docs/GOAL.md](GOAL.md)
-- 隐私政策：[PRIVACY.md](../PRIVACY.md)
+- 设计文档：[docs/product/DESIGN.md](../product/DESIGN.md)
+- 进度与验收：[docs/product/GOAL.md](../product/GOAL.md)
+- 隐私政策：[PRIVACY.md](../../PRIVACY.md)
 - 界面语言：中文、英文、日文，默认跟随浏览器，设置页顶部可切换（`src/lib/i18n/`，新增文字要三种语言都写，否则类型检查不通过）
-- 用户投稿角色与每周更新：[docs/COMMUNITY-CHARACTERS.md](COMMUNITY-CHARACTERS.md)
-- 落地页（英日中三语，静态网页）：[site/](../site/README.md)；Product Hunt 配图：`docs/producthunt/`
-- 上架材料：[docs/store/listing.md](store/listing.md)
-- 角色图源与匹配：[docs/SOURCES.md](SOURCES.md)
-- 以后的方向：AI 孵化原创角色（暂不实现）：[docs/AI-HATCH.md](AI-HATCH.md)
-- 生成新内置角色的提示词和规格：[docs/CHARACTER-PROMPTS.md](CHARACTER-PROMPTS.md)
+- 用户投稿角色与每周更新：[docs/characters/COMMUNITY-CHARACTERS.md](../characters/COMMUNITY-CHARACTERS.md)
+- 落地页（英日中三语，静态网页）：[site/](../../site/README.md)；Product Hunt 配图：`docs/marketing/producthunt/`
+- 上架材料：[docs/marketing/store/listing.md](../marketing/store/listing.md)
+- 角色图源与匹配：[docs/development/SOURCES.md](SOURCES.md)
+- 以后的方向：AI 孵化原创角色（暂不实现）：[docs/product/AI-HATCH.md](../product/AI-HATCH.md)
+- 生成新内置角色的提示词和规格：[docs/characters/CHARACTER-PROMPTS.md](../characters/CHARACTER-PROMPTS.md)
 
 ## 开发
 
@@ -31,7 +31,7 @@ npm run zip        # 打包上架用的 .output/happydesk-<version>-chrome.zip
 
 ## 抽卡与角色
 
-- 每次开始播放新内容，后台先用本地分类模型给内容打标签（类型 + 曲风；视频再分娱乐/讲解），再从对应池子里等概率抽一个角色。模型完全离线，说明见 `docs/CLASSIFIER.md`。回到之前播过的内容，会恢复当时抽到的角色。
+- 每次开始播放新内容，后台先用本地分类模型给内容打标签（类型 + 曲风；视频再分娱乐/讲解），再从对应池子里等概率抽一个角色。模型完全离线，说明见 `docs/development/CLASSIFIER.md`。回到之前播过的内容，会恢复当时抽到的角色。
 - 每个内容可以"换一次"（同一个池子，不能退回）；可以锁定当前角色，锁定后不再抽。
 - **只在有声音时出现**：任何一个标签页在出声（播放且没静音），每个网页上都会出现角色；全部停下 5 分钟后自动收起，再播放时回来。静音自动播放的预览视频不算。设置页可以改成"一直显示"。
 - 角色跟着播放状态走：播放时逐帧动画之外还有轻微的上下律动；暂停时定格在一帧上并稍微变暗。系统开了"减少动态效果"时不做律动。
@@ -40,7 +40,7 @@ npm run zip        # 打包上架用的 .output/happydesk-<version>-chrome.zip
 - 图鉴、导入角色、AI 设置在扩展的选项页（点工具栏图标 → "图鉴 · 导入角色 · 设置"）。不喜欢的角色可以在图鉴里删除，之后不会再抽到；内置角色删除后可以在图鉴页底部恢复。
 - **AI 识别（可选）**：在「AI 模型」页连接你自己的模型——订阅登录（ChatGPT、GitHub Copilot、Kimi、xAI…）、API key（OpenAI、Anthropic、Google、DeepSeek、OpenRouter 等 30 多家），或 Ollama / LM Studio 等自定义端点。基于 [pi-ai](https://github.com/earendil-works/pi/tree/main/packages/ai)。只在本地模型没把握时才问 AI（约三分之一的内容），只发送标题、作者、域名；不连接也能用本地模型。每个新内容只问一次、请求很短、结果有缓存，所以有免费额度的服务商（NVIDIA、Google AI Studio、Groq、OpenRouter 的免费模型等）就够用。
 - **Petdex**：选项页可以搜索 [petdex.dev](https://petdex.dev) 的几千个社区宠物并导入，也可以导入本地的 `pet.json` + `spritesheet.webp`。导入的角色进入通用池，素材不随扩展分发。
-- **自动匹配角色（实验，默认关闭）**：在设置页打开后，标题或作者里出现已知的角色、作品、热梗或歌手时，直接换上对应的角色——播放《千本桜》出现初音未来，标题里有"奶龙"出现奶龙。匹配在本机按 [`src/lib/match/table.ts`](../src/lib/match/table.ts) 里的规则完成，不需要 AI，也不发送标题；命中时从 Petdex 下载那一个角色，最多保留最近用到的 24 个。对匹配到的角色点"换一次"，会换成同一匹配下的另一个角色（例如另一个初音未来）；这条匹配只有一个角色时才回到普通的池子。规则怎么写、验证过哪些图源，见 [docs/SOURCES.md](SOURCES.md)。
+- **自动匹配角色（实验，默认关闭）**：在设置页打开后，标题或作者里出现已知的角色、作品、热梗或歌手时，直接换上对应的角色——播放《千本桜》出现初音未来，标题里有"奶龙"出现奶龙。匹配在本机按 [`src/lib/match/table.ts`](../../src/lib/match/table.ts) 里的规则完成，不需要 AI，也不发送标题；命中时从 Petdex 下载那一个角色，最多保留最近用到的 24 个。对匹配到的角色点"换一次"，会换成同一匹配下的另一个角色（例如另一个初音未来）；这条匹配只有一个角色时才回到普通的池子。规则怎么写、验证过哪些图源，见 [docs/development/SOURCES.md](SOURCES.md)。
 
 ## 架构
 
@@ -86,7 +86,7 @@ npm run zip        # 打包上架用的 .output/happydesk-<version>-chrome.zip
 
 ## 远程角色库
 
-扩展默认订阅本仓库的 [`library/index.json`](../library/index.json)，每 12 小时同步一次，也可以在设置页添加别的库或手动同步。
+扩展默认订阅本仓库的 [`library/index.json`](../../library/index.json)，每 12 小时同步一次，也可以在设置页添加别的库或手动同步。
 
 ```
 library/
@@ -107,4 +107,4 @@ library/
 
 界面风格「贴纸手帐」：粉色点纸、拍立得卡片、和纸胶带，用在工具栏菜单和选项页；盖在别人网页上的控制条保持白底细边框，只用一处粉色。标题字体是 ZCOOL KuaiLe（SIL OFL 1.1），只打包页面用到的字（`scripts/subset-font.py`，`public/fonts/`）。
 
-代码：MIT。素材的许可证在各角色包的 `license` 字段里单独声明。表情气泡的动画来自 Google Noto Emoji，CC BY 4.0，见 [`public/emoji/LICENSE.md`](../public/emoji/LICENSE.md)。
+代码：MIT。素材的许可证在各角色包的 `license` 字段里单独声明。表情气泡的动画来自 Google Noto Emoji，CC BY 4.0，见 [`public/emoji/LICENSE.md`](../../public/emoji/LICENSE.md)。

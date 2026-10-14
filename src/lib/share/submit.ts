@@ -7,7 +7,7 @@ import { zip } from './zip';
  * Sharing a character the user drew with everyone: the extension packs it in the
  * library format, then the user sends the file through GitHub or email. There is
  * no Kobutai server; the maintainer reviews submissions and adds accepted ones to
- * `library/`, which every install syncs (see docs/COMMUNITY-CHARACTERS.md).
+ * `library/`, which every install syncs (see docs/characters/COMMUNITY-CHARACTERS.md).
  */
 export const SUBMIT_REPO = 'xingaobio/kobutai';
 /** Where emailed submissions go. Leave empty to offer GitHub only. */

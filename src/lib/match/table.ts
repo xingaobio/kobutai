@@ -15,7 +15,7 @@ import type { MatchRule } from './matcher';
  * - Only list a slug after reading its Petdex description: names repeat and
  *   many pets with a familiar name are something else.
  *
- * See docs/SOURCES.md for where these characters come from and what was tested.
+ * See docs/development/SOURCES.md for where these characters come from and what was tested.
  */
 export const MATCH_RULES: readonly MatchRule[] = [
   // --- Virtual singers -------------------------------------------------------

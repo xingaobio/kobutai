@@ -1,4 +1,4 @@
-// Chrome Web Store promo tile (docs/store/promo-440x280.png), in the landing page's sticker-book look.
+// Chrome Web Store promo tile (docs/marketing/store/promo-440x280.png), in the landing page's sticker-book look.
 // Run: node scripts/gen-promo.mjs
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -36,6 +36,6 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 440, height: 280 } });
 await page.setContent(html);
 await page.evaluate(() => document.fonts.ready);
-writeFileSync(join(ROOT, 'docs', 'store', 'promo-440x280.png'), await page.screenshot({ clip: { x: 0, y: 0, width: 440, height: 280 } }));
+writeFileSync(join(ROOT, 'docs', 'marketing', 'store', 'promo-440x280.png'), await page.screenshot({ clip: { x: 0, y: 0, width: 440, height: 280 } }));
 await browser.close();
 console.log('promo written');

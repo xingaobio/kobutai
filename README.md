@@ -23,7 +23,7 @@
 
 ## English
 
-<img src="docs/readme/hero-en.png" alt="Kobutai landing page: a chibi rock guitarist appears next to a music player" width="100%">
+<img src="docs/assets/readme/hero-en.png" alt="Kobutai landing page: a chibi rock guitarist appears next to a music player" width="100%">
 
 Play something on any tab and a little chibi performer pops up in the corner, drawn to match what's on: a guitarist for rock, a violinist for classical, a popcorn kid for a funny video. Hover over it to play, pause, skip or seek, even when the music lives in another tab.
 
@@ -46,7 +46,7 @@ Tuned for YouTube, YouTube Music, Spotify and Bilibili, and works on most other 
 
 ### The 12 characters
 
-<img src="docs/readme/characters-en.png" alt="The 12 built-in characters" width="100%">
+<img src="docs/assets/readme/characters-en.png" alt="The 12 built-in characters" width="100%">
 
 ### The built-in model
 
@@ -87,7 +87,7 @@ npm run check   # typecheck + unit tests + build
 npm run e2e     # end-to-end tests with Playwright
 ```
 
-Architecture, character pack format and character library: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) (Chinese). Design notes: [docs/DESIGN.md](docs/DESIGN.md). About the model in the extension: [docs/CLASSIFIER.md](docs/CLASSIFIER.md).
+Architecture, character pack format and character library: [docs/development/DEVELOPMENT.md](docs/development/DEVELOPMENT.md) (Chinese). Design notes: [docs/product/DESIGN.md](docs/product/DESIGN.md). About the model in the extension: [docs/development/CLASSIFIER.md](docs/development/CLASSIFIER.md).
 
 ### Credits and license
 
@@ -103,7 +103,7 @@ Architecture, character pack format and character library: [docs/DEVELOPMENT.md]
 
 ## 中文
 
-<img src="docs/readme/hero-zh.png" alt="Kobutai 官网：音乐播放器旁边出现一个弹吉他的 Q 版角色" width="100%">
+<img src="docs/assets/readme/hero-zh.png" alt="Kobutai 官网：音乐播放器旁边出现一个弹吉他的 Q 版角色" width="100%">
 
 在任何标签页放一首歌，网页角落就会出现一个和曲风相配的 Q 版小角色：摇滚是弹吉他的莉娜，古典是拉小提琴的薇奥，搞笑视频是抱着爆米花的爆爆。鼠标移上去就能播放、暂停、切歌、拖进度，音乐在别的标签页里也能控制。
 
@@ -126,7 +126,7 @@ Architecture, character pack format and character library: [docs/DEVELOPMENT.md]
 
 ### 12 个角色
 
-<img src="docs/readme/characters-zh.png" alt="12 个内置角色" width="100%">
+<img src="docs/assets/readme/characters-zh.png" alt="12 个内置角色" width="100%">
 
 ### 内置模型
 
@@ -167,7 +167,7 @@ npm run check   # 类型检查 + 单元测试 + 构建
 npm run e2e     # 用 Playwright 跑端到端测试
 ```
 
-架构、角色包格式、远程角色库：[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)。设计文档：[docs/DESIGN.md](docs/DESIGN.md)。扩展里的模型：[docs/CLASSIFIER.md](docs/CLASSIFIER.md)。
+架构、角色包格式、远程角色库：[docs/development/DEVELOPMENT.md](docs/development/DEVELOPMENT.md)。设计文档：[docs/product/DESIGN.md](docs/product/DESIGN.md)。扩展里的模型：[docs/development/CLASSIFIER.md](docs/development/CLASSIFIER.md)。
 
 ### 致谢与许可
 

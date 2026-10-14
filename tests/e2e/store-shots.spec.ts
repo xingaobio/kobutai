@@ -18,14 +18,14 @@ test('store screenshots', async ({ open, context, extensionId }) => {
   await a.reload();
   await audio(a).play();
   await a.waitForTimeout(1500);
-  await a.screenshot({ path: 'docs/store/screenshot-1-mascot.png' });
+  await a.screenshot({ path: 'docs/marketing/store/screenshot-1-mascot.png' });
   await a.getByTestId('happydesk-mascot').hover();
   await a.waitForTimeout(600);
-  await a.screenshot({ path: 'docs/store/screenshot-2-controls.png' });
+  await a.screenshot({ path: 'docs/marketing/store/screenshot-2-controls.png' });
 
   const c = await context.newPage();
   await c.setViewportSize({ width: 1280, height: 800 });
   await c.goto(`chrome-extension://${extensionId}/options.html#collection`);
   await c.waitForTimeout(800);
-  await c.screenshot({ path: 'docs/store/screenshot-3-collection.png' });
+  await c.screenshot({ path: 'docs/marketing/store/screenshot-3-collection.png' });
 });

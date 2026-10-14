@@ -29,6 +29,6 @@ All three accept a custom domain later, and every path in the site is relative, 
 - `assets/chars/*.webp`: one still frame per built-in character (album and footer).
 - `assets/sheets/*.webp`: the extension's sprite sheets, loaded only when the demo or a hovered card animates.
 - `assets/og.png`: 1200×630 social preview.
-- Product Hunt gallery images (1270×760 @2x) live in `docs/producthunt/`, not on the site.
+- Product Hunt gallery images (1270×760 @2x) live in `docs/marketing/producthunt/`, not on the site.
 
 Fonts come from Google Fonts: ZCOOL KuaiLe (Latin and Chinese display) and Zen Maru Gothic (Japanese display).
