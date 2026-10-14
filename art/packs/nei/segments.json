@@ -1,0 +1,23 @@
+{
+  "idle": {
+    "video": "Character_dancing_on_green_backg…_20261010215130.mp4",
+    "from_s": 0.04,
+    "to_s": 2.08,
+    "frames": 16,
+    "fps": 7.84
+  },
+  "playing": {
+    "video": "Character_dancing_on_green_backg…_20261010215130.mp4",
+    "from_s": 5.54,
+    "to_s": 7.58,
+    "frames": 24,
+    "fps": 11.76
+  },
+  "click": {
+    "video": "Character_dancing_on_green_backg…_20261010215130.mp4",
+    "from_s": 7.5,
+    "to_s": 9.5,
+    "frames": 24,
+    "fps": 12.0
+  }
+}

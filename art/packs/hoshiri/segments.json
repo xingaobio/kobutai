@@ -1,0 +1,23 @@
+{
+  "idle": {
+    "video": "Character_animating_dance_routine_20261010175850.mp4",
+    "from_s": 0.04,
+    "to_s": 2.29,
+    "frames": 18,
+    "fps": 8.0
+  },
+  "playing": {
+    "video": "Character_animating_dance_routine_20261010175850.mp4",
+    "from_s": 6.0,
+    "to_s": 7.58,
+    "frames": 19,
+    "fps": 12.0
+  },
+  "click": {
+    "video": "Character_animating_dance_routine_20261010175850.mp4",
+    "from_s": 7.5,
+    "to_s": 9.5,
+    "frames": 24,
+    "fps": 12.0
+  }
+}

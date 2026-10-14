@@ -1,0 +1,54 @@
+{
+  "id": "mochi",
+  "name": "麻糬 Mochi",
+  "author": "HappyDesk",
+  "license": "All rights reserved",
+  "tags": {
+    "type": [
+      "music"
+    ],
+    "genre": [
+      "lofi",
+      "classical"
+    ]
+  },
+  "size": {
+    "w": 144,
+    "h": 208
+  },
+  "states": {
+    "idle": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 24,
+      "cols": 8,
+      "row": 0,
+      "fps": 8.11
+    },
+    "playing": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 22,
+      "cols": 8,
+      "row": 3,
+      "fps": 11.73
+    },
+    "paused": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 1,
+      "cols": 8,
+      "row": 6,
+      "fps": 1
+    },
+    "click": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 24,
+      "cols": 8,
+      "row": 7,
+      "fps": 12.0,
+      "loop": false
+    }
+  }
+}

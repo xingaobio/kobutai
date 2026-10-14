@@ -1,0 +1,23 @@
+{
+  "idle": {
+    "video": "Animate_Popo_eating_popcorn_1080p_20261010221209.mp4",
+    "from_s": 0.21,
+    "to_s": 1.96,
+    "frames": 14,
+    "fps": 8.0
+  },
+  "playing": {
+    "video": "Animate_Popo_eating_popcorn_1080p_20261010221209.mp4",
+    "from_s": 5.5,
+    "to_s": 6.5,
+    "frames": 12,
+    "fps": 12.0
+  },
+  "click": {
+    "video": "Animate_Popo_eating_popcorn_1080p_20261010221209.mp4",
+    "from_s": 7.5,
+    "to_s": 9.5,
+    "frames": 24,
+    "fps": 12.0
+  }
+}

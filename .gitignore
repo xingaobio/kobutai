@@ -13,3 +13,14 @@ apikey.rtf
 *.rtf
 .env
 .env.*
+
+# Character art sources (art/): keep prompts, roster and pack manifests in git;
+# the generated videos, reference images and previews stay local (large binaries).
+art/**/*.mp4
+art/**/*.mov
+art/**/*.webm
+art/**/*.gif
+art/**/*.png
+art/**/*.jpg
+art/**/*.jpeg
+art/**/*.webp

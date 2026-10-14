@@ -1,0 +1,23 @@
+{
+  "idle": {
+    "video": "Anime_character_performing_with_…_20261010115444.mp4",
+    "from_s": 0.71,
+    "to_s": 2.25,
+    "frames": 12,
+    "fps": 7.78
+  },
+  "playing": {
+    "video": "Anime_character_performing_with_…_20261010115444.mp4",
+    "from_s": 4.88,
+    "to_s": 5.88,
+    "frames": 12,
+    "fps": 12.0
+  },
+  "click": {
+    "video": "Anime_character_performing_with_…_20261010115444.mp4",
+    "from_s": 7.5,
+    "to_s": 9.5,
+    "frames": 24,
+    "fps": 12.0
+  }
+}

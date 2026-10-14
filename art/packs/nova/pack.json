@@ -1,0 +1,62 @@
+{
+  "id": "nova",
+  "name": "NOVA",
+  "author": "HappyDesk",
+  "license": "All rights reserved",
+  "tags": {
+    "type": [
+      "music"
+    ],
+    "genre": [
+      "electronic",
+      "jpop",
+      "anime",
+      "western-pop",
+      "hiphop",
+      "rock",
+      "cpop",
+      "lofi",
+      "classical",
+      "other"
+    ]
+  },
+  "size": {
+    "w": 112,
+    "h": 208
+  },
+  "states": {
+    "idle": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 12,
+      "cols": 8,
+      "row": 0,
+      "fps": 8.0
+    },
+    "playing": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 10,
+      "cols": 8,
+      "row": 2,
+      "fps": 12.63
+    },
+    "paused": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 1,
+      "cols": 8,
+      "row": 4,
+      "fps": 1
+    },
+    "click": {
+      "kind": "sprite",
+      "src": "sheet.webp",
+      "frames": 24,
+      "cols": 8,
+      "row": 5,
+      "fps": 12.0,
+      "loop": false
+    }
+  }
+}

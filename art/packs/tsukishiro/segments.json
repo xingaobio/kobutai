@@ -1,0 +1,23 @@
+{
+  "idle": {
+    "video": "Character_animation_on_blue_back…_20261010233553.mp4",
+    "from_s": 1.17,
+    "to_s": 2.67,
+    "frames": 12,
+    "fps": 8.0
+  },
+  "playing": {
+    "video": "Character_animation_on_blue_back…_20261010233553.mp4",
+    "from_s": 3.38,
+    "to_s": 6.04,
+    "frames": 24,
+    "fps": 9.0
+  },
+  "click": {
+    "video": "Character_animation_on_blue_back…_20261010233553.mp4",
+    "from_s": 7.5,
+    "to_s": 9.5,
+    "frames": 24,
+    "fps": 12.0
+  }
+}

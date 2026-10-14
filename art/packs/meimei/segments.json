@@ -1,0 +1,23 @@
+{
+  "idle": {
+    "video": "Meimei_animation_sequence_20261010182337.mp4",
+    "from_s": 0.92,
+    "to_s": 2.62,
+    "frames": 14,
+    "fps": 8.2
+  },
+  "playing": {
+    "video": "Meimei_animation_sequence_20261010182337.mp4",
+    "from_s": 4.71,
+    "to_s": 5.5,
+    "frames": 10,
+    "fps": 12.63
+  },
+  "click": {
+    "video": "Meimei_animation_sequence_20261010182337.mp4",
+    "from_s": 7.5,
+    "to_s": 9.5,
+    "frames": 24,
+    "fps": 12.0
+  }
+}

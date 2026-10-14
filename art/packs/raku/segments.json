@@ -1,0 +1,23 @@
+{
+  "idle": {
+    "video": "Animating_character_rapping_and_…_20261010232029.mp4",
+    "from_s": 0.67,
+    "to_s": 2.54,
+    "frames": 15,
+    "fps": 8.0
+  },
+  "playing": {
+    "video": "Animating_character_rapping_and_…_20261010232029.mp4",
+    "from_s": 5.08,
+    "to_s": 6.0,
+    "frames": 11,
+    "fps": 12.0
+  },
+  "click": {
+    "video": "Animating_character_rapping_and_…_20261010232029.mp4",
+    "from_s": 7.5,
+    "to_s": 9.5,
+    "frames": 24,
+    "fps": 12.0
+  }
+}

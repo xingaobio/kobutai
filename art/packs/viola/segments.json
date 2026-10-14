@@ -1,0 +1,23 @@
+{
+  "idle": {
+    "video": "Character_playing_violin_animation_1080p_20261010234851.mp4",
+    "from_s": 1.46,
+    "to_s": 2.96,
+    "frames": 12,
+    "fps": 8.0
+  },
+  "playing": {
+    "video": "Character_playing_violin_animation_1080p_20261010234851.mp4",
+    "from_s": 5.92,
+    "to_s": 7.12,
+    "frames": 14,
+    "fps": 11.59
+  },
+  "click": {
+    "video": "Character_playing_violin_animation_1080p_20261010234851.mp4",
+    "from_s": 7.5,
+    "to_s": 9.5,
+    "frames": 24,
+    "fps": 12.0
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "idle": {
+    "video": "Animating_Kiki_character_referen…_20261010180255.mp4",
+    "from_s": 0.17,
+    "to_s": 2.25,
+    "frames": 17,
+    "fps": 8.16
+  },
+  "playing": {
+    "video": "Animating_Kiki_character_referen…_20261010180255.mp4",
+    "from_s": 5.42,
+    "to_s": 6.38,
+    "frames": 12,
+    "fps": 12.52
+  },
+  "click": {
+    "video": "Animating_Kiki_character_referen…_20261010180255.mp4",
+    "from_s": 7.5,
+    "to_s": 9.5,
+    "frames": 24,
+    "fps": 12.0
+  }
+}

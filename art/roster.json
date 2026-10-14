@@ -1,0 +1,252 @@
+{
+  "rina": {
+    "name": "莉娜 Rina",
+    "scene": "激烈唱跳：摇滚主唱 + 吉他",
+    "batch": 1,
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "music"
+      ],
+      "genre": [
+        "rock",
+        "western-pop"
+      ]
+    }
+  },
+  "hoshiri": {
+    "name": "星璃 Hoshiri",
+    "scene": "偶像唱跳",
+    "batch": 1,
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "music"
+      ],
+      "genre": [
+        "jpop",
+        "anime"
+      ]
+    }
+  },
+  "qingge": {
+    "name": "青歌 Qingge",
+    "scene": "安静地唱：抒情",
+    "batch": 1,
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "music"
+      ],
+      "genre": [
+        "cpop",
+        "jpop"
+      ]
+    }
+  },
+  "nei": {
+    "name": "霓 Nei",
+    "scene": "跳舞：DJ / 电音",
+    "batch": 1,
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "music"
+      ],
+      "genre": [
+        "electronic",
+        "western-pop"
+      ]
+    }
+  },
+  "mochi": {
+    "name": "麻糬 Mochi",
+    "scene": "安静陪伴：Lo-fi",
+    "batch": 1,
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "music"
+      ],
+      "genre": [
+        "lofi",
+        "classical"
+      ]
+    }
+  },
+  "popo": {
+    "name": "爆爆 Popo",
+    "scene": "看视频、看直播的观众",
+    "batch": 1,
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "video",
+        "live"
+      ],
+      "genre": []
+    }
+  },
+  "kiki": {
+    "name": "小喜 Kiki",
+    "scene": "吉祥物：认不出内容时出场",
+    "batch": 1,
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [],
+      "genre": []
+    }
+  },
+  "raku": {
+    "name": "乐酷 Raku",
+    "scene": "激烈说唱",
+    "batch": 2,
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "music"
+      ],
+      "genre": [
+        "hiphop",
+        "rock",
+        "electronic"
+      ]
+    }
+  },
+  "viola": {
+    "name": "薇奥 Viola",
+    "scene": "安静演奏：小提琴",
+    "batch": 2,
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "music"
+      ],
+      "genre": [
+        "classical",
+        "anime",
+        "lofi"
+      ]
+    }
+  },
+  "aria": {
+    "name": "艾莉亚 Aria",
+    "scene": "流行舞台唱跳",
+    "batch": 2,
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "music"
+      ],
+      "genre": [
+        "western-pop",
+        "cpop",
+        "hiphop"
+      ]
+    }
+  },
+  "ouen": {
+    "name": "应援酱 Ouen",
+    "scene": "打 call 应援",
+    "batch": 2,
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "live"
+      ],
+      "genre": []
+    }
+  },
+  "tingting": {
+    "name": "听听 Tingting",
+    "scene": "认真听播客",
+    "batch": 2,
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "podcast",
+        "video"
+      ],
+      "genre": []
+    }
+  },
+  "tsukishiro": {
+    "name": "月白 Tsukishiro",
+    "scene": "深夜限定：抱着月亮安静地唱",
+    "batch": "hidden",
+    "hidden": {
+      "trigger": "late-night",
+      "zh": "凌晨 0～4 点在听音乐时出现"
+    },
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "music"
+      ],
+      "genre": [
+        "lofi",
+        "jpop",
+        "cpop",
+        "anime",
+        "classical",
+        "other"
+      ]
+    }
+  },
+  "nova": {
+    "name": "NOVA",
+    "scene": "单曲循环彩蛋：机娘电音舞",
+    "batch": "hidden",
+    "hidden": {
+      "trigger": "repeat-3",
+      "zh": "同一首歌听到第 3 遍时出现"
+    },
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [
+        "music"
+      ],
+      "genre": [
+        "electronic",
+        "jpop",
+        "anime",
+        "western-pop",
+        "hiphop",
+        "rock",
+        "cpop",
+        "lofi",
+        "classical",
+        "other"
+      ]
+    }
+  },
+  "meimei": {
+    "name": "莓莓 Meimei",
+    "scene": "连戳彩蛋：地雷系小恶魔",
+    "batch": "hidden",
+    "hidden": {
+      "trigger": "poke-10",
+      "zh": "10 秒内连续点角色 10 次时出现"
+    },
+    "author": "HappyDesk",
+    "license": "All rights reserved",
+    "tags": {
+      "type": [],
+      "genre": []
+    }
+  }
+}
