@@ -39,19 +39,6 @@ mkdirSync(iconDir, { recursive: true });
 for (const size of [16, 32, 48, 96, 128]) writeFileSync(join(iconDir, `${size}.png`), await render(page, iconSvg(size), size, size));
 writeFileSync(join(ROOT, 'site', 'assets', 'favicon-32.png'), await render(page, iconSvg(32), 32, 32));
 writeFileSync(join(ROOT, 'site', 'assets', 'icon-128.png'), await render(page, iconSvg(128), 128, 128));
-const momo = { id: 'momo', body: '#ff8fc7', accent: '#5ee6d6', prop: 'mic' };
-// Store listing tile (440×280, promo).
-writeFileSync(
-  join(ROOT, 'docs', 'store', 'promo-440x280.png'),
-  await render(
-    page,
-    `<div style="width:440px;height:280px;background:linear-gradient(135deg,#2b1a3a,#18181e);display:flex;align-items:center;gap:8px;padding:0 24px;box-sizing:border-box;font-family:system-ui;color:#fff">
-       <svg width="150" height="160" viewBox="26 52 140 150">${frame(momo, 'playing', 2)}</svg>
-       <div><div style="font-size:34px;font-weight:800">HappyDesk</div><div style="font-size:16px;opacity:.8;margin-top:6px">听什么，就抽谁出来陪你</div></div>
-     </div>`,
-    440,
-    280,
-  ),
-);
+// Store promo tile: scripts/gen-promo.mjs.
 await browser.close();
 console.log('library + icons written');
