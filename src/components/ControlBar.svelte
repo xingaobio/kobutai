@@ -100,28 +100,31 @@
       <span>{snap.duration ? formatTime(snap.duration) : 'LIVE'}</span>
     </div>
 
+    {#if snap.canVolume !== false || onPip || onHideSite}
     <div class="row">
-      <button
-        class="icon small"
-        aria-label={snap.muted ? t('common.unmute') : t('common.mute')}
-        onclick={() => cmd({ type: 'mute', muted: !snap.muted })}
-      >
-        {#if snap.muted || snap.volume === 0}
-          <svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4zM16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" fill="none" /></svg>
-        {:else}
-          <svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z" /><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="2" fill="none" /></svg>
-        {/if}
-      </button>
-      <input
-        class="volume"
-        type="range"
-        aria-label={t('common.volume')}
-        min="0"
-        max="1"
-        step="0.01"
-        value={snap.muted ? 0 : snap.volume}
-        oninput={(e) => cmd({ type: 'volume', volume: +e.currentTarget.value })}
-      />
+      {#if snap.canVolume !== false}
+        <button
+          class="icon small"
+          aria-label={snap.muted ? t('common.unmute') : t('common.mute')}
+          onclick={() => cmd({ type: 'mute', muted: !snap.muted })}
+        >
+          {#if snap.muted || snap.volume === 0}
+            <svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4zM16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" fill="none" /></svg>
+          {:else}
+            <svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z" /><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="2" fill="none" /></svg>
+          {/if}
+        </button>
+        <input
+          class="volume"
+          type="range"
+          aria-label={t('common.volume')}
+          min="0"
+          max="1"
+          step="0.01"
+          value={snap.muted ? 0 : snap.volume}
+          oninput={(e) => cmd({ type: 'volume', volume: +e.currentTarget.value })}
+        />
+      {/if}
       {#if onPip}
         <button class="icon small" aria-label={t('bar.pip')} title={t('bar.pipTitle')} data-testid="happydesk-pip-open" onclick={onPip}>
           <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2" fill="none" /><rect x="12" y="11" width="7" height="6" rx="1" /></svg>
@@ -133,6 +136,7 @@
         </button>
       {/if}
     </div>
+    {/if}
 
     <div class="gacha" data-testid="happydesk-gacha">
       <span class="who" title={packName}>{packName}</span>

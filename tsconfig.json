@@ -3,5 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "noUncheckedIndexedAccess": true
-  }
+  },
+  // The desktop app has its own tsconfig and its own `browser`/`#imports` (desktop/ui/shims).
+  // Setting "exclude" replaces the one in .wxt/tsconfig.json, so that one is repeated here.
+  "exclude": ["**/node_modules", ".output-e2e", "desktop"]
 }

@@ -8,6 +8,11 @@ web-ext.config.ts
 test-results
 playwright-report
 
+# Desktop app (Tauri): web build and Rust build output
+desktop/dist
+desktop/src-tauri/target
+desktop/src-tauri/gen
+
 # API keys and other local secrets
 apikey.rtf
 *.rtf

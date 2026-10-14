@@ -7,6 +7,8 @@ export interface MediaSnapshot {
   /** 0..1 */
   volume: number;
   muted: boolean;
+  /** The player's volume can be changed from here. Absent means true; the desktop app's system sessions say false. */
+  canVolume?: boolean;
   title: string;
   artist: string;
   artwork?: string;

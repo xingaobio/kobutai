@@ -14,11 +14,18 @@
     "test": "vitest run",
     "match:check": "MATCH_LIVE=1 vitest run src/lib/match/table.live.test.ts",
     "check": "npm run typecheck && npm run test && npm run build",
-    "e2e": "KOBUTAI_E2E=1 wxt build && playwright test"
+    "e2e": "KOBUTAI_E2E=1 wxt build && playwright test",
+    "desktop:ui:dev": "vite --config desktop/vite.config.ts",
+    "desktop:ui:build": "vite build --config desktop/vite.config.ts",
+    "desktop:check": "svelte-check --tsconfig desktop/tsconfig.json --fail-on-warnings && vitest run --config desktop/vitest.config.ts",
+    "desktop:e2e": "npm run desktop:ui:build && playwright test --config desktop/playwright.config.ts",
+    "desktop:dev": "cd desktop && tauri dev",
+    "desktop:build": "cd desktop && tauri build"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@tauri-apps/cli": "^2.12.3",
     "@wxt-dev/module-svelte": "^2.0.5",
     "happy-dom": "^20.14.5",
     "svelte": "^5.57.1",
@@ -28,6 +35,7 @@
     "wxt": "^0.21.4"
   },
   "dependencies": {
-    "@earendil-works/pi-ai": "^1.0.3"
+    "@earendil-works/pi-ai": "^1.0.3",
+    "@tauri-apps/api": "^2.12.4"
   }
 }

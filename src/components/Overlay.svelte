@@ -21,7 +21,8 @@
     layout: Layout;
     send: (msg: ToBackground) => void;
     saveLayout: (l: Layout) => void;
-    hideSite: () => void;
+    /** Absent: no "hide on this site" button (the desktop app has no per-app hiding yet). */
+    hideSite?: () => void;
     openPip?: () => void;
   } = $props();
 

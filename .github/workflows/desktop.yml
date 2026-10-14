@@ -1,0 +1,80 @@
+# Builds the Windows desktop app (Tauri 2, desktop/) and uploads UNSIGNED installers as a build artifact.
+# Spec: docs/development/DESKTOP.md section 6.
+#
+# Code signing is not set up yet (the certificate type is undecided, see the placeholder step below).
+# Until then the installers are for testing only: Windows SmartScreen shows "Windows protected your PC";
+# click "More info" -> "Run anyway".
+name: Desktop
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'desktop/**'
+      - 'src/**'
+      - 'public/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/desktop.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: desktop-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    env:
+      # `secrets` cannot be used in a step `if:` directly, so expose "is it set?" as a plain env value.
+      HAS_SIGNING_CERT: ${{ secrets.WINDOWS_CERTIFICATE != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: 'desktop/src-tauri -> target'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Front-end typecheck and unit tests
+        run: npm run desktop:check
+
+      - name: Rust unit tests
+        working-directory: desktop/src-tauri
+        run: cargo test
+
+      - name: Build installers (unsigned)
+        run: npm run desktop:build
+
+      # ---------------------------------------------------------------------------------------
+      # PLACEHOLDER, NOT ACTIVE: code signing (milestone D3, docs/development/DESKTOP.md section 7).
+      # Runs only when the repository secret WINDOWS_CERTIFICATE exists. It does NOT sign anything yet:
+      # the owner has not chosen a certificate type (OV/EV .pfx vs. Azure Trusted Signing vs. a cloud HSM),
+      # and each needs a different command. Replace the body when that is decided, e.g. for a .pfx:
+      #   - import the base64 certificate from the secret into the runner's certificate store,
+      #   - set `bundle.windows.certificateThumbprint` (and `digestAlgorithm`, `timestampUrl`)
+      #     through a tauri config override, then re-run `npm run desktop:build`,
+      #   - upload the signed installers as a separate artifact (kobutai-desktop-signed).
+      # The unsigned artifact below is always produced.
+      # ---------------------------------------------------------------------------------------
+      - name: Sign installers (placeholder, not implemented)
+        if: env.HAS_SIGNING_CERT == 'true'
+        run: echo "::warning::WINDOWS_CERTIFICATE is set but code signing is not implemented yet; the uploaded installers are unsigned."
+
+      - name: Upload unsigned installers
+        uses: actions/upload-artifact@v4
+        with:
+          name: kobutai-desktop-unsigned
+          path: |
+            desktop/src-tauri/target/release/bundle/nsis/*.exe
+            desktop/src-tauri/target/release/bundle/msi/*.msi
+          if-no-files-found: error
