@@ -67,6 +67,9 @@ export const test = base.extend<{
       const url = new URL(route.request().url());
       return route.fulfill({ body: mediaPage(url.hostname), contentType: 'text/html; charset=utf-8' });
     });
+    // The default character library is the public GitHub repo: keep it out of tests so they don't
+    // depend on what's published there. Specs that test libraries route it themselves (later routes win).
+    await context.route(/^https:\/\/raw\.githubusercontent\.com\//, (route) => route.fulfill({ status: 404, body: '' }));
     // Wait for the service worker so content scripts can connect.
     if (!context.serviceWorkers().length) await context.waitForEvent('serviceworker');
     await use(context);

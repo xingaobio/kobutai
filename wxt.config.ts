@@ -16,7 +16,7 @@ export default defineConfig({
   manifest: {
     name: '__MSG_extName__',
     description: '__MSG_extDescription__',
-    default_locale: 'zh_CN',
+    default_locale: 'en',
     homepage_url: 'https://kobutai.pages.dev',
     permissions: ['storage', 'alarms'],
     // Requested at runtime, per origin: a character library on a host without CORS, or a model

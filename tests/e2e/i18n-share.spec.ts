@@ -120,11 +120,18 @@ test('share a character I drew: a CC BY 4.0 package and a pre-filled GitHub subm
   await page.waitForTimeout(200);
   await shot(page, 'share-done');
 
-  // GitHub route: a pre-filled issue form (the network is not needed to check the address).
-  await context.route('https://github.com/**', (r) => r.fulfill({ body: 'ok' }));
-  const tab = context.waitForEvent('page');
+  // GitHub route: a pre-filled issue form. Record the address instead of opening GitHub, which
+  // now redirects signed-out visitors (the repository is public).
+  await page.evaluate(() => {
+    const tabs = (globalThis as unknown as { chrome: { tabs: { create: (o: { url: string }) => Promise<unknown> } } }).chrome.tabs;
+    tabs.create = async (o) => {
+      (window as unknown as { __opened: string }).__opened = o.url;
+      return {};
+    };
+  });
   await dialog.getByTestId('share-github').click();
-  const gh = new URL((await tab).url());
+  await expect.poll(() => page.evaluate(() => (window as unknown as { __opened?: string }).__opened)).toBeTruthy();
+  const gh = new URL((await page.evaluate(() => (window as unknown as { __opened: string }).__opened)));
   expect(gh.pathname).toBe('/xingaobio/kobutai/issues/new');
   expect(gh.searchParams.get('template')).toBe('character.yml');
   expect(gh.searchParams.get('author')).toBe('Mika');

@@ -150,13 +150,13 @@ export const zh = {
 
   // AI models
   'models.title': 'AI 识别',
-  'models.intro': '默认用本地规则判断曲风。连上一个模型后，由它来判断新内容是什么类型、什么曲风，抽角色更准。只发送标题、作者和网站域名，结果按内容缓存。API key 和登录凭证只保存在这台电脑的浏览器里，请求直接从扩展发到模型服务商。',
+  'models.intro': '正在播放的内容由扩展内置的小模型在这台电脑上识别，什么都不发送。连上你自己的 AI 可以做第二意见：只在内置模型没把握的新内容（大约三条里一条）才问它，也只发送这些内容的标题、作者和网站域名。结果按内容缓存。API key 和登录凭证只保存在这台电脑的浏览器里，请求直接从扩展发到模型服务商。',
   'models.toggle': '用 AI 识别曲风',
   'models.toggleAria': '启用 AI 识别',
   'models.connected': '已连接',
   'models.freeProvider': '有免费额度的服务商',
-  'models.noModelYet': '还没有可用的模型，现在用本地规则。在下面连接一个服务商。',
-  'models.off': 'AI 识别已关闭，现在用本地规则。',
+  'models.noModelYet': '还没有连接模型，现在只用内置模型识别。在下面连接一个服务商。',
+  'models.off': 'AI 识别已关闭，现在只用内置模型识别。',
   'models.model': '模型',
   'models.pick': '选择一个模型',
   'models.connectFirst': '先在下面连接一个服务商',
