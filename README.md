@@ -92,6 +92,7 @@ Architecture, character pack format and character library: [docs/development/DEV
 ### Credits and license
 
 - Code: MIT.
+- Built-in model (`public/model/`): CC BY-NC 4.0, see [`public/model/LICENSE.md`](public/model/LICENSE.md). Also on [Hugging Face](https://huggingface.co/xingaouk/kobutai-media-classifier).
 - Built-in characters © Kobutai; each pack declares its own licence in `pack.json`. Shared characters are published under CC BY 4.0 with credit to their artists.
 - Emoji animations: [Google Noto Emoji](https://googlefonts.github.io/noto-emoji-animation/), CC BY 4.0.
 - Title font: ZCOOL KuaiLe, SIL OFL 1.1.
@@ -172,6 +173,7 @@ npm run e2e     # 用 Playwright 跑端到端测试
 ### 致谢与许可
 
 - 代码：MIT。
+- 内置模型（`public/model/`）：CC BY-NC 4.0（禁止商用），见 [`public/model/LICENSE.md`](public/model/LICENSE.md)。也发布在 [Hugging Face](https://huggingface.co/xingaouk/kobutai-media-classifier)。
 - 内置角色 © Kobutai；每个角色包在 `pack.json` 里单独声明许可。用户投稿的角色以 CC BY 4.0 发布并署名作者。
 - 表情动画：[Google Noto Emoji](https://googlefonts.github.io/noto-emoji-animation/)，CC BY 4.0。
 - 标题字体：站酷快乐体（ZCOOL KuaiLe），SIL OFL 1.1。
