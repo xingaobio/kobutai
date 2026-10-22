@@ -14,7 +14,7 @@ import data from './lines.json';
 export const LINE_MOODS = ['calm', 'hype', 'bright', 'sad', 'any', 'ent', 'info', 'live', 'podcast'] as const;
 export type LineMood = (typeof LINE_MOODS)[number];
 
-/** Things a character can talk about. Some are not wired up yet (repeat, idle). */
+/** Things a character can talk about. */
 export type LineEvent =
   | 'appear'
   | 'click'
@@ -120,6 +120,10 @@ export const TALK_GAP_MS: Record<'chatty' | 'normal', number> = { chatty: 60_000
 export const LONG_PLAY_MS = 60 * 60_000;
 /** A resume after a pause shorter than this is not worth a "welcome back". */
 export const RESUME_AFTER_MS = 30_000;
+/** Nothing has played for this long while the character is on screen ("一直显示"): an idle line… */
+export const IDLE_AFTER_MS = 10 * 60_000;
+/** …and another one this often while it stays quiet. */
+export const IDLE_EVERY_MS = 30 * 60_000;
 /** Clicks within this window make a "stop poking me" line. */
 export const CLICK_WINDOW_MS = 5_000;
 export const MANY_CLICKS = 3;
@@ -127,6 +131,19 @@ export const MANY_CLICKS = 3;
 /** 0–4 am local time: characters say something about the hour instead. */
 export function isLateNight(d: Date): boolean {
   return d.getHours() < 4;
+}
+
+type Position = { currentTime: number; duration: number };
+
+/**
+ * The track started over: it was near its end and is back near its start (the player
+ * loops it, or it was played again). Short clips and unknown lengths don't count.
+ */
+export function isReplay(before: Position | null, now: Position): boolean {
+  if (!before) return false;
+  const d = now.duration || before.duration;
+  if (!(d >= 20)) return false;
+  return before.currentTime >= Math.max(d - 8, d * 0.85) && now.currentTime <= 5;
 }
 
 /** How long a line stays up: long enough to read, never long enough to be in the way. */

@@ -8,6 +8,7 @@ import {
   Talker,
   fill,
   isLateNight,
+  isReplay,
   keysFor,
   lineMs,
   moodOf,
@@ -186,4 +187,18 @@ test('{k} becomes the character\'s kaomoji', () => {
 test('a line stays up long enough to read, never in the way', () => {
   expect(lineMs('嗯。')).toBe(2500);
   expect(lineMs('x'.repeat(60))).toBe(5000);
+});
+
+test('a replay: back to the start after being near the end', () => {
+  const at = (currentTime: number, duration = 200) => ({ currentTime, duration });
+  expect(isReplay(at(196), at(0.5))).toBe(true);
+  expect(isReplay(at(193), at(2))).toBe(true);
+  expect(isReplay(at(26, 30), at(1, 30))).toBe(true);
+  // Seeking back in the middle, or skipping ahead, is not a replay.
+  expect(isReplay(at(100), at(1))).toBe(false);
+  expect(isReplay(at(196), at(30))).toBe(false);
+  // Short clips and live streams (no duration) never count.
+  expect(isReplay(at(14, 15), at(0, 15))).toBe(false);
+  expect(isReplay(at(500, 0), at(0, 0))).toBe(false);
+  expect(isReplay(null, at(0))).toBe(false);
 });

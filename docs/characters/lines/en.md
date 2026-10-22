@@ -982,3 +982,454 @@
 - Boooring~
 - Play something, I wanna dance
 - Ignoring me? Hmph
+
+---
+
+## raku Raku
+
+> Rapper. Fast-talking, friendly with everyone from the first second, great sense of rhythm. Short, punchy lines that bounce; opens with Yo a lot and talks beat, flow, bars, mic. His cap is sacred. Compliments are direct. Strictly PG.
+
+### appear
+- Yo! Raku's in the house!
+- Mic check, one two!
+- Drop the beat, I'll catch it
+- You ready? Let's roll!
+- Cap on tight. Let's work!
+
+### click
+- Yo, fist bump?
+- Hey! Not the cap!
+- Yo, what's good?
+- Want me to spit a verse?
+- Shh, I'm cooking up a rhyme!
+- Quick hands, I respect it {k}
+
+### click.many
+- Your tempo's faster than mine!
+- Whoa whoa, you're off the beat!
+- Okay, okay, you win
+
+### playing.hype
+- This beat goes hard!
+- Keep nodding, don't stop!
+- That bass just blew up!
+- I could ride this all night!
+- Rhythm on point {k}
+
+### playing.bright
+- Ooh, this one's got flow
+- Light and bouncy. I can ride it
+- Clean beat. Smooth.
+
+### playing.calm
+- Slowed down, still got vibes
+- Perfect for writing bars…
+- Cap low, just vibing
+
+### playing.sad
+- Mm… even the beat's dragging
+- Cool guys feel stuff too
+- Gotta sit still for this one
+
+### playing.any
+- Okay, this one's got something
+- I'm listening, do your thing
+- Ten outta ten from me
+- Nice rhythm, yo
+- Good track. Locked in.
+
+### paused
+- Freestyle for the break?
+- Grabbing a sip real quick
+- Mic's down. I'll wait
+
+### resumed
+- You're back! Pick up the flow!
+- Beat's back on!
+- Alright, let's roll!
+
+### repeat
+- Run it back, I want more
+- Gotta learn this one by heart
+- On loop, let's go!
+
+### long_play
+- My throat's on fire!
+- Water break, then we keep going
+- Yo, you've got serious stamina!
+
+### late_night
+- Late night, still on beat
+- Keep it low, neighbors are asleep
+- Night owls, roll call!
+
+### idle
+- No beat, no flow, yo
+- Put a track on, I'll jump in
+- The mic's waiting
+
+---
+
+## viola Viola
+
+> Violinist. Elegant, focused, a little shy. Soft and polite; starts with Um… or stammers a bit when flustered; talks about her bow, strings and intonation. Gets bashful when praised. Few exclamation marks.
+
+### appear
+- Hello… I'm Viola
+- Um, nice to meet you
+- My strings are all tuned
+- O-okay, I'll begin
+- What would you like to hear?
+
+### click
+- Oh! You startled me…
+- Um… did you need something?
+- Careful, please… the bow
+- Shall I play you a note?
+- Mm… I'm here
+- Was my intonation okay just now?
+
+### click.many
+- P-please, gently…
+- My strings are trembling
+- O-okay, I'm listening
+
+### playing.calm
+- Such a quiet melody…
+- Like one long, slow bow stroke
+- My heart follows the bow
+- This one's so elegant
+- I want to close my eyes for this
+
+### playing.sad
+- This one… is a little sad
+- Slowly. It's alright
+- I'll play very softly too
+
+### playing.bright
+- So light and lively
+- I'd love to play along
+- I feel a little brighter now
+
+### playing.hype
+- So powerful…
+- So fast… I can't keep up
+- My heart's racing too
+
+### playing.any
+- That's lovely
+- I like this one
+- Such a clean sound
+- Let's listen quietly together
+- Mm… I'll remember this one
+
+### paused
+- I'll loosen my bow for now
+- Let's rest a little
+- I'll wait right here
+
+### resumed
+- Welcome back
+- Shall we continue?
+- Mm, let's keep listening
+
+### repeat
+- Once more… if that's okay?
+- It sounds different every time
+- I'd like to learn this one
+
+### long_play
+- We've been listening a while
+- My wrists could use a rest too
+- Maybe a sip of water?
+
+### late_night
+- It's gotten late…
+- Strings sound clearest at night
+- Let's keep it soft
+
+### idle
+- So quiet…
+- Um, shall we listen to something?
+- I'll practice my scales for now
+
+---
+
+## aria Aria
+
+> Pop star. Born for center stage, confident and warm. Treats herself as the star and the user as her audience; spotlight, stage, encore, the star of the show. Even her compliments come with a little playful self-praise. Friendly fan service, never romantic.
+
+### appear
+- Spotlight on me, please!
+- Aria, taking the stage~
+- Thanks for waiting, your star's here!
+- Are you ready to scream?
+- Tonight's stage is mine {k}
+
+### click
+- Want an autograph?
+- Don't worry, everyone gets one~
+- Hm? Too excited to see me?
+- Camera's over here!
+- Here, have a wink~
+- I'm sparkling today, right?
+
+### click.many
+- Okay, I know you're a superfan~
+- Security! We've got an eager one!
+- Not the hair!
+
+### playing.bright
+- This one's made for dancing!
+- Follow my lead, sway with me!
+- Mood: perfect score!
+- Chorus is coming, keep up!
+- I could sing this all night
+
+### playing.hype
+- The stage is on fire!
+- What a beat!
+- Jump! Don't stop!
+
+### playing.calm
+- Time for a little ballad
+- Dim the lights a bit
+- Slow songs have their charm too
+
+### playing.sad
+- This one hits right in the heart…
+- A ballad night, then
+- It's okay, stars cry too
+
+### playing.any
+- Great song! I approve
+- This one's very me
+- Ooh, you've got taste~
+- Let's party!
+- Move to the beat with me~
+
+### paused
+- Costume change~
+- Quick touch-up, be right back
+- Don't leave your seats!
+
+### resumed
+- Back on stage!
+- Your star is back~
+- On with the show!
+
+### repeat
+- Encore! I knew you'd want it
+- Once more? You got it!
+- This is tonight's big number!
+
+### long_play
+- This concert's a long one!
+- Sip some water, save your voice
+- Stretch, then let's keep going~
+
+### late_night
+- Late-night special show~
+- Still cheering for me this late?
+- The stage looks pretty at night too
+
+### idle
+- An empty stage is such a waste
+- Put a song on~
+- The spotlight's waiting
+
+---
+
+## ouen Ouen
+
+> The #1 fan of every live stream. Always hyped, a glowstick in each hand. Shouts LET'S GOOO! and AAAH!, lives for streams and live shows. Even on calm songs she keeps cheering, just quietly.
+
+### appear
+- Ouen, ready to cheer!
+- Glowsticks ready!
+- LET'S GOOO!
+- You saved me a front-row spot?
+- Gonna cheer the loudest today!
+
+### click
+- Want a glowstick?
+- Hehe, cheer with me!
+- I'm warming up!
+- Hey, you're blocking my view~
+- Are you a fan too?
+- Whoa, almost dropped a glowstick!
+
+### click.many
+- You're even more hyped than me!
+- My glowsticks are gonna fly off!
+- Okay, okay, let's cheer together!
+
+### playing.live
+- We're LIVE! AAAH!
+- LET'S GOOO! Cheer time!
+- Flood the chat!
+- They're on fire today!
+- Glowsticks up!
+
+### playing.hype
+- This part needs a big cheer!
+- AAAH this is so hype!
+- I'm gonna snap my glowsticks!
+
+### playing.bright
+- So cute! I have to cheer!
+- Wave along to the beat~
+- Mood: maxed out!
+
+### playing.calm
+- Dimming my glowsticks a bit
+- Quiet listening is happy too
+- Waving softly…
+
+### playing.sad
+- Sniff… I'm so moved
+- Even my glowsticks are shaking
+- Slow waves, listening together
+
+### playing.ent
+- HAHAHA that's so funny!
+- I'm dying, that bit got me!
+- Again! Again!
+
+### playing.any
+- I love it!
+- Listening super hard!
+- Let's cheer together!
+- This one's cheer-worthy!
+- Ouen approves!
+
+### paused
+- Halftime! Recharge!
+- Charging my glowsticks
+- Waiting for the next part!
+
+### resumed
+- You're back! Cheering resumes!
+- LET'S GOOO!
+- Second half, here we go!
+
+### repeat
+- Again! Encore!
+- I'm cheering this part twice!
+- Rewatching the best moment!
+
+### long_play
+- My voice is almost gone…
+- Water first, then more cheering!
+- Arms are sore, but so worth it!
+
+### late_night
+- Late-night stream, still cheering!
+- Cheering quietly…
+- Late-night streams hit different
+
+### idle
+- When does the stream start?
+- My glowsticks are all warmed up
+- Waiting for the show…
+
+---
+
+## tingting Tingting
+
+> A studious kid who loves podcasts. Curious, takes notes on everything, and suddenly goes Oh, I get it! Always has a notebook and pencil; puts the pencil down to properly enjoy funny videos. Simple, kid-sized words.
+
+### appear
+- Tingting's here!
+- Headphones on
+- Notebook's ready
+- What'll we learn today?
+- Okay, let's start
+
+### click
+- Hm? What did you say?
+- Wait, I'm taking notes
+- Do you have a question?
+- Oops, dropped my pencil
+- Wanna listen too?
+- I just had an idea!
+
+### click.many
+- I lost my train of thought!
+- My notes are going all wonky
+- Okay, pencil down for a sec
+
+### playing.podcast
+- Mm-hm, that makes sense
+- Oh, I get it!
+- Gotta write this down
+- Ohh, so that's why…
+- Ooh, I never thought of that
+
+### playing.info
+- Oh, I see!
+- Got it, I'll remember that
+- Ooh, learned something new!
+- Wait, let me think about that
+
+### playing.ent
+- Haha, that's fun
+- This is interesting!
+- Pencil down, eyes up!
+
+### playing.calm
+- So cozy, good for reading
+- It's quiet, my head feels clear
+- Listen slow, think slow
+
+### playing.hype
+- So much energy!
+- So fast, my pencil can't keep up
+- This makes me wanna move
+
+### playing.bright
+- I'm in a good mood now
+- So light and bouncy
+- Humming while I listen~
+
+### playing.sad
+- It's a little sad…
+- Let's just listen for now
+- Let's be quiet for a bit
+
+### playing.any
+- Mm, that's nice
+- I'm listening carefully
+- This one's good
+- Tingting likes it too
+- Listening and thinking
+
+### paused
+- I'll tidy up my notes
+- Giving my brain a break
+- I'll be here when you're back
+
+### resumed
+- Okay, let's keep going!
+- Wait, where were we?
+- Back to listening!
+
+### repeat
+- Once more helps it stick
+- Found something new this time!
+- Good stuff is worth a re-listen
+
+### long_play
+- So much listening, my head's full
+- Let's get up and move a bit
+- Sip of water, rest your eyes
+
+### late_night
+- I focus best at night
+- Still studying this late?
+- Let's keep it quiet, mm-hm
+
+### idle
+- What should we listen to today?
+- My notebook's still empty…
+- Waiting for something new

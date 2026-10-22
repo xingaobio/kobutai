@@ -5,7 +5,17 @@
   import { bubbleFor, type BubbleContent } from '../lib/emoji/kaomoji';
   import { EVENT_EMOJI, encoreMoods, pickEmoji } from '../lib/emoji/pick';
   import type { EmojiName } from '../lib/emoji/sheets.gen';
-  import { LONG_PLAY_MS, RESUME_AFTER_MS, Talker, lineMs, moodOf, type LineEvent } from '../lib/dialogue/dialogue';
+  import {
+    IDLE_AFTER_MS,
+    IDLE_EVERY_MS,
+    LONG_PLAY_MS,
+    RESUME_AFTER_MS,
+    Talker,
+    isReplay,
+    lineMs,
+    moodOf,
+    type LineEvent,
+  } from '../lib/dialogue/dialogue';
   import type { DrawView } from '../lib/gacha/engine';
   import { i18n } from '../lib/i18n/ui.svelte';
   import { contentKey } from '../lib/tagging/types';
@@ -97,9 +107,20 @@
     // With bubbles switched off the action is all an encore can do.
     if (!live.bubbles || Math.random() < ENCORE_ACT_CHANCE) onact?.();
   });
+  // On screen with nothing playing ("一直显示"): now and then a line about the quiet.
+  let idleTimer: ReturnType<typeof setTimeout> | undefined;
+  function armIdle(ms: number) {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      if (live.bubbles && !live.registry.primary?.snapshot.playing) say('idle', 'notes');
+      armIdle(IDLE_EVERY_MS);
+    }, ms);
+  }
+
   onDestroy(() => {
     clear();
     encores.stop();
+    clearTimeout(idleTimer);
   });
 
   let lineH = $state(0);
@@ -116,6 +137,8 @@
   let lastCanReroll = false;
   let wasPlaying = false;
   let pausedAt: number | null = null;
+  /** Where the shown track was at the last update, to spot it starting over. */
+  let lastPos: { key: string; currentTime: number; duration: number } | null = null;
 
   // A tap gets a line (a few quick ones: "stop poking me"); nothing to say: no bubble.
   let lastPoke = untrack(() => poke);
@@ -157,6 +180,9 @@
           lastPack = draw.packId;
         } else if (playing && !wasPlaying && key === shownKey && pausedAt !== null && Date.now() - pausedAt >= RESUME_AFTER_MS) {
           say('resumed', pickEmoji(snap, tags), tags);
+        } else if (playing && key === shownKey && isReplay(lastPos?.key === key ? lastPos : null, snap)) {
+          // The same track again (a loop, or played once more).
+          say('repeat', pickEmoji(snap, tags), tags);
         }
         if (playing) pausedAt = null;
         if (wasPlaying && !playing) {
@@ -166,6 +192,11 @@
       }
       lastCanReroll = !!draw && draw.contentKey === key && draw.canReroll;
       wasPlaying = playing;
+      lastPos = key && snap ? { key, currentTime: snap.currentTime, duration: snap.duration } : null;
+      if (playing) {
+        clearTimeout(idleTimer);
+        idleTimer = undefined;
+      } else if (idleTimer === undefined) armIdle(IDLE_AFTER_MS);
       // Encores count playing time of the current content only, bubbles on or off.
       encores.update({ key, playing, rate });
     });
