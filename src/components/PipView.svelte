@@ -28,7 +28,7 @@
   >
     <span class="figure">
       <Character {pack} {mood} {poke} {act} />
-      <span class="pip-bubble"><Bubble size={56} onact={() => act++} /></span>
+      <span class="pip-bubble"><Bubble size={56} {poke} onact={() => act++} /></span>
     </span>
   </button>
   <ControlBar registry={live.registry} draw={live.draw} packName={localName(pack)} {send} />

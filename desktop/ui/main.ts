@@ -3,7 +3,7 @@ import './shims/install';
 import { mount } from 'svelte';
 import Overlay from '@/components/Overlay.svelte';
 import { initLang } from '@/lib/i18n/core';
-import { bubbleStyle, defaultLayout, emojiBubbles, encoreRate, getLayout, setLayout, showWhen } from '@/lib/settings';
+import { bubbleStyle, defaultLayout, emojiBubbles, encoreRate, getLayout, setLayout, showWhen, talkRate } from '@/lib/settings';
 import { live } from '@/lib/ui/live.svelte';
 import { invoke } from '@tauri-apps/api/core';
 import { createCore } from './core';
@@ -29,6 +29,8 @@ async function main(): Promise<void> {
   bubbleStyle.watch((v) => (live.bubbleStyle = v));
   live.encore = await encoreRate.getValue();
   encoreRate.watch((v) => (live.encore = v));
+  live.talk = await talkRate.getValue();
+  talkRate.watch((v) => (live.talk = v));
   live.showWhen = await showWhen.getValue();
   showWhen.watch((v) => (live.showWhen = v));
 

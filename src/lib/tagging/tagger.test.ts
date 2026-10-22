@@ -6,7 +6,7 @@ import type { Tags } from './types';
 
 const info = { site: 'www.youtube.com', title: 'Some Song (Official Music Video)', artist: 'Band' };
 
-type CacheData = Record<string, { type: Tags['type']; genre: Tags['genre']; vclass?: Tags['vclass']; at: number }>;
+type CacheData = Record<string, { type: Tags['type']; genre: Tags['genre']; vclass?: Tags['vclass']; mood?: Tags['mood']; at: number }>;
 
 function memCache(): TagCacheStore & { data: CacheData } {
   const c: TagCacheStore & { data: CacheData } = {
@@ -112,6 +112,14 @@ test('video kind survives the AI cache', async () => {
   const t = new Tagger(async () => on, cache, ai, 100, unsure);
   await t.tag(info);
   expect(await t.tag(info)).toEqual({ type: 'video', genre: null, vclass: 'info', source: 'cache' });
+});
+
+test('a song\'s mood survives the AI cache', async () => {
+  const cache = memCache();
+  const ai = async (): Promise<Tags> => ({ type: 'music', genre: 'cpop', mood: 'calm', source: 'ai' });
+  const t = new Tagger(async () => on, cache, ai, 100, unsure);
+  await t.tag(info);
+  expect(await t.tag(info)).toEqual({ type: 'music', genre: 'cpop', mood: 'calm', source: 'cache' });
 });
 
 test('an AI answer already in the cache wins over a confident local answer', async () => {

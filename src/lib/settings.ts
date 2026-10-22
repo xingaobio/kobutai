@@ -1,5 +1,6 @@
 import type { EncoreRate } from './emoji/encore';
 import type { BubbleStyle } from './emoji/kaomoji';
+import type { TalkRate } from './dialogue/dialogue';
 import type { ShowWhen } from './ui/presence';
 import { storage } from '#imports';
 import type { GachaState } from './gacha/engine';
@@ -205,6 +206,9 @@ export const encoreRate = storage.defineItem<EncoreRate>('local:encoreRate', { f
 
 /** The bubble next to the character (bundled Noto emoji and kaomoji, no network). On by default. */
 export const emojiBubbles = storage.defineItem<boolean>('local:emojiBubbles', { fallback: true });
+
+/** How often built-in characters say a line (台词) in the bubble instead of an emoji. */
+export const talkRate = storage.defineItem<TalkRate>('local:talkRate', { fallback: 'normal' });
 
 /** Opt-in: show the character a title names (downloads it from Petdex). Off by default. */
 export const autoMatch = storage.defineItem<boolean>('local:autoMatch', { fallback: false });

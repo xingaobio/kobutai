@@ -4,7 +4,11 @@ import type { EmojiName } from './sheets.gen';
 /** What the bubble shows: animated emoji, kaomoji (颜文字), or a mix of both (default). */
 export type BubbleStyle = 'mix' | 'emoji' | 'kaomoji';
 
-export type BubbleContent = { kind: 'emoji'; name: EmojiName } | { kind: 'kaomoji'; name: EmojiName; text: string };
+/** `line`: a character's line (台词, lib/dialogue); `name` is the emoji it stands in for. */
+export type BubbleContent =
+  | { kind: 'emoji'; name: EmojiName }
+  | { kind: 'kaomoji'; name: EmojiName; text: string }
+  | { kind: 'line'; name: EmojiName; text: string };
 
 /**
  * Kaomoji for each mood the emoji picker can choose, so both kinds of bubble say

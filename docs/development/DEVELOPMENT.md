@@ -16,6 +16,7 @@
 - 角色图源与匹配：[docs/development/SOURCES.md](SOURCES.md)
 - 以后的方向：AI 孵化原创角色（暂不实现）：[docs/product/AI-HATCH.md](../product/AI-HATCH.md)
 - 生成新内置角色的提示词和规格：[docs/characters/CHARACTER-PROMPTS.md](../characters/CHARACTER-PROMPTS.md)
+- 角色台词的规则和三语台词库：[docs/characters/DIALOGUE.md](../characters/DIALOGUE.md)
 
 ## 开发
 
@@ -38,6 +39,7 @@ npm run zip        # 打包上架用的 .output/kobutai-<version>-chrome.zip
 - **只在有声音时出现**：任何一个标签页在出声（播放且没静音），每个网页上都会出现角色；全部停下 5 分钟后自动收起，再播放时回来。静音自动播放的预览视频不算。设置页可以改成"一直显示"。
 - 角色跟着播放状态走：播放时逐帧动画之外还有轻微的上下律动；暂停时定格在一帧上并稍微变暗。系统开了"减少动态效果"时不做律动。
 - **表情气泡**：角色旁边会冒出一个小表情，说明在放什么——摇滚是 🤘 或 \m/(≧▽≦)\m/、Lo-fi 是 ☕ 或 (っ˘ω˘ς )、生日歌是 🎂、搞笑视频是 😂；暂停时冒出 😴 或 (｡-ω-)zzZ，"换一次"时冒出 🥳，几秒后自动消失。同一个内容放很久时（长视频、直播），每隔几分钟会再冒一个不一样的表情，角色有时顺便做个动作，频率可以在设置页调。默认动态表情和颜文字混着出，设置页可以只要其中一种，或者关掉。表情来自 Google 的 [Noto 动态表情](https://googlefonts.github.io/noto-emoji-animation/)（CC BY 4.0），已经打包在扩展里，不联网。
+- **角色台词**：内置角色还会在气泡里说一句符合人设的话（中英日三语，跟着界面语言），比如 Lo-fi 时麻糬说"感觉要睡着了……"，被点到时有反应。台词全部事先写好（`docs/characters/lines/`），AI 最多帮忙判断歌曲的情绪，不写字；跟播放有关的台词有冷却时间，设置页可以调成话多、安静或不说话。规则和格式见 [docs/characters/DIALOGUE.md](../characters/DIALOGUE.md)。
 - 悬浮窗：在 https 页面上，控制条里有"弹出悬浮窗"按钮，会打开置顶的画中画窗口（Document Picture-in-Picture），切到别的应用也能看到。
 - 图鉴、导入角色、AI 设置在扩展的选项页（点工具栏图标 → "图鉴 · 导入角色 · 设置"）。不喜欢的角色可以在图鉴里删除，之后不会再抽到；内置角色删除后可以在图鉴页底部恢复。
 - **AI 识别（可选）**：在「AI 模型」页连接你自己的模型——订阅登录（ChatGPT、GitHub Copilot、Kimi、xAI…）、API key（OpenAI、Anthropic、Google、DeepSeek、OpenRouter 等 30 多家），或 Ollama / LM Studio 等自定义端点。基于 [pi-ai](https://github.com/earendil-works/pi/tree/main/packages/ai)。只在本地模型没把握时才问 AI（约三分之一的内容），只发送标题、作者、域名；不连接也能用本地模型。每个新内容只问一次、请求很短、结果有缓存，所以有免费额度的服务商（NVIDIA、Google AI Studio、Groq、OpenRouter 的免费模型等）就够用。

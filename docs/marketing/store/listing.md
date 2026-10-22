@@ -39,7 +39,7 @@ Kobutai puts a little chibi performer in the corner of the page, drawn to match 
 • Control from any tab. Hover the character to play, pause, skip, seek or change volume, even when the music lives in another tab. There's also a toolbar mini player and an always-on-top picture-in-picture window.
 • Sticker album. Every character you've drawn is collected in the album; ones you haven't met yet are silhouettes.
 • Bring your own. Import community characters from Petdex or a sprite sheet you drew yourself, and share it with everyone.
-• Little moods. Kaomoji and animated emoji bubbles say what's on.
+• Little moods. Kaomoji and animated emoji bubbles say what's on, and every character talks in its own voice, in English, Japanese or Chinese.
 • Optional AI. Connect your own model (30+ providers; free tiers are plenty) as a second opinion. It's asked only about items the built-in model is unsure of, and only their title, artist and site are sent.
 • English, Japanese and Chinese.
 
@@ -58,7 +58,7 @@ Kobutai 在网页角落放一个 Q 版小角色：你放什么，就抽一个相
 • 跨标签页控制：悬停角色即可播放、暂停、切歌、拖进度、调音量，音乐在别的标签页里也能控制；工具栏还有迷你播放器和置顶的画中画悬浮窗。
 • 贴纸图鉴：抽到过的角色都收进图鉴，没遇到的显示为剪影。
 • 导入自己的角色：从 Petdex 导入社区角色，或导入自己画的精灵图，还可以投稿分享给所有人。
-• 小表情：颜文字和动态表情气泡说明正在放什么。
+• 小表情：颜文字和动态表情气泡说明正在放什么，每个角色还会用自己的口吻说话（中英日三语）。
 • 可选的 AI：连上你自己的模型（30 多家服务商，免费额度就够）做第二意见，只在内置模型没把握时才问它，也只发送标题、作者和网站名。
 • 中文、英文、日文。
 
@@ -77,7 +77,7 @@ Kobutai は、再生中の曲に合わせてちびキャラが登場する、ブ
 • どのタブからでも操作：キャラにカーソルを合わせると、再生・一時停止・曲送り・シーク・音量を操作できます。音楽が別のタブで流れていても大丈夫。ツールバーのミニプレーヤーと、常に手前に表示されるピクチャー・イン・ピクチャーもあります。
 • シール図鑑：出会ったキャラは図鑑に集まり、まだのキャラはシルエットで表示されます。
 • 自分のキャラも：Petdex のコミュニティキャラや、自分で描いたスプライトシートを読み込めます。みんなに共有することもできます。
-• 小さな気分：顔文字やアニメーション絵文字の吹き出しが、いま何を流しているかを教えてくれます。
+• 小さな気分：顔文字やアニメーション絵文字の吹き出しが、いま何を流しているかを教えてくれます。キャラはそれぞれの口調でしゃべります（日本語・英語・中国語）。
 • AI はお好みで：自分のモデル（30 以上のサービス。無料枠で十分）をセカンドオピニオンとしてつなげます。内蔵モデルが迷ったときだけ問い合わせ、送るのは曲名・アーティスト・サイト名だけです。
 • 日本語・英語・中国語に対応。
 

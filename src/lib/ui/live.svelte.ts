@@ -4,6 +4,7 @@ import type { RegistryState } from '../registry';
 import type { ShowWhen } from './presence';
 import type { EncoreRate } from '../emoji/encore';
 import type { BubbleStyle } from '../emoji/kaomoji';
+import type { TalkRate } from '../dialogue/dialogue';
 
 /** Reactive state pushed into the overlay from the content script. */
 export const live = $state<{
@@ -22,6 +23,8 @@ export const live = $state<{
   bubbleStyle: BubbleStyle;
   /** How often a long play gets a new bubble or action (setting). */
   encore: EncoreRate;
+  /** How often the character says a line (setting). */
+  talk: TalkRate;
 }>({
   registry: { primary: null, entries: [] },
   draw: null,
@@ -33,6 +36,7 @@ export const live = $state<{
   showWhen: 'playing',
   bubbleStyle: 'mix',
   encore: 'often',
+  talk: 'normal',
 });
 
 /** The character to show: the drawn one, else the first pack. */
