@@ -112,6 +112,8 @@ test('emoji bubble: what is playing on a new track, 😴 on pause; can be switch
   await opts.reload();
   await expect(opts.getByTestId('encore-sometimes')).toBeChecked();
   await opts.getByTestId('bubble-style-emoji').check();
+  // Lines are their own test (below): here the bubble is only emoji.
+  await opts.getByTestId('talk-off').check();
   const a = await open('rock.test', songPage('Linkin Park - Numb (Official Music Video)', 'Linkin Park'));
   const bubble = a.getByTestId('happydesk-bubble');
   await expect(bubble).toHaveCount(0);
@@ -159,6 +161,7 @@ test('kaomoji bubble: 颜文字 that say the same thing as the emoji would', asy
   const opts = await context.newPage();
   await opts.goto(`chrome-extension://${extensionId}/options.html#settings`);
   await opts.getByTestId('bubble-style-kaomoji').check();
+  await opts.getByTestId('talk-off').check();
   const a = await open('rock.test', songPage('Linkin Park - Numb (Official Music Video)', 'Linkin Park'));
   const bubble = a.getByTestId('happydesk-bubble');
   await audio(a).play();
@@ -174,6 +177,40 @@ test('kaomoji bubble: 颜文字 that say the same thing as the emoji would', asy
   await a.screenshot({ path: 'test-results/kaomoji.png' });
   await audio(a).pause();
   await expect(bubble).toHaveAttribute('data-kaomoji', /^\(｡-ω-\)zzZ|\(_ _\)\.｡o○$/);
+});
+
+test('character lines: the drawn character says something that fits, a tap gets a reply', async ({ context, extensionId, open }) => {
+  test.setTimeout(60_000);
+  const opts = await context.newPage();
+  await opts.goto(`chrome-extension://${extensionId}/options.html#settings`);
+  await expect(opts.getByTestId('talk-normal')).toBeChecked();
+  const a = await open('rock.test', songPage('Linkin Park - Numb (Official Music Video)', 'Linkin Park'));
+  const bubble = a.getByTestId('happydesk-bubble');
+  await audio(a).play();
+  // The first thing a new track gets is a line in the character's voice.
+  await expect(bubble).toHaveAttribute('data-kind', 'line');
+  const line = (await bubble.getAttribute('data-line'))!;
+  expect(line.length).toBeGreaterThan(0);
+  await expect(bubble).toHaveText(line);
+  const box = (await bubble.boundingBox())!;
+  expect(box.x + box.width).toBeLessThanOrEqual(1200);
+  await a.screenshot({ path: 'test-results/line.png' });
+  // Within the cooldown the pause gets the usual 😴, not a second line.
+  await expect(bubble).toHaveCount(0, { timeout: 8_000 });
+  await audio(a).pause();
+  await expect(bubble).toHaveAttribute('data-emoji', 'sleepy');
+  await expect(bubble).not.toHaveAttribute('data-kind', 'line');
+  // A tap always gets a line.
+  await a.getByTestId('happydesk-mascot').click();
+  await expect(bubble).toHaveAttribute('data-kind', 'line');
+
+  await expect(bubble).toHaveCount(0, { timeout: 8_000 });
+
+  // Off: back to emoji and kaomoji only (a tap has nothing to say then).
+  await opts.getByTestId('talk-off').check();
+  await a.getByTestId('happydesk-mascot').click();
+  await a.waitForTimeout(800);
+  await expect(bubble).toHaveCount(0);
 });
 
 test('tab B controls media playing in tab A', async ({ open }) => {

@@ -11,12 +11,21 @@ export interface MediaInfo {
   live?: boolean;
 }
 
+/**
+ * How a song feels, for the character's lines (see lib/dialogue). Only the user's AI
+ * model gives one; without it the mood comes from the genre.
+ */
+export const MUSIC_MOODS = ['calm', 'hype', 'bright', 'sad'] as const;
+export type MusicMood = (typeof MUSIC_MOODS)[number];
+
 export interface Tags {
   type: ContentType;
   /** Only meaningful for music; null otherwise. */
   genre: Genre | null;
   /** Only for video, when known: entertainment or explanatory. */
   vclass?: VideoClass;
+  /** Only for music, only from the user's AI model. */
+  mood?: MusicMood;
   /** rules = keyword rules, model = on-device classifier, ai / cache = the user's AI model. */
   source: 'rules' | 'model' | 'ai' | 'cache';
 }
@@ -27,7 +36,8 @@ export function isTags(v: unknown): v is Omit<Tags, 'source'> {
   return (
     (CONTENT_TYPES as readonly unknown[]).includes(o.type) &&
     (o.genre === null || (GENRES as readonly unknown[]).includes(o.genre)) &&
-    (o.vclass === undefined || (VIDEO_CLASSES as readonly unknown[]).includes(o.vclass))
+    (o.vclass === undefined || (VIDEO_CLASSES as readonly unknown[]).includes(o.vclass)) &&
+    (o.mood === undefined || (MUSIC_MOODS as readonly unknown[]).includes(o.mood))
   );
 }
 

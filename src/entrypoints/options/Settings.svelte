@@ -2,7 +2,8 @@
   import type { LoadedPack } from '@/lib/pack/types';
   import { syncAllLibraries } from '@/lib/librarySync';
   import { DEFAULT_LIBRARY } from '@/lib/remote';
-  import { bubbleStyle, emojiBubbles, encoreRate, libraries, lockedPack, remoteSync, setSiteHidden, showWhen, type RemoteSyncStatus } from '@/lib/settings';
+  import { bubbleStyle, emojiBubbles, encoreRate, libraries, lockedPack, remoteSync, setSiteHidden, showWhen, talkRate, type RemoteSyncStatus } from '@/lib/settings';
+  import { TALK_GAP_MS, type TalkRate } from '@/lib/dialogue/dialogue';
   import { IDLE_GRACE_MS, type ShowWhen } from '@/lib/ui/presence';
   import { ENCORE_GAP_MS, type EncoreRate } from '@/lib/emoji/encore';
   import type { BubbleStyle } from '@/lib/emoji/kaomoji';
@@ -39,6 +40,12 @@
   const minutes = (rate: 'often' | 'sometimes') => ENCORE_GAP_MS[rate].map((ms) => ms / 60_000).join('–');
   const ENCORES: EncoreRate[] = ['often', 'sometimes', 'off'];
   const encoreText = (r: EncoreRate) => (r === 'off' ? t('set.encore.off') : t(`set.encore.${r}`, { m: minutes(r) }));
+  // --- Character lines ---
+  let talk = $state<TalkRate>('normal');
+  void talkRate.getValue().then((v) => (talk = v));
+  talkRate.watch((v) => (talk = v));
+  const TALKS: TalkRate[] = ['chatty', 'normal', 'quiet', 'off'];
+  const talkText = (r: TalkRate) => (r === 'chatty' || r === 'normal' ? t(`set.talk.${r}`, { m: TALK_GAP_MS[r] / 60_000 }) : t(`set.talk.${r}`));
 
 
   // --- Remote libraries ---
@@ -132,6 +139,14 @@
           {t(`set.bubble.${value}`)}
         </label>
       {/each}
+      <p class="sub">{t('set.talk.title')}</p>
+      {#each TALKS as value (value)}
+        <label class="check indent">
+          <input type="radio" name="talk-rate" checked={talk === value} disabled={!bubbles} onchange={() => talkRate.setValue(value)} data-testid="talk-{value}" />
+          {talkText(value)}
+        </label>
+      {/each}
+      <p class="hint small">{t('set.talk.hint')}</p>
       <p class="sub">{t('set.encore.title')}</p>
       {#each ENCORES as value (value)}
         <label class="check indent">

@@ -38,7 +38,7 @@ Play something on any tab and a little chibi performer pops up in the corner, dr
 | 🎛️ **Control from any tab** | Hover to play, skip, seek or change volume. There's also a toolbar mini player and a picture-in-picture window. |
 | 📒 **Sticker album** | Every character you've drawn is collected in the album. Delete the ones you don't like. |
 | 🎨 **Bring your own** | Import community pets from [Petdex](https://petdex.dev), or a sprite sheet you drew yourself, and share it with everyone. |
-| 💬 **Little moods** | Kaomoji and animated emoji bubbles say what's on; long videos get a new one every few minutes. |
+| 💬 **Little moods** | Kaomoji and animated emoji bubbles say what's on, and each character has lines of its own: a sleepy "So comfy…" on lo-fi, a reply when you tap it. Long videos get a new one every few minutes. |
 | 🤖 **Optional AI** | Connect your own model (30+ providers, free tiers work) as a second opinion. It's asked only when the built-in model is unsure. |
 | 🌏 **Three languages** | English, Japanese and Chinese, following your browser. |
 
@@ -119,7 +119,7 @@ Architecture, character pack format and character library: [docs/development/DEV
 | 🎛️ **跨标签页控制** | 悬停即可播放、切歌、拖进度、调音量；工具栏还有迷你播放器和画中画悬浮窗。 |
 | 📒 **贴纸图鉴** | 抽到过的角色都收进图鉴，不喜欢的可以删掉。 |
 | 🎨 **导入自己的角色** | 从 [Petdex](https://petdex.dev) 导入社区角色，或导入自己画的精灵图，还可以投稿分享给所有人。 |
-| 💬 **小表情** | 颜文字和动态表情气泡说明正在放什么，长视频每隔几分钟换一个。 |
+| 💬 **小表情** | 颜文字和动态表情气泡说明正在放什么，每个角色还会用自己的口吻说话：Lo-fi 时说"好舒服……"，被点到时有反应。长视频每隔几分钟换一个。 |
 | 🤖 **可选的 AI** | 连上你自己的模型（30 多家服务商，免费额度就够）做第二意见，只在内置模型没把握时才问它。 |
 | 🌏 **三种语言** | 中文、英文、日文，默认跟随浏览器。 |
 

@@ -3,7 +3,7 @@ import { HANDOFF_CONFIDENCE, type LocalTags } from './model/local';
 import { ruleTags } from './rules';
 import { contentKey, type MediaInfo, type Tags } from './types';
 
-type CachedTags = { type: Tags['type']; genre: Tags['genre']; vclass?: Tags['vclass']; at: number };
+type CachedTags = { type: Tags['type']; genre: Tags['genre']; vclass?: Tags['vclass']; mood?: Tags['mood']; at: number };
 
 export interface TagCacheStore {
   get(): Promise<Record<string, CachedTags>>;
@@ -47,7 +47,11 @@ export class Tagger {
     // An answer the user's AI already gave (possibly before the local model existed) wins.
     const key = contentKey(info);
     const hit = (await this.cache.get())[key];
-    if (hit) return withLocalKind({ type: hit.type, genre: hit.genre, ...(hit.vclass ? { vclass: hit.vclass } : {}), source: 'cache' }, local);
+    if (hit)
+      return withLocalKind(
+        { type: hit.type, genre: hit.genre, ...(hit.vclass ? { vclass: hit.vclass } : {}), ...(hit.mood ? { mood: hit.mood } : {}), source: 'cache' },
+        local,
+      );
     if (local && local.confidence >= HANDOFF_CONFIDENCE) return fallback;
 
     const pending = this.ai(info, s).then(async (t) => {
@@ -60,7 +64,13 @@ export class Tagger {
   }
 
   private async remember(key: string, t: Tags): Promise<void> {
-    const entry: CachedTags = { type: t.type, genre: t.genre, ...(t.vclass ? { vclass: t.vclass } : {}), at: Date.now() };
+    const entry: CachedTags = {
+      type: t.type,
+      genre: t.genre,
+      ...(t.vclass ? { vclass: t.vclass } : {}),
+      ...(t.mood ? { mood: t.mood } : {}),
+      at: Date.now(),
+    };
     const all = { ...(await this.cache.get()), [key]: entry };
     const keys = Object.keys(all);
     if (keys.length > TAG_CACHE_LIMIT) {

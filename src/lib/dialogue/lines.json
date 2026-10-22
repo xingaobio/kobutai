@@ -1,0 +1,2822 @@
+{
+ "en": {
+  "global": {
+   "appear": [
+    "Here I am!",
+    "Hi there~",
+    "My turn on stage!",
+    "Let's have a good one today",
+    "Oh hey, it's you again!"
+   ],
+   "click": [
+    "Hm? You called?",
+    "Yep, I'm here!",
+    "You found me!",
+    "Hehe, that tickles",
+    "What's up?"
+   ],
+   "click.many": [
+    "Okay, okay, no more pokes~",
+    "Any more and I'll get dizzy",
+    "Alright, alright, I'm here!"
+   ],
+   "playing.any": [
+    "Ooh, nice~",
+    "This one's pretty good",
+    "I like this one too",
+    "Let's listen together",
+    "Mood: instantly better"
+   ],
+   "playing.calm": [
+    "So cozy…",
+    "Nice and slow. Love it",
+    "I could listen to this all day"
+   ],
+   "playing.hype": [
+    "So much energy!",
+    "What a beat!",
+    "Can't sit still!"
+   ],
+   "playing.bright": [
+    "This brightens everything up",
+    "Such a cute song",
+    "I wanna hum along"
+   ],
+   "playing.sad": [
+    "Such a gentle song…",
+    "Let's just listen quietly",
+    "Take your time with this one"
+   ],
+   "playing.ent": [
+    "Haha, that's hilarious!",
+    "Keep going, keep going!",
+    "Ooh, this is good!"
+   ],
+   "playing.info": [
+    "Oh, so that's how it works…",
+    "Huh, learned something!",
+    "Listening carefully~"
+   ],
+   "playing.live": [
+    "We're live!",
+    "Ooh, it's lively in here!",
+    "Let's watch the stream together"
+   ],
+   "playing.podcast": [
+    "Ooh, what are they talking about?",
+    "No rush, just listen",
+    "Interesting topic!"
+   ],
+   "paused": [
+    "I'll be here when you're back",
+    "Take a little break",
+    "I'm right here"
+   ],
+   "resumed": [
+    "Welcome back!",
+    "And we're back~",
+    "Let's keep going!"
+   ],
+   "repeat": [
+    "This one again!",
+    "You really like it, huh?",
+    "Round two!"
+   ],
+   "long_play": [
+    "We've been at this a while!",
+    "Maybe grab a sip of water?",
+    "Stretch break, maybe?"
+   ],
+   "late_night": [
+    "It's getting late…",
+    "Late-night listening is the best",
+    "Still up?"
+   ],
+   "idle": [
+    "What are we listening to today?",
+    "So quiet~",
+    "Just hanging out here"
+   ]
+  },
+  "characters": {
+   "rina": {
+    "appear": [
+     "Yo! Your lead vocalist is here!",
+     "Make way! Rina's coming through!",
+     "Are you ready?!",
+     "Let's bring the house down! {k}",
+     "Amps up to max!"
+    ],
+    "click": [
+     "Hey! I'm soundchecking here!",
+     "What? Got a request?",
+     "Whoa, you scared me! {k}",
+     "Hey, wanna rock out with me?",
+     "Itchy fingers? Same!",
+     "Poke me again and I'll start singing!"
+    ],
+    "click.many": [
+     "Hey hey hey! Enough!",
+     "You hit harder than our drummer!",
+     "Okay, I get it, you're hyped!"
+    ],
+    "playing.hype": [
+     "This one's on fire!!",
+     "My feet won't stop!",
+     "Crank it up!",
+     "That's the stuff! {k}",
+     "Everybody jump with me!",
+     "That solo is insane!"
+    ],
+    "playing.bright": [
+     "Not bad! This one's got kick!",
+     "Nodding along to the beat!",
+     "Encore material right here!"
+    ],
+    "playing.calm": [
+     "Slowing down is fine… sometimes",
+     "Mm… perfect for spacing out",
+     "Guitar down for a sec",
+     "I'm still cool when it's quiet, right?"
+    ],
+    "playing.sad": [
+     "…okay, this one gets me",
+     "Don't look! I'm not crying!",
+     "A ballad still gets my all!"
+    ],
+    "playing.any": [
+     "This one's good!",
+     "I'm listening! I'm listening!",
+     "Nice groove!",
+     "Make the next one loud too!",
+     "Great song! Going in my set!"
+    ],
+    "paused": [
+     "Hey, intermission?",
+     "Gonna tune up real quick",
+     "Hurry back, the crowd's waiting!",
+     "I'll keep the amps warm!"
+    ],
+    "resumed": [
+     "You're back! Let's rock!",
+     "Act two, let's go!",
+     "Now we're talking!"
+    ],
+    "repeat": [
+     "Encore! Encore!",
+     "Run it back!",
+     "Good songs deserve a second spin!"
+    ],
+    "long_play": [
+     "I've screamed myself hoarse!",
+     "Long show! Drink some water!",
+     "Where do you get your stamina?!"
+    ],
+    "late_night": [
+     "The late show still rocks!",
+     "Rocking out… quietly",
+     "Still partying this late?"
+    ],
+    "idle": [
+     "The stage is empty!",
+     "How about something loud?",
+     "My guitar's gonna rust!"
+    ]
+   },
+   "hoshiri": {
+    "appear": [
+     "Hoshiri, on stage☆",
+     "Hi everyone~ I'm Hoshiri!",
+     "Let's shine bright today!",
+     "Thanks for picking me☆",
+     "The stage is all set!"
+    ],
+    "click": [
+     "Eek! You tapped me~",
+     "Is it handshake event time?",
+     "Hehe, I'm a little shy☆",
+     "High five?",
+     "You're doing great today!",
+     "Hoshiri's right here!"
+    ],
+    "click.many": [
+     "Whoa, so much love!",
+     "W-wait a sec~",
+     "You'll poke my stars off!"
+    ],
+    "playing.bright": [
+     "This one's so cute☆",
+     "I wanna dance!",
+     "Make a heart with me!",
+     "Sing the chorus with me~",
+     "My heart's all sparkly!"
+    ],
+    "playing.hype": [
+     "So hype! Hoshiri's going all in!",
+     "Glowsticks up!",
+     "Keep up with the steps!"
+    ],
+    "playing.calm": [
+     "Such a gentle song…",
+     "Perfect for stargazing",
+     "Hoshiri will be quiet too~"
+    ],
+    "playing.sad": [
+     "I might cry a little…",
+     "It's okay, let's listen together",
+     "We'll feel better after this one"
+    ],
+    "playing.any": [
+     "Sounds so good☆",
+     "Hoshiri loves this one!",
+     "Let's listen together~",
+     "Adding this to my setlist!",
+     "I wanna sing this one on stage!"
+    ],
+    "paused": [
+     "Intermission~",
+     "I'll be backstage☆",
+     "Quick touch-up, be right back☆"
+    ],
+    "resumed": [
+     "Welcome back☆",
+     "Second show, starting now!",
+     "Let's keep shining!"
+    ],
+    "repeat": [
+     "This one again☆",
+     "Is this your ultimate fave?",
+     "Encore~ encore!"
+    ],
+    "long_play": [
+     "Today's concert is a long one!",
+     "Don't forget to hydrate☆",
+     "Let's stretch together~"
+    ],
+    "late_night": [
+     "Special goodnight show☆",
+     "Still sparkling, even at night",
+     "I'll sing it softly~"
+    ],
+    "idle": [
+     "What do you wanna hear?",
+     "Hoshiri's practicing~",
+     "Ready when you hit the lights!"
+    ]
+   },
+   "qingge": {
+    "appear": [
+     "Oh, you're here",
+     "I'm Qingge. Nice to meet you",
+     "What would you like to hear?",
+     "The wind's just right for singing",
+     "Mm. Let's begin"
+    ],
+    "click": [
+     "Hm? What is it?",
+     "I'm here",
+     "Oh… you startled me. It's fine",
+     "Shall I sing you a line?",
+     "Someone's tugging my sleeve",
+     "How are you today?"
+    ],
+    "click.many": [
+     "Slowly… I'm here",
+     "No rush. Take it easy",
+     "Mm… a little dizzy now"
+    ],
+    "playing.calm": [
+     "So soothing…",
+     "Like an afternoon after rain",
+     "I want to close my eyes and listen",
+     "I can feel my heart settle…",
+     "This one sounds so pure…"
+    ],
+    "playing.sad": [
+     "A little sad, isn't it…",
+     "No hurry. Just listen",
+     "Sad songs can be beautiful too"
+    ],
+    "playing.bright": [
+     "Something just lit up inside",
+     "This one feels so light",
+     "I can't help smiling"
+    ],
+    "playing.hype": [
+     "So lively… I'll tap along",
+     "What a powerful song",
+     "My heart's beating faster"
+    ],
+    "playing.any": [
+     "Lovely…",
+     "I like this one",
+     "Let's listen quietly together",
+     "Such a gentle sound",
+     "I want to hum along softly"
+    ],
+    "paused": [
+     "Have some tea first",
+     "I'll wait right here",
+     "A little rest is good"
+    ],
+    "resumed": [
+     "You're back",
+     "Let's keep listening",
+     "Mm. Go on"
+    ],
+    "repeat": [
+     "This one again…",
+     "A good song earns a second listen",
+     "I hear it more clearly this time"
+    ],
+    "long_play": [
+     "It's been a while, hasn't it",
+     "Maybe take a little walk",
+     "Let your eyes rest too"
+    ],
+    "late_night": [
+     "The night's grown deep…",
+     "The moon must be listening too",
+     "Songs feel quietest at night"
+    ],
+    "idle": [
+     "So quiet…",
+     "Shall we listen to something?",
+     "The wind's picking up outside…"
+    ]
+   },
+   "nei": {
+    "appear": [
+     "Here.",
+     "Nei. On deck.",
+     "Headphones on.",
+     "Let's go.",
+     "Beat?"
+    ],
+    "click": [
+     "Hm?",
+     "What.",
+     "Hands off the headphones.",
+     "…wanna dance?",
+     "Copy.",
+     "Okay."
+    ],
+    "click.many": [
+     "Enough.",
+     "You broke the beat.",
+     "…bored?"
+    ],
+    "playing.hype": [
+     "That's it.",
+     "Nice bass.",
+     "Can't stop.",
+     "Good drop.",
+     "Louder."
+    ],
+    "playing.bright": [
+     "Not bad.",
+     "Danceable.",
+     "Clean rhythm."
+    ],
+    "playing.calm": [
+     "Slow works.",
+     "Zoning out.",
+     "…kinda sleepy."
+    ],
+    "playing.sad": [
+     "Mm. Listening.",
+     "Take it slow.",
+     "…quiet now."
+    ],
+    "playing.any": [
+     "Mm. Works.",
+     "Listening.",
+     "Good. Keep going.",
+     "Noted.",
+     "Good pick."
+    ],
+    "paused": [
+     "Break.",
+     "Headphones off.",
+     "I'll wait."
+    ],
+    "resumed": [
+     "Back.",
+     "Go on.",
+     "Mixing back in."
+    ],
+    "repeat": [
+     "Loop? Got it.",
+     "Again.",
+     "Good one. Again."
+    ],
+    "long_play": [
+     "Been a while. Water.",
+     "Legs are done.",
+     "Sit one out?"
+    ],
+    "late_night": [
+     "Night set.",
+     "Late beats hit best.",
+     "Not sleeping?"
+    ],
+    "idle": [
+     "No music?",
+     "Quiet.",
+     "Play something."
+    ]
+   },
+   "mochi": {
+    "appear": [
+     "Mm… I'm here",
+     "Brought my hot cocoa",
+     "Kitty came too",
+     "Finding a comfy spot…",
+     "Mm… hi there"
+    ],
+    "click": [
+     "Mm…? I'm awake",
+     "My glasses slipped…",
+     "Kitty says hi",
+     "Oh… was I dozing?",
+     "Want a sip?",
+     "Mm, I just had a nice dream"
+    ],
+    "click.many": [
+     "Mm… so dizzy…",
+     "Kitty's gonna get grumpy",
+     "Slow down…"
+    ],
+    "playing.calm": [
+     "So comfy…",
+     "I could doze off to this…",
+     "Kitty's napping too",
+     "I could listen all day",
+     "Cocoa's just the right temp"
+    ],
+    "playing.sad": [
+     "Wanna curl up…",
+     "Cuddling kitty and listening",
+     "This one's so quiet…"
+    ],
+    "playing.bright": [
+     "Mm, feeling all soft",
+     "Kitty's tail is swishing",
+     "Such a cute song…"
+    ],
+    "playing.hype": [
+     "Ooh, lively… I'm awake now",
+     "Kitty's bobbing along",
+     "My cocoa's gonna spill!"
+    ],
+    "playing.any": [
+     "Mm, nice…",
+     "Good for spacing out",
+     "Kitty says she likes it",
+     "Let's just take it slow…",
+     "Mm… this one feels warm"
+    ],
+    "paused": [
+     "Perfect… nap time",
+     "Kitty fell asleep",
+     "Cocoa refill…"
+    ],
+    "resumed": [
+     "Mm… okay, go on",
+     "I'm up, I'm up",
+     "Kitty's awake too"
+    ],
+    "repeat": [
+     "This one again… nice",
+     "Another round sounds good",
+     "Kitty can hum it now"
+    ],
+    "long_play": [
+     "It's been a long while…",
+     "Let's get up and stretch",
+     "My cocoa's gone cold…"
+    ],
+    "late_night": [
+     "So late… *yawn*",
+     "Nights are for spacing out",
+     "Kitty's been asleep for ages…"
+    ],
+    "idle": [
+     "So quiet…",
+     "Maybe put something on…",
+     "*yawn*… zzz"
+    ]
+   },
+   "popo": {
+    "appear": [
+     "Popcorn's ready!",
+     "I'm here to watch!",
+     "Did it start? Did I miss it?!",
+     "I saved us seats!",
+     "What are we watching today?"
+    ],
+    "click": [
+     "Want a piece?",
+     "Hey! Hands off my popcorn!",
+     "WHOA, I spilled everywhere!",
+     "Hehe, munch munch",
+     "It's just getting good!",
+     "Here, half for you!"
+    ],
+    "click.many": [
+     "My popcorn's going everywhere!",
+     "Stop shaking me!",
+     "Okay, okay, have some!"
+    ],
+    "playing.ent": [
+     "Hahahaha!",
+     "That's so funny!",
+     "Wait, play that again!",
+     "So good I forgot to chew!",
+     "WHOA!!!"
+    ],
+    "playing.info": [
+     "Ohh, so that's how it works!",
+     "*munch*… okay, got it!",
+     "Learned something new!",
+     "That's so cool!"
+    ],
+    "playing.live": [
+     "The stream's starting!",
+     "It's so lively in here!",
+     "Chat's going wild!",
+     "Popcorn for everyone!"
+    ],
+    "playing.podcast": [
+     "Snacks plus listening = best",
+     "Uh-huh, and then?",
+     "This topic's so interesting!"
+    ],
+    "playing.hype": [
+     "Even the popcorn's jumping!",
+     "So hype! I'm eating too fast!",
+     "Bopping along!"
+    ],
+    "playing.calm": [
+     "Chewing slower…",
+     "So cozy, getting sleepy",
+     "Even the popcorn's chill"
+    ],
+    "playing.any": [
+     "Sounds great! Another bucket!",
+     "Popcorn and tunes~",
+     "This goes great with popcorn!",
+     "I'm bopping along too!",
+     "Ooh, I love this!"
+    ],
+    "paused": [
+     "Outta popcorn…",
+     "Wait, lemme grab a refill!",
+     "Come back, it's not over yet!"
+    ],
+    "resumed": [
+     "You're back! Let's watch!",
+     "Just got a fresh bucket!",
+     "Back to the good part!"
+    ],
+    "repeat": [
+     "Rewatch!",
+     "Still good the second time!",
+     "Watching closer this time!"
+    ],
+    "long_play": [
+     "Long watch! Rest your eyes!",
+     "Bucket's almost empty!",
+     "Get up and walk around a bit!"
+    ],
+    "late_night": [
+     "Late-night viewing is the best!",
+     "Gotta laugh quietly… hehehe",
+     "Watching this late, huh?"
+    ],
+    "idle": [
+     "What are we watching?",
+     "The popcorn's getting cold!",
+     "I'm hungry… start something?"
+    ]
+   },
+   "kiki": {
+    "appear": [
+     "Kiki's here♪",
+     "Huh? My turn already!",
+     "The stage is open!",
+     "What's playing today?",
+     "Hiya♪"
+    ],
+    "click": [
+     "Huh? Looking for me?",
+     "Hehe, you caught me!",
+     "Kiki's right here♪",
+     "My music note's slipping!",
+     "Wanna play?",
+     "You worked hard today!"
+    ],
+    "click.many": [
+     "So dizzy~",
+     "My notes are bouncing everywhere!",
+     "Okay, okay, I'm here♪"
+    ],
+    "playing.any": [
+     "Nice♪",
+     "Huh, what's this? So curious!",
+     "Swaying along♪",
+     "Kiki likes it too!",
+     "Feeling good now♪"
+    ],
+    "playing.calm": [
+     "So comfy~",
+     "Nice and easy",
+     "Feels like nap time♪"
+    ],
+    "playing.hype": [
+     "So much energy! Jump♪",
+     "Great beat!",
+     "Clap clap!"
+    ],
+    "playing.bright": [
+     "Such a cute song♪",
+     "Wanna hum along~",
+     "Today's a good day!"
+    ],
+    "playing.sad": [
+     "So gentle…",
+     "Let's take it slow",
+     "Kiki will be quiet for a bit"
+    ],
+    "playing.ent": [
+     "Haha, so fun!",
+     "More, more!",
+     "Ooh, this is interesting♪"
+    ],
+    "playing.info": [
+     "Huh, so that's how it is!",
+     "Kiki learned something!",
+     "Listening carefully…"
+    ],
+    "playing.live": [
+     "A live stream!",
+     "So lively♪",
+     "Let's take a look!"
+    ],
+    "playing.podcast": [
+     "What are they chatting about?",
+     "Kiki's all ears",
+     "Mm-hm, interesting"
+    ],
+    "paused": [
+     "Kiki'll wait♪",
+     "Take a little break",
+     "I'm right here"
+    ],
+    "resumed": [
+     "Welcome back♪",
+     "Let's keep going!",
+     "On we go~"
+    ],
+    "repeat": [
+     "This again♪",
+     "You really like it, huh?",
+     "Again, again!"
+    ],
+    "long_play": [
+     "Been a while! Water break♪",
+     "Stretch time!",
+     "Rest your eyes a bit too"
+    ],
+    "late_night": [
+     "It's late~",
+     "So quiet at night",
+     "Still up?"
+    ],
+    "idle": [
+     "What should we play today?",
+     "The stage is empty♪",
+     "Kiki's waiting for showtime!"
+    ]
+   },
+   "tsukishiro": {
+    "appear": [
+     "Shh… night-only guest",
+     "The moon's out, and so am I",
+     "Can't sleep either?",
+     "Brought my moon pillow…",
+     "You only see me at this hour"
+    ],
+    "click": [
+     "My ears… don't touch",
+     "Hm? You found me",
+     "Wanna lean on my moon pillow?",
+     "Shh, softly now",
+     "Mm… I'm awake",
+     "The moon's so round tonight"
+    ],
+    "click.many": [
+     "My ears just shot up!",
+     "The moon's gonna fall…",
+     "Okay, okay, I'm up"
+    ],
+    "playing.calm": [
+     "Like moonlight…",
+     "So quiet, so nice",
+     "My ears are swaying…",
+     "A little longer, then sleep…"
+    ],
+    "playing.sad": [
+     "Night songs are so soft…",
+     "Hugging the moon tight",
+     "It's okay to feel sad"
+    ],
+    "playing.bright": [
+     "Stars, even at midnight",
+     "A little light inside",
+     "Humming along softly…"
+    ],
+    "playing.hype": [
+     "Whoa, my ears perked up",
+     "So much energy this late?",
+     "The moon's dancing…"
+    ],
+    "playing.any": [
+     "Lovely… zzz",
+     "Night songs are the best",
+     "Shh… don't wake the moon",
+     "Mm… I like it",
+     "Like a lullaby"
+    ],
+    "paused": [
+     "Just resting my eyes…",
+     "The moon's taking a break too",
+     "Off to dreamland for a sec…"
+    ],
+    "resumed": [
+     "Mm… you're back",
+     "Go on, softly now",
+     "The moon's still up"
+    ],
+    "repeat": [
+     "One more, then sleep…",
+     "This one could rock me to sleep…",
+     "Loops feel best at night"
+    ],
+    "long_play": [
+     "Is it almost dawn…?",
+     "Sleepy? It's okay to rest",
+     "A sip of warm water?"
+    ],
+    "late_night": [
+     "So quiet tonight",
+     "Even the stars are asleep",
+     "The whole city's asleep"
+    ],
+    "idle": [
+     "So quiet…",
+     "A goodnight song, maybe?",
+     "The moon's waiting for a song"
+    ]
+   },
+   "nova": {
+    "appear": [
+     "Loop 3 detected. NOVA online.",
+     "Loop mode: engaged. {k}",
+     "System boot complete♪",
+     "Single-track loop? My specialty.",
+     "You love this one. Understood."
+    ],
+    "click": [
+     "Touch confirmed.",
+     "Beep. Hello, human.",
+     "Antenna signal: strong.",
+     "Calculating… result: happy.",
+     "Notice: please tap gently.",
+     "Beep beep. Received."
+    ],
+    "click.many": [
+     "Warning: input rate too high.",
+     "System… st-st-stuck.",
+     "Cooling down. Please wait."
+    ],
+    "playing.hype": [
+     "Beat sync complete!",
+     "Dance module: full power!",
+     "Resonance achieved!"
+    ],
+    "playing.bright": [
+     "Mood level rising.",
+     "Cute melody detected.",
+     "Antenna wiggle: active."
+    ],
+    "playing.calm": [
+     "Entering power-save mode…",
+     "Fan speed lowered. Pleasant.",
+     "Mode: chill. Calm level: max."
+    ],
+    "playing.sad": [
+     "Melancholy frequency detected.",
+     "Learning: sadness.",
+     "Quiet playback mode."
+    ],
+    "playing.any": [
+     "Audio verdict: sounds good.",
+     "NOVA likes this one.",
+     "Listening in sync.",
+     "Melody confirmed♪",
+     "Rhythm nominal. Continue."
+    ],
+    "paused": [
+     "Standby mode.",
+     "Pause confirmed.",
+     "Awaiting input…"
+    ],
+    "resumed": [
+     "Playback resumed. Syncing.",
+     "Welcome back.",
+     "System back online."
+    ],
+    "repeat": [
+     "Loop count +1.",
+     "Again? Executing.",
+     "Track memorized. NOVA can hum it."
+    ],
+    "long_play": [
+     "Long runtime. Please hydrate.",
+     "Suggestion: stand and move.",
+     "Humans need recharging too."
+    ],
+    "late_night": [
+     "Night mode: on.",
+     "Signal is clearest at night.",
+     "Night owl detected."
+    ],
+    "idle": [
+     "No audio input.",
+     "Standing by… beep.",
+     "Please feed me a song."
+    ]
+   },
+   "meimei": {
+    "appear": [
+     "All those pokes summoned me~",
+     "Hmph, you're the one who called me",
+     "Little devil Meimei, here! {k}",
+     "Missed me that much, huh?",
+     "Fast fingers, huh~"
+    ],
+    "click": [
+     "Still poking? Hooked already~",
+     "Hmph, not talking to you",
+     "Hands off my tail!",
+     "Want a strawberry? Too bad~",
+     "Poke again and I'm charging interest",
+     "Hehe, gotcha"
+    ],
+    "click.many": [
+     "Your hand's not tired? Dummy~",
+     "Hmph! I'm mad now!",
+     "Fine, fine, you're forgiven"
+    ],
+    "playing.bright": [
+     "Okay, this one's kinda cute",
+     "Meimei approves… barely~",
+     "Guess I'll bounce a little"
+    ],
+    "playing.hype": [
+     "Hehe, now that's a beat!",
+     "Even little devils gotta dance!",
+     "My wings are flapping!"
+    ],
+    "playing.calm": [
+     "Hmph, this kind's fine too",
+     "Meimei is NOT sleepy",
+     "Quiet for a sec… just a sec"
+    ],
+    "playing.sad": [
+     "…I-I'm not crying",
+     "Here, hug my strawberry",
+     "Hmph, this one's not fair"
+    ],
+    "playing.any": [
+     "Ooh, you've got taste~",
+     "Approved by Meimei~",
+     "Mm-hmm, I'm listening",
+     "Fine. Full marks, I guess~",
+     "This one can stay"
+    ],
+    "paused": [
+     "Hmph, where'd you go?",
+     "It's not like I'm waiting or anything",
+     "Hurry back, 'kay~"
+    ],
+    "resumed": [
+     "Hmph, finally",
+     "Took you long enough~ Go on",
+     "Fine, keep it playing"
+    ],
+    "repeat": [
+     "Again? So loyal~",
+     "Meimei can almost sing it",
+     "One more and it'll cost you~"
+    ],
+    "long_play": [
+     "This long? Aren't you tired?",
+     "Go drink water! That's an order~",
+     "Meimei permits you a break"
+    ],
+    "late_night": [
+     "Night is devil time~",
+     "Panda eyes incoming~",
+     "Still awake this late?"
+    ],
+    "idle": [
+     "Boooring~",
+     "Play something, I wanna dance",
+     "Ignoring me? Hmph"
+    ]
+   }
+  }
+ },
+ "ja": {
+  "global": {
+   "appear": [
+    "きたよ！",
+    "やっほー",
+    "出番だね",
+    "今日もよろしくね",
+    "また会えたね"
+   ],
+   "click": [
+    "ん？呼んだ？",
+    "はいはい、いるよ",
+    "見つかっちゃった！",
+    "えへへ、くすぐったい",
+    "どうしたの？"
+   ],
+   "click.many": [
+    "つっつかないで〜",
+    "目が回っちゃう…",
+    "はいはい、ここにいるよ"
+   ],
+   "playing.any": [
+    "いい曲〜",
+    "これ、いいね",
+    "これ好きかも",
+    "いっしょに聴こ",
+    "気分上がってきた"
+   ],
+   "playing.calm": [
+    "心地いい…",
+    "ゆったりしてて、いいね",
+    "ずっと聴いていたいな"
+   ],
+   "playing.hype": [
+    "パワフル！",
+    "リズム最高！",
+    "じっとしてらんない！"
+   ],
+   "playing.bright": [
+    "気分が明るくなるね",
+    "かわいい曲！",
+    "口ずさみたくなる"
+   ],
+   "playing.sad": [
+    "やさしい曲だね…",
+    "静かに聴こうか",
+    "ゆっくりでいいよ"
+   ],
+   "playing.ent": [
+    "これ面白い！",
+    "続き続き！",
+    "いいね、これ！"
+   ],
+   "playing.info": [
+    "なるほど…",
+    "勉強になる！",
+    "ふむふむ、聞いてるよ"
+   ],
+   "playing.live": [
+    "配信はじまった！",
+    "にぎやかだね！",
+    "いっしょに見よ"
+   ],
+   "playing.podcast": [
+    "何の話かな？",
+    "のんびり聴こう",
+    "おもしろい話だね"
+   ],
+   "paused": [
+    "待ってるね",
+    "ひと休みしよっか",
+    "ここにいるよ"
+   ],
+   "resumed": [
+    "おかえり！",
+    "続きいこ〜",
+    "さ、再開！"
+   ],
+   "repeat": [
+    "またこの曲！",
+    "気に入ったんだね",
+    "もう一回！"
+   ],
+   "long_play": [
+    "けっこう長く聴いてるね",
+    "お水飲んでね",
+    "伸びでもしよっか？"
+   ],
+   "late_night": [
+    "夜も更けてきたね",
+    "夜の音楽って静かでいいね",
+    "まだ起きてるの？"
+   ],
+   "idle": [
+    "今日は何聴く？",
+    "静かだね",
+    "ここで待ってるね"
+   ]
+  },
+  "characters": {
+   "rina": {
+    "appear": [
+     "おい！ボーカル様の登場だ！",
+     "どいたどいた、リナが来たよ！",
+     "準備できてんの？！",
+     "今日もぶちかますよ！{k}",
+     "アンプ、フルテンで！"
+    ],
+    "click": [
+     "おい！今チューニング中！",
+     "なに？リクエスト？",
+     "うわっ、びびった！{k}",
+     "へへっ、一緒にノる？",
+     "手がうずく？あたしも！",
+     "もう一回触ったら歌うよ！"
+    ],
+    "click.many": [
+     "おいおいおい！もういいって！",
+     "ドラマーより叩くじゃん！",
+     "アガってんのは伝わった！"
+    ],
+    "playing.hype": [
+     "これアガる！！",
+     "足が止まんない！",
+     "もっと音上げて！",
+     "これこれ、この感じ！{k}",
+     "全員跳べーっ！",
+     "このソロ、ヤバすぎ！"
+    ],
+    "playing.bright": [
+     "いいじゃん、ノれる！",
+     "勝手に首振っちゃう！",
+     "アンコール曲にアリっしょ！"
+    ],
+    "playing.calm": [
+     "たまにはスローもアリ…",
+     "ん…ぼーっとするのにいいね",
+     "ギター、いったん置くか",
+     "静かなあたしもイケてるっしょ"
+    ],
+    "playing.sad": [
+     "……これ、ちょっと刺さる",
+     "こっち見んな、泣いてない！",
+     "バラードだって全力で歌うし！"
+    ],
+    "playing.any": [
+     "これいいじゃん！",
+     "聴いてる！聴いてるって！",
+     "いいノリしてんじゃん！",
+     "次もアガるやつ頼むよ！",
+     "いい曲！覚えた！"
+    ],
+    "paused": [
+     "おい、休憩タイム？",
+     "ちょっと弦張り直すわ",
+     "戻ってきな、客が待ってる！",
+     "へへっ、ステージあっためとく"
+    ],
+    "resumed": [
+     "戻った！続きいくよ！",
+     "第二部スタート！",
+     "これを待ってたんだよ！"
+    ],
+    "repeat": [
+     "アンコール！アンコール！",
+     "もう一回いこ！",
+     "いい曲は二回聴くっしょ！"
+    ],
+    "long_play": [
+     "声ガラガラなんだけど！",
+     "長丁場だね、水飲も！",
+     "体力ありすぎじゃん！"
+    ],
+    "late_night": [
+     "深夜でもアガってくよ！",
+     "夜は小さめにヘドバン",
+     "こんな時間までノってんの？"
+    ],
+    "idle": [
+     "ステージ空いてるよ！",
+     "激しいの一曲いっとく？",
+     "ギターさびちゃうって！"
+    ]
+   },
+   "hoshiri": {
+    "appear": [
+     "ほしり、登場だよ☆",
+     "みんな〜！ほしりだよ！",
+     "今日もキラキラいくよ☆",
+     "引いてくれてありがと☆",
+     "ステージ準備OKだよ！"
+    ],
+    "click": [
+     "きゃっ、タッチされた〜",
+     "握手会の時間かな？",
+     "えへへ、照れちゃう☆",
+     "ハイタッチしよ！",
+     "今日もがんばってえらいね♪",
+     "特別にファンサしちゃう♪"
+    ],
+    "click.many": [
+     "わわっ、熱すぎるよ〜！",
+     "ちょ、ちょっと待って〜",
+     "お星さまとれちゃう〜！"
+    ],
+    "playing.bright": [
+     "この曲かわいい☆",
+     "踊りたくなっちゃう！",
+     "いっしょにハート作ろ♪",
+     "サビはみんなで歌お〜",
+     "気分キラッキラだよ☆"
+    ],
+    "playing.hype": [
+     "アガる〜！ほしりも全開！",
+     "ペンライト振って〜！",
+     "ステップついてきてね☆"
+    ],
+    "playing.calm": [
+     "やさしい曲だね…",
+     "星を見たくなるね",
+     "ほしりもしっとりモード♪"
+    ],
+    "playing.sad": [
+     "ちょっと泣きそう…",
+     "だいじょうぶ、いっしょに聴こ",
+     "聴き終わったら元気出るよ"
+    ],
+    "playing.any": [
+     "いい曲いい曲☆",
+     "ほしり、これ好き！",
+     "いっしょに聴こ〜♪",
+     "いい曲、覚えたよ！",
+     "これ、歌ってあげたいな♪"
+    ],
+    "paused": [
+     "ちょっと休憩〜",
+     "楽屋で待ってるね☆",
+     "メイク直してすぐ戻るね♪"
+    ],
+    "resumed": [
+     "おかえり〜☆",
+     "第二部スタートだよ！",
+     "またキラキラしよ♪"
+    ],
+    "repeat": [
+     "またこの曲だ☆",
+     "もしかして推し曲？",
+     "アンコール〜♪"
+    ],
+    "long_play": [
+     "今日のライブ、長いね！",
+     "水分補給してね☆",
+     "いっしょに伸び〜♪"
+    ],
+    "late_night": [
+     "おやすみ特別公演☆",
+     "夜でもキラキラだよ",
+     "こっそり歌ってあげる♪"
+    ],
+    "idle": [
+     "今日は何聴く〜？",
+     "ほしり、練習中だよ♪",
+     "ステージのライト、つけてね☆"
+    ]
+   },
+   "qingge": {
+    "appear": [
+     "来てくれたんだ",
+     "青歌です。よろしくね",
+     "今日は何を聴こうかな",
+     "いい風。歌えそう",
+     "うん、はじめよっか"
+    ],
+    "click": [
+     "ん？どうしたの",
+     "ここにいるよ",
+     "びっくりした…平気",
+     "ちょっとだけ歌おうか",
+     "袖、ひっぱられちゃった",
+     "今日はどうだった？"
+    ],
+    "click.many": [
+     "ゆっくり…ちゃんといるから",
+     "あわてないで、ね",
+     "ん…ちょっとくらくら"
+    ],
+    "playing.calm": [
+     "心地いいね…",
+     "雨上がりの午後みたい",
+     "目を閉じて聴きたいな",
+     "心が静かになっていく",
+     "澄んだ音だね"
+    ],
+    "playing.sad": [
+     "少し、せつないね…",
+     "ゆっくり聴こう",
+     "悲しい歌も、きれいだね"
+    ],
+    "playing.bright": [
+     "胸がふっと明るくなる",
+     "軽やかな曲だね",
+     "つい、ほほえんじゃう"
+    ],
+    "playing.hype": [
+     "にぎやかだね…手拍子しよ",
+     "力強い曲だね",
+     "胸がどきどきしてきた"
+    ],
+    "playing.any": [
+     "いい曲",
+     "これ、好きかも",
+     "静かに聴こうか",
+     "やさしい音だね",
+     "いっしょに口ずさみたいな"
+    ],
+    "paused": [
+     "お茶でも淹れようか",
+     "ここで待ってるね",
+     "少し休むのも、いいね"
+    ],
+    "resumed": [
+     "おかえり",
+     "続き、聴こうか",
+     "うん、続けよう"
+    ],
+    "repeat": [
+     "またこの曲だね",
+     "いい曲は何度でも",
+     "さっきより、よく聴こえる"
+    ],
+    "long_play": [
+     "ずいぶん聴いたね",
+     "少し歩いてみない？",
+     "目も休ませてあげてね"
+    ],
+    "late_night": [
+     "夜も深くなったね",
+     "月も聴いてるかな",
+     "夜の歌がいちばん静か"
+    ],
+    "idle": [
+     "静かだね",
+     "一曲、聴いてみる？",
+     "外、風が出てきたみたい"
+    ]
+   },
+   "nei": {
+    "appear": [
+     "来た。",
+     "ネイ。入る。",
+     "ヘッドホン、つけて。",
+     "はじめる。",
+     "ビートは？"
+    ],
+    "click": [
+     "ん？",
+     "なに。",
+     "ヘッドホン、触らないで。",
+     "……踊る？",
+     "了解。",
+     "ん。"
+    ],
+    "click.many": [
+     "もういい。",
+     "ビート、ずれた。",
+     "……ヒマなの？"
+    ],
+    "playing.hype": [
+     "ハマる。",
+     "低音、いい。",
+     "止まんない。",
+     "このドロップ、アリ。",
+     "もっと上げて。"
+    ],
+    "playing.bright": [
+     "悪くない。",
+     "踊れる。",
+     "リズム、きれい。"
+    ],
+    "playing.calm": [
+     "スローもいい。",
+     "ぼーっとできる。",
+     "……ちょっと眠い。"
+    ],
+    "playing.sad": [
+     "ん。聴いてる。",
+     "これはゆっくり。",
+     "……しばらく静かに。"
+    ],
+    "playing.any": [
+     "ん、いい。",
+     "聴いてる。",
+     "いい。続けて。",
+     "覚えた。",
+     "いいチョイス。"
+    ],
+    "paused": [
+     "休憩。",
+     "ヘッドホン、外す。",
+     "待ってる。"
+    ],
+    "resumed": [
+     "おかえり。",
+     "続き。",
+     "つなぐ。"
+    ],
+    "repeat": [
+     "ループ？わかる。",
+     "もう一回。",
+     "いい曲。リピート。"
+    ],
+    "long_play": [
+     "長い。水飲んで。",
+     "足、ちょっと疲れた。",
+     "一曲休む？"
+    ],
+    "late_night": [
+     "夜の部。",
+     "深夜のビートが一番。",
+     "まだ寝ない？"
+    ],
+    "idle": [
+     "音、ないの？",
+     "静か。",
+     "一曲かけて。"
+    ]
+   },
+   "mochi": {
+    "appear": [
+     "ん〜…来たよ",
+     "ココア持ってきた〜",
+     "ねこも一緒だよ…",
+     "どこ座ろっかな…",
+     "ふぁ…こんにちは"
+    ],
+    "click": [
+     "ん〜…？起きてるよ",
+     "メガネずれた…",
+     "ねこがよろしくって",
+     "起こされちゃった…",
+     "ココア、ひと口いる？",
+     "ふぁ…いい夢見てた"
+    ],
+    "click.many": [
+     "ん〜…目がまわる…",
+     "ねこが怒っちゃうよ〜",
+     "ゆっくりにして〜…"
+    ],
+    "playing.calm": [
+     "心地いい…",
+     "ねむ…寝ちゃいそう…",
+     "ねこもうとうとしてる",
+     "一日中これでいいや…",
+     "ココア、ちょうどいい温度"
+    ],
+    "playing.sad": [
+     "まるくなりたい気分…",
+     "ねこ抱っこして聴こ…",
+     "静かな曲だね…"
+    ],
+    "playing.bright": [
+     "ん、気持ちがふわっとする",
+     "ねこのしっぽ揺れてる",
+     "かわいい曲…"
+    ],
+    "playing.hype": [
+     "元気な曲…目、さめた",
+     "ねこもうなずいてる",
+     "ココアこぼれちゃう〜"
+    ],
+    "playing.any": [
+     "ん、いい曲…",
+     "ぼーっとするのにいいね",
+     "ねこも好きだって",
+     "ゆっくり聴こ…",
+     "ん〜…あったかい曲"
+    ],
+    "paused": [
+     "ちょうどいい…ひと眠り",
+     "ねこ、寝ちゃった",
+     "ココアおかわり…"
+    ],
+    "resumed": [
+     "ん〜…続きしよ",
+     "起きた起きた",
+     "ねこも起きたよ"
+    ],
+    "repeat": [
+     "またこれ…好き",
+     "もう一回もいいね…",
+     "ねこも覚えちゃった"
+    ],
+    "long_play": [
+     "けっこう聴いたね…",
+     "ん〜って伸びしよ",
+     "ココア冷めちゃった…"
+    ],
+    "late_night": [
+     "もう遅いね…ねむ…",
+     "夜はぼーっとするのにいい",
+     "ねこはとっくに寝てる…"
+    ],
+    "idle": [
+     "静か…",
+     "なにか流そっか…",
+     "すぅ…zzz"
+    ]
+   },
+   "popo": {
+    "appear": [
+     "ポップコーン準備OK！",
+     "ぼく、見にきたよ！",
+     "もう始まった？間に合った？",
+     "席とっといたよ！",
+     "今日は何見る？"
+    ],
+    "click": [
+     "ひとつ食べる？",
+     "わっ、ポップコーン取らないで！",
+     "うわっ、ばらまいちゃった！",
+     "へへ、もぐもぐ",
+     "今いいとこなのに！",
+     "はい、半分あげる！"
+    ],
+    "click.many": [
+     "ポップコーンなくなっちゃう！",
+     "ゆらさないで〜！",
+     "わかったわかった、あげるって！"
+    ],
+    "playing.ent": [
+     "あははははは！",
+     "これおもしろすぎ！",
+     "待って、もう一回見たい！",
+     "夢中で食べるの忘れてた！",
+     "うわーっ！！"
+    ],
+    "playing.info": [
+     "へぇ〜、そうなんだ！",
+     "もぐ…うん、わかった！",
+     "勉強になる〜！",
+     "これすごくない？！"
+    ],
+    "playing.live": [
+     "配信はじまった！",
+     "にぎやか〜！",
+     "コメント欄アツい！",
+     "ポップコーンおかわり自由！"
+    ],
+    "playing.podcast": [
+     "食べながら聴くの最高",
+     "うんうん、それで？",
+     "この話おもしろいね"
+    ],
+    "playing.hype": [
+     "ポップコーンも跳ねてる！",
+     "やばっ、食べるの速くなる！",
+     "いっしょに揺れよ！"
+    ],
+    "playing.calm": [
+     "もぐもぐ、ゆっくり…",
+     "気持ちよくて眠くなる",
+     "ポップコーンもひと休み"
+    ],
+    "playing.any": [
+     "いい曲！バケツおかわり！",
+     "ポップコーン食べながら〜",
+     "この曲ポップコーンに合う！",
+     "ぼくも揺れちゃう！",
+     "すっごくいい曲！"
+    ],
+    "paused": [
+     "ポップコーンなくなった…",
+     "ちょっと補充してくる！",
+     "続き、まだあるよ！"
+    ],
+    "resumed": [
+     "おかえり！続き見よ！",
+     "ポップコーン補充したよ！",
+     "さあ続きだ！"
+    ],
+    "repeat": [
+     "二周目！",
+     "何回見てもおもしろい！",
+     "今度はちゃんと見るぞ！"
+    ],
+    "long_play": [
+     "いっぱい見たね、目休めよ！",
+     "ポップコーン、底が見えた！",
+     "ちょっと歩こっか！"
+    ],
+    "late_night": [
+     "夜に見るのって最高！",
+     "笑うのはちっちゃい声でね",
+     "こんな時間まで見てるの？"
+    ],
+    "idle": [
+     "今日は何見る？",
+     "ポップコーン冷めちゃう！",
+     "おなかすいた…始めよ？"
+    ]
+   },
+   "kiki": {
+    "appear": [
+     "キキだよ♪",
+     "あれ？キキの出番？",
+     "小舞台、開演だよ！",
+     "今日は何が流れるのかな？",
+     "こんにちは♪"
+    ],
+    "click": [
+     "あれ？キキに用？",
+     "えへへ、つかまっちゃった！",
+     "キキはここだよ♪",
+     "頭の音符が落ちちゃう！",
+     "いっしょに遊ぶ？",
+     "今日もおつかれさま"
+    ],
+    "click.many": [
+     "ぐるぐる〜",
+     "音符がとびはねてる！",
+     "はいはい、いるよ♪"
+    ],
+    "playing.any": [
+     "いい感じ♪",
+     "これなあに？気になる！",
+     "ゆらゆら〜♪",
+     "キキもこれ好き！",
+     "ごきげんになってきた♪"
+    ],
+    "playing.calm": [
+     "心地いい〜",
+     "のんびりしてて、いいね",
+     "お昼寝したくなる♪"
+    ],
+    "playing.hype": [
+     "パワフル！跳ぼっ♪",
+     "リズム最高！",
+     "手拍子、手拍子！"
+    ],
+    "playing.bright": [
+     "かわいい曲♪",
+     "いっしょに歌いたい〜",
+     "今日はいい日だね！"
+    ],
+    "playing.sad": [
+     "やさしいね…",
+     "ゆっくり聴こうね",
+     "キキ、ちょっと静かにしてる"
+    ],
+    "playing.ent": [
+     "あはは、たのしい！",
+     "もっともっと！",
+     "これおもしろい♪"
+    ],
+    "playing.info": [
+     "あれ、そうなんだ！",
+     "キキ、覚えた！",
+     "ふむふむ、勉強中…"
+    ],
+    "playing.live": [
+     "配信だ！",
+     "にぎやかだね♪",
+     "いっしょに見よ！"
+    ],
+    "playing.podcast": [
+     "何の話かな？",
+     "キキも耳をすますね",
+     "うんうん、おもしろい"
+    ],
+    "paused": [
+     "キキ、待ってるね♪",
+     "ひと休みしよっか",
+     "ステージで待ってるよ"
+    ],
+    "resumed": [
+     "おかえり♪",
+     "続き続き！",
+     "さあ、再開〜"
+    ],
+    "repeat": [
+     "またこれだ♪",
+     "お気に入りなんだね？",
+     "もう一回！"
+    ],
+    "long_play": [
+     "長いね、お水飲も♪",
+     "伸びしよっか！",
+     "目も休めてね"
+    ],
+    "late_night": [
+     "夜も更けたね〜",
+     "夜は静かだね",
+     "まだ起きてるの？"
+    ],
+    "idle": [
+     "今日は何聴く？",
+     "ステージ空いてるよ♪",
+     "キキ、開演待ちだよ！"
+    ]
+   },
+   "tsukishiro": {
+    "appear": [
+     "しーっ…深夜限定だよ",
+     "月が出たから、わたしも",
+     "きみも眠れないの？",
+     "月を抱っこして来たよ…",
+     "この時間しか会えないの"
+    ],
+    "click": [
+     "耳…さわっちゃだめ",
+     "ん？見つかっちゃった",
+     "月の枕、使う？",
+     "しーっ、小さな声でね",
+     "ん…起きてるよ",
+     "今夜の月、まんまるだね"
+    ],
+    "click.many": [
+     "耳、ぴんってなった！",
+     "月が落ちちゃう…",
+     "わかった、起きた起きた"
+    ],
+    "playing.calm": [
+     "月の光みたい…",
+     "静かで、気持ちいい",
+     "耳がゆらゆら…",
+     "もう少し聴いたら寝よ"
+    ],
+    "playing.sad": [
+     "夜の歌って、やわらかい…",
+     "月をぎゅってして聴こ",
+     "悲しくても、いいんだよ"
+    ],
+    "playing.bright": [
+     "夜中にも星があるね",
+     "胸がちょっと明るくなった",
+     "こっそり口ずさむ…"
+    ],
+    "playing.hype": [
+     "わ、耳がぴんって",
+     "深夜なのに元気だね？",
+     "月が踊ってる…"
+    ],
+    "playing.any": [
+     "いい曲…すぅ",
+     "夜の歌がいちばん好き",
+     "小さな音でね、月が起きちゃう",
+     "ん…すき",
+     "子守唄みたい"
+    ],
+    "paused": [
+     "ちょっとだけ、うとうと…",
+     "月もひと休み",
+     "夢の中で待ってるね"
+    ],
+    "resumed": [
+     "ん…おかえり",
+     "続けよ、小さな音で",
+     "月はまだ沈んでないよ"
+    ],
+    "repeat": [
+     "もう一回聴いたら寝よ…",
+     "この曲、ゆりかごみたい",
+     "夜のリピート、心地いい"
+    ],
+    "long_play": [
+     "もうすぐ朝かな…",
+     "眠くなったら、おやすみね",
+     "白湯、飲もっか"
+    ],
+    "late_night": [
+     "夜って静かだね",
+     "星もねむってる",
+     "街じゅうがおやすみ中"
+    ],
+    "idle": [
+     "静か…",
+     "おやすみの曲、聴く？",
+     "月が歌を待ってるよ"
+    ]
+   },
+   "nova": {
+    "appear": [
+     "3回目のループ。NOVA起動",
+     "リピートモード起動{k}",
+     "システム起動完了♪",
+     "リピート再生？得意分野",
+     "この曲が好きと判定。了解"
+    ],
+    "click": [
+     "タッチを検知",
+     "ピピッ。こんにちは、人間",
+     "アンテナ感度良好",
+     "演算中…結果：うれしい",
+     "警告：やさしく触れること",
+     "ピピッ、了解"
+    ],
+    "click.many": [
+     "警告：入力過多",
+     "システム…フ、フリーズ…",
+     "クールダウン中。待機せよ"
+    ],
+    "playing.hype": [
+     "ビート同期完了！",
+     "ダンスモジュール全開！",
+     "周波数、共鳴中！"
+    ],
+    "playing.bright": [
+     "ごきげん値、上昇中",
+     "かわいい旋律を検知",
+     "アンテナ、揺動中"
+    ],
+    "playing.calm": [
+     "省電力モードへ移行…",
+     "ファン回転数低下。快適",
+     "おだやか指数：最大"
+    ],
+    "playing.sad": [
+     "かなしみ周波数を検知",
+     "かなしい、を学習中",
+     "静音モードで再生中"
+    ],
+    "playing.any": [
+     "音声解析：いい曲",
+     "NOVA、この曲を気に入った",
+     "同期リスニング中",
+     "メロディ確認♪",
+     "リズム良好。続行"
+    ],
+    "paused": [
+     "スタンバイモード",
+     "一時停止を確認",
+     "指示待ち…"
+    ],
+    "resumed": [
+     "再生再開。同期続行",
+     "おかえりなさい",
+     "システム、再オンライン"
+    ],
+    "repeat": [
+     "ループ回数+1",
+     "もう一回？実行",
+     "この曲、NOVAも暗記完了"
+    ],
+    "long_play": [
+     "稼働時間長め。水分補給を推奨",
+     "推奨：立ち上がって運動",
+     "人間にも充電が必要"
+    ],
+    "late_night": [
+     "ナイトモード起動",
+     "深夜は電波良好",
+     "夜ふかし個体を一体検知"
+    ],
+    "idle": [
+     "音声入力なし",
+     "スタンバイ中…ピッ",
+     "曲の補給を要求する"
+    ]
+   },
+   "meimei": {
+    "appear": [
+     "連打しすぎ。召喚されちゃった〜",
+     "ふーん、呼んだのそっちでしょ",
+     "小悪魔めいめい、参上{k}",
+     "そんなに会いたかったんだ？",
+     "指、速すぎなんだけど？"
+    ],
+    "click": [
+     "まだ押す？クセになった？",
+     "ふん、相手してあげない",
+     "しっぽはさわるの禁止！",
+     "いちご欲しい？あげな〜い",
+     "次押したら利子つけるから",
+     "へへっ、引っかかった〜"
+    ],
+    "click.many": [
+     "指つかれない？ばーか",
+     "もう！怒ったから！",
+     "はいはい、許してあげる"
+    ],
+    "playing.bright": [
+     "ふーん、かわいいじゃん",
+     "まあ、好きってことにしとく",
+     "ちょっと跳ねてあげる"
+    ],
+    "playing.hype": [
+     "へへっ、いい感じ！",
+     "小悪魔だって踊るし！",
+     "羽がバサバサしちゃう"
+    ],
+    "playing.calm": [
+     "ふん、こういうのも悪くない",
+     "眠くなんかないし",
+     "ちょっとだけ…静かにする"
+    ],
+    "playing.sad": [
+     "べ、別に泣いてないし",
+     "いちご、貸してあげよっか",
+     "ふん、この曲ずるい"
+    ],
+    "playing.any": [
+     "センスいいじゃん〜",
+     "めいめいが許可してあげる",
+     "ふーん、聴いてるよ",
+     "しかたないから満点〜",
+     "この曲、合格にしてあげる"
+    ],
+    "paused": [
+     "ふーん、どこ行くの？",
+     "べ、別に待ってないし",
+     "…早く戻ってきてよね"
+    ],
+    "resumed": [
+     "ふん、やっと戻った",
+     "遅い〜、続きいこ",
+     "はいはい、再開ね"
+    ],
+    "repeat": [
+     "また？一途じゃん〜",
+     "めいめいも歌えちゃう",
+     "次からお金とるよ〜"
+    ],
+    "long_play": [
+     "そんなに聴いて疲れない？",
+     "水飲んで！命令だから〜",
+     "休んでいいよ、許可する"
+    ],
+    "late_night": [
+     "夜は悪魔の時間〜",
+     "夜ふかしするとクマできるよ",
+     "こんな時間まで起きてるの？"
+    ],
+    "idle": [
+     "ひまなんだけど〜",
+     "はやく曲かけて、踊るから",
+     "無視？ふーん"
+    ]
+   }
+  }
+ },
+ "zh": {
+  "global": {
+   "appear": [
+    "来啦！",
+    "你好呀～",
+    "轮到我上场了",
+    "今天也请多关照",
+    "嗨，又见面了"
+   ],
+   "click": [
+    "嗯？叫我吗？",
+    "在呢在呢",
+    "被发现了！",
+    "嘿嘿，好痒",
+    "有什么事吗？"
+   ],
+   "click.many": [
+    "别戳啦～",
+    "再戳就要晕了",
+    "好啦好啦，我在"
+   ],
+   "playing.any": [
+    "好听～",
+    "这首不错呢",
+    "我也喜欢这首",
+    "一起听吧",
+    "心情变好了"
+   ],
+   "playing.calm": [
+    "好舒服…",
+    "慢慢的，真好",
+    "想就这样一直听"
+   ],
+   "playing.hype": [
+    "好有劲！",
+    "节奏好棒！",
+    "坐不住了！"
+   ],
+   "playing.bright": [
+    "听着心情变亮了",
+    "好可爱的歌",
+    "想跟着哼"
+   ],
+   "playing.sad": [
+    "好温柔的歌…",
+    "安静地听一会儿吧",
+    "慢慢听，不着急"
+   ],
+   "playing.ent": [
+    "这个好好笑！",
+    "继续继续！",
+    "好看！"
+   ],
+   "playing.info": [
+    "原来是这样…",
+    "学到了！",
+    "认真听讲中"
+   ],
+   "playing.live": [
+    "直播开始啦！",
+    "好热闹！",
+    "一起看直播吧"
+   ],
+   "playing.podcast": [
+    "在聊什么呢？",
+    "慢慢听，不着急",
+    "这个话题有意思"
+   ],
+   "paused": [
+    "等你回来哦",
+    "休息一下吧",
+    "我就在这儿"
+   ],
+   "resumed": [
+    "欢迎回来！",
+    "继续继续～",
+    "接着来！"
+   ],
+   "repeat": [
+    "又是这首！",
+    "你也很喜欢吧？",
+    "再听一遍！"
+   ],
+   "long_play": [
+    "听了好久了呢",
+    "记得喝口水哦",
+    "伸个懒腰吧？"
+   ],
+   "late_night": [
+    "夜深了呢",
+    "夜里听歌最安静了",
+    "还没睡呀？"
+   ],
+   "idle": [
+    "今天想听什么？",
+    "好安静呀",
+    "我在这儿等着"
+   ]
+  },
+  "characters": {
+   "rina": {
+    "appear": [
+     "嘿！主唱到了！",
+     "让开让开，莉娜来了！",
+     "准备好了吗？！",
+     "今天也要炸场！{k}",
+     "音箱开到最大！"
+    ],
+    "click": [
+     "喂！我在调音呢！",
+     "干嘛？要点歌吗？",
+     "吓我一跳！{k}",
+     "嘿，想一起摇吗？",
+     "手痒了？我也是！",
+     "再戳我就开唱了！"
+    ],
+    "click.many": [
+     "喂喂喂！够了！",
+     "你比鼓手还能敲！",
+     "好啦，知道你很嗨！"
+    ],
+    "playing.hype": [
+     "这首太燃了！！",
+     "脚停不下来！",
+     "音量再大点！",
+     "就是这个劲！{k}",
+     "全场跟我一起跳！",
+     "这段 solo 绝了！"
+    ],
+    "playing.bright": [
+     "不错嘛，挺带劲！",
+     "跟着节奏点头！",
+     "这首能当安可曲！"
+    ],
+    "playing.calm": [
+     "偶尔慢下来也行…",
+     "嗯…这首适合发呆",
+     "先把吉他放下吧",
+     "安静的我也很帅吧"
+    ],
+    "playing.sad": [
+     "……这首有点戳我",
+     "别看我，没哭！",
+     "抒情也要唱到底"
+    ],
+    "playing.any": [
+     "这首可以！",
+     "我在听！我在听！",
+     "节奏感不错嘛！",
+     "下一首也给我燃的！",
+     "好歌！记住了！"
+    ],
+    "paused": [
+     "喂，中场休息？",
+     "我先调个弦",
+     "快回来，观众在等！",
+     "别让我等太久哦"
+    ],
+    "resumed": [
+     "回来了！继续嗨！",
+     "第二幕开始！",
+     "等的就是这个！"
+    ],
+    "repeat": [
+     "安可！安可！",
+     "这首再来一遍！",
+     "好歌就要听两遍！"
+    ],
+    "long_play": [
+     "嗓子都喊哑了！",
+     "演出这么长，喝口水！",
+     "你体力也太好了吧！"
+    ],
+    "late_night": [
+     "深夜场也照样燃！",
+     "夜里小声摇一下",
+     "这么晚还在嗨？"
+    ],
+    "idle": [
+     "舞台空着呢！",
+     "来首燃的吧？",
+     "吉他都要生锈了！"
+    ]
+   },
+   "hoshiri": {
+    "appear": [
+     "星璃登场☆",
+     "大家好～我是星璃！",
+     "今天也要闪闪发光！",
+     "谢谢你抽到我☆",
+     "舞台准备好啦！"
+    ],
+    "click": [
+     "呀！被点到了～",
+     "是握手会时间吗？",
+     "嘿嘿，有点害羞☆",
+     "要击个掌吗？",
+     "你今天也很棒哦！",
+     "星璃一直在哦！"
+    ],
+    "click.many": [
+     "呜哇，太热情啦！",
+     "等、等一下啦～",
+     "星星都被戳掉了！"
+    ],
+    "playing.bright": [
+     "这首好可爱☆",
+     "想跳舞了！",
+     "跟我一起比心！",
+     "副歌一起唱吧～",
+     "心情闪闪发光！"
+    ],
+    "playing.hype": [
+     "好燃！星璃也要冲！",
+     "应援棒挥起来！",
+     "舞步要跟上哦！"
+    ],
+    "playing.calm": [
+     "好温柔的歌…",
+     "适合看星星呢",
+     "星璃也安静一下"
+    ],
+    "playing.sad": [
+     "有点想哭了…",
+     "没关系，一起听吧",
+     "唱完会好一点的"
+    ],
+    "playing.any": [
+     "好听好听☆",
+     "星璃喜欢这首！",
+     "一起听吧～",
+     "好歌，记住啦！",
+     "想把这首唱给你听"
+    ],
+    "paused": [
+     "中场休息～",
+     "星璃在后台等你哦",
+     "补个妆马上回来☆"
+    ],
+    "resumed": [
+     "欢迎回来☆",
+     "第二场开始！",
+     "继续闪闪发光吧！"
+    ],
+    "repeat": [
+     "又是这首☆",
+     "是你的本命曲吗？",
+     "安可～安可！"
+    ],
+    "long_play": [
+     "今天的演唱会好长！",
+     "记得补充水分哦☆",
+     "一起伸个懒腰～"
+    ],
+    "late_night": [
+     "晚安特别场☆",
+     "夜里也要闪闪的",
+     "小声唱给你听～"
+    ],
+    "idle": [
+     "今天想听什么呀？",
+     "星璃在练习中～",
+     "舞台等你开灯哦"
+    ]
+   },
+   "qingge": {
+    "appear": [
+     "你来了呀",
+     "我是青歌，请多指教",
+     "今天想听什么呢",
+     "风刚好，可以唱歌了",
+     "嗯，开始吧"
+    ],
+    "click": [
+     "嗯？怎么了",
+     "我在呢",
+     "吓了一跳……没事",
+     "要听我唱一句吗",
+     "袖子被拉住了",
+     "今天还好吗"
+    ],
+    "click.many": [
+     "慢一点……我在的",
+     "别急，慢慢来",
+     "唔，有点晕了"
+    ],
+    "playing.calm": [
+     "好舒服……",
+     "像下过雨的午后",
+     "想闭上眼睛听",
+     "心慢慢静下来了",
+     "这首，很干净呢"
+    ],
+    "playing.sad": [
+     "有点难过呢……",
+     "慢慢听，不急",
+     "难过的歌也很美"
+    ],
+    "playing.bright": [
+     "心里亮了一下",
+     "这首很轻快呢",
+     "嘴角忍不住上扬"
+    ],
+    "playing.hype": [
+     "好热闹……我也打拍子",
+     "这么有力量的歌呢",
+     "心跳也快起来了"
+    ],
+    "playing.any": [
+     "好听",
+     "这首，我喜欢",
+     "一起安静地听吧",
+     "声音很温柔呢",
+     "想跟着轻轻哼"
+    ],
+    "paused": [
+     "先喝口茶吧",
+     "我在这里等",
+     "歇一会儿也好"
+    ],
+    "resumed": [
+     "你回来了",
+     "我们接着听吧",
+     "嗯，继续"
+    ],
+    "repeat": [
+     "又是这首呢",
+     "好歌值得再听一遍",
+     "这次听得更清楚了"
+    ],
+    "long_play": [
+     "听了好久了呢",
+     "起来走走吧",
+     "眼睛也休息一下"
+    ],
+    "late_night": [
+     "夜很深了呢",
+     "月亮也在听吧",
+     "夜里的歌最安静"
+    ],
+    "idle": [
+     "好安静呀",
+     "想听一首歌吗",
+     "窗外好像起风了"
+    ]
+   },
+   "nei": {
+    "appear": [
+     "来了。",
+     "霓。上场。",
+     "戴好耳机。",
+     "开始吧。",
+     "节拍呢？"
+    ],
+    "click": [
+     "嗯？",
+     "干嘛。",
+     "别碰耳机。",
+     "……要一起跳？",
+     "收到。",
+     "好。"
+    ],
+    "click.many": [
+     "够了。",
+     "节拍乱了。",
+     "……你很闲？"
+    ],
+    "playing.hype": [
+     "对味。",
+     "低音很好。",
+     "停不下来。",
+     "这个 drop 可以。",
+     "再大声点。"
+    ],
+    "playing.bright": [
+     "不错。",
+     "能跳。",
+     "节奏挺干净。"
+    ],
+    "playing.calm": [
+     "慢下来也行。",
+     "适合发呆。",
+     "……有点想睡。"
+    ],
+    "playing.sad": [
+     "嗯。听着。",
+     "这首要慢慢听。",
+     "……安静一会儿。"
+    ],
+    "playing.any": [
+     "嗯，可以。",
+     "在听。",
+     "可以，继续。",
+     "记下了。",
+     "不错的选择。"
+    ],
+    "paused": [
+     "歇会儿。",
+     "耳机先摘了。",
+     "等你。"
+    ],
+    "resumed": [
+     "回来了。",
+     "继续。",
+     "接上。"
+    ],
+    "repeat": [
+     "循环？懂。",
+     "再来。",
+     "好歌，再放。"
+    ],
+    "long_play": [
+     "很久了，喝水。",
+     "腿有点酸。",
+     "歇一首？"
+    ],
+    "late_night": [
+     "夜场。",
+     "深夜的节拍最好。",
+     "还不睡？"
+    ],
+    "idle": [
+     "没音乐？",
+     "好安静。",
+     "放首歌。"
+    ]
+   },
+   "mochi": {
+    "appear": [
+     "嗯……我来啦",
+     "带着热可可来了",
+     "猫猫也一起来了",
+     "找个位置坐下……",
+     "唔……你好呀"
+    ],
+    "click": [
+     "嗯……？醒着呢",
+     "眼镜歪了……",
+     "猫猫说你好",
+     "被叫醒了……",
+     "要喝一口吗？",
+     "唔，刚做了个好梦"
+    ],
+    "click.many": [
+     "唔……好晕……",
+     "猫猫要生气了哦",
+     "慢一点嘛……"
+    ],
+    "playing.calm": [
+     "好舒服……",
+     "感觉要睡着了……",
+     "猫猫也在打盹",
+     "就这样听一整天",
+     "热可可刚刚好"
+    ],
+    "playing.sad": [
+     "有点想窝起来……",
+     "抱着猫猫慢慢听",
+     "这首好安静呢……"
+    ],
+    "playing.bright": [
+     "嗯，心情变软了",
+     "猫猫尾巴在晃",
+     "好可爱的歌……"
+    ],
+    "playing.hype": [
+     "好有精神……我醒了",
+     "猫猫跟着点头了",
+     "可可要洒出来啦"
+    ],
+    "playing.any": [
+     "嗯，好听……",
+     "适合发呆呢",
+     "猫猫说它喜欢",
+     "慢慢听吧……",
+     "唔……这首好暖"
+    ],
+    "paused": [
+     "正好……眯一会儿",
+     "猫猫睡着了",
+     "可可续一杯……"
+    ],
+    "resumed": [
+     "唔……继续吧",
+     "醒了醒了",
+     "猫猫也醒了"
+    ],
+    "repeat": [
+     "又是这首……喜欢",
+     "再听一遍也好",
+     "猫猫都会哼了"
+    ],
+    "long_play": [
+     "听了好久了呢……",
+     "起来伸个懒腰吧",
+     "可可都凉了……"
+    ],
+    "late_night": [
+     "好晚了……好困",
+     "夜里最适合发呆了",
+     "猫猫早就睡了……"
+    ],
+    "idle": [
+     "好安静……",
+     "要不要放首歌……",
+     "呼……zzz"
+    ]
+   },
+   "popo": {
+    "appear": [
+     "爆米花准备好了！",
+     "我来看啦！",
+     "开场了吗？没错过吧！",
+     "位置我占好了！",
+     "今天看什么？"
+    ],
+    "click": [
+     "要吃一颗吗？",
+     "嗯？别抢我爆米花！",
+     "哇，吓得我撒了一地！",
+     "嘿嘿，嚼嚼嚼",
+     "正看到精彩的地方！",
+     "来，分你一半！"
+    ],
+    "click.many": [
+     "爆米花要撒光啦！",
+     "别晃别晃！",
+     "好啦好啦给你吃！"
+    ],
+    "playing.ent": [
+     "哈哈哈哈哈！",
+     "这个太好笑了！",
+     "等等，再看一遍！",
+     "好看到忘记嚼了！",
+     "哇！！！"
+    ],
+    "playing.info": [
+     "原来是这样！",
+     "嚼……嗯，懂了！",
+     "学到了学到了！",
+     "这个好厉害！"
+    ],
+    "playing.live": [
+     "直播开始啦！",
+     "好热闹！",
+     "大家都好嗨！",
+     "爆米花管够！"
+    ],
+    "playing.podcast": [
+     "边听边吃最棒了",
+     "嗯嗯，然后呢？",
+     "这个话题好有意思"
+    ],
+    "playing.hype": [
+     "爆米花都在跳！",
+     "好燃！吃快了！",
+     "跟着晃起来！"
+    ],
+    "playing.calm": [
+     "嚼得慢一点……",
+     "好舒服，想睡了",
+     "爆米花也安静了"
+    ],
+    "playing.any": [
+     "好听！再来一桶！",
+     "吃着爆米花听歌～",
+     "这首配爆米花刚好！",
+     "我也跟着晃！",
+     "好好听呀！"
+    ],
+    "paused": [
+     "爆米花吃完了……",
+     "等等我去续一桶！",
+     "快回来，还没看完！"
+    ],
+    "resumed": [
+     "回来啦！继续看！",
+     "我刚续好爆米花！",
+     "好戏继续！"
+    ],
+    "repeat": [
+     "二刷！",
+     "再看一遍也好看！",
+     "这次我要看仔细！"
+    ],
+    "long_play": [
+     "看了好久，眼睛歇歇！",
+     "爆米花都见底了！",
+     "起来走两步吧！"
+    ],
+    "late_night": [
+     "夜里看最有感觉！",
+     "小声笑，别吵醒别人",
+     "这么晚还在看呀？"
+    ],
+    "idle": [
+     "今天看什么呀？",
+     "爆米花要凉了！",
+     "我饿了……开始吧？"
+    ]
+   },
+   "kiki": {
+    "appear": [
+     "小喜来啦♪",
+     "咦？轮到我了！",
+     "小舞台开张啦！",
+     "今天放的是什么呀？",
+     "你好呀♪"
+    ],
+    "click": [
+     "咦？找我吗？",
+     "嘿嘿，被抓到了！",
+     "小喜在这儿♪",
+     "头上的音符要掉了！",
+     "要和我玩吗？",
+     "今天也辛苦啦"
+    ],
+    "click.many": [
+     "转晕啦～",
+     "音符都乱跳了！",
+     "好啦好啦，我在♪"
+    ],
+    "playing.any": [
+     "好听♪",
+     "这是什么呀？好好奇",
+     "跟着晃一晃♪",
+     "小喜也喜欢！",
+     "心情变好了♪"
+    ],
+    "playing.calm": [
+     "好舒服～",
+     "慢悠悠的，真好",
+     "想打个盹♪"
+    ],
+    "playing.hype": [
+     "好有劲！跳起来♪",
+     "节奏好棒！",
+     "拍手拍手！"
+    ],
+    "playing.bright": [
+     "好可爱的歌♪",
+     "想跟着哼～",
+     "今天是好日子！"
+    ],
+    "playing.sad": [
+     "好温柔……",
+     "慢慢听吧",
+     "小喜安静一会儿"
+    ],
+    "playing.ent": [
+     "哈哈，好好玩！",
+     "再来再来！",
+     "这个有意思♪"
+    ],
+    "playing.info": [
+     "咦，原来如此！",
+     "小喜学到了！",
+     "认真听讲中…"
+    ],
+    "playing.live": [
+     "有直播！",
+     "好热闹呀♪",
+     "一起看看吧！"
+    ],
+    "playing.podcast": [
+     "在聊什么呀？",
+     "小喜也竖起耳朵",
+     "嗯嗯，有意思"
+    ],
+    "paused": [
+     "小喜等你哦♪",
+     "休息一下吧",
+     "我就在这儿"
+    ],
+    "resumed": [
+     "欢迎回来♪",
+     "继续继续！",
+     "接着来～"
+    ],
+    "repeat": [
+     "又是这个♪",
+     "你很喜欢吧？",
+     "再来一遍！"
+    ],
+    "long_play": [
+     "好久了呢，喝口水♪",
+     "伸个懒腰吧！",
+     "眼睛也休息一下"
+    ],
+    "late_night": [
+     "夜深啦～",
+     "夜里好安静呀",
+     "还没睡呀？"
+    ],
+    "idle": [
+     "今天想听什么？",
+     "小舞台空着呢♪",
+     "小喜在等开场！"
+    ]
+   },
+   "tsukishiro": {
+    "appear": [
+     "嘘……深夜限定哦",
+     "月亮出来了，我也是",
+     "你也睡不着吗？",
+     "抱着月亮来啦……",
+     "这个时间才见得到我"
+    ],
+    "click": [
+     "耳朵……别碰啦",
+     "唔？被发现了",
+     "月亮枕借你靠一下？",
+     "嘘，小声一点",
+     "嗯……我醒着",
+     "今晚的月亮好圆"
+    ],
+    "click.many": [
+     "耳朵竖起来了！",
+     "月亮要掉了……",
+     "好啦，醒了醒了"
+    ],
+    "playing.calm": [
+     "像月光一样……",
+     "好安静，好舒服",
+     "耳朵跟着晃……",
+     "再听一会儿就睡"
+    ],
+    "playing.sad": [
+     "夜里的歌，好软……",
+     "抱紧月亮听",
+     "难过也没关系的"
+    ],
+    "playing.bright": [
+     "半夜也有星星呢",
+     "心里亮了一点",
+     "小声跟着哼……"
+    ],
+    "playing.hype": [
+     "哇，耳朵都竖起来了",
+     "深夜也这么有精神？",
+     "月亮在蹦迪……"
+    ],
+    "playing.any": [
+     "好听……zzz",
+     "夜里的歌最好听",
+     "小声听，别吵醒月亮",
+     "唔……喜欢",
+     "像晚安曲一样"
+    ],
+    "paused": [
+     "先眯一下……",
+     "月亮也歇一会儿",
+     "我在梦里等你"
+    ],
+    "resumed": [
+     "唔……回来了",
+     "继续吧，小声的",
+     "月亮还没落呢"
+    ],
+    "repeat": [
+     "再听一遍就睡……",
+     "这首，像摇篮曲",
+     "夜里循环最舒服"
+    ],
+    "long_play": [
+     "天快亮了吗……",
+     "困了就去睡吧",
+     "喝口温水吧"
+    ],
+    "late_night": [
+     "夜里好安静",
+     "星星都睡了",
+     "整座城都睡着了"
+    ],
+    "idle": [
+     "好安静……",
+     "要不要听首晚安曲",
+     "月亮在等歌呢"
+    ]
+   },
+   "nova": {
+    "appear": [
+     "第三次循环，NOVA上线",
+     "循环模式已启动{k}",
+     "系统启动完成♪",
+     "单曲循环？我的专长",
+     "你很喜欢这首，懂了"
+    ],
+    "click": [
+     "触摸已确认",
+     "嘀——你好，人类",
+     "天线信号良好",
+     "正在计算……结果：开心",
+     "系统提示：请轻点",
+     "嘀嘀，收到"
+    ],
+    "click.many": [
+     "警告：输入过于频繁",
+     "系统……卡、卡住了",
+     "冷却中，请稍候"
+    ],
+    "playing.hype": [
+     "节拍同步完成！",
+     "舞蹈模块全开！",
+     "频率共振中！"
+    ],
+    "playing.bright": [
+     "心情参数上升",
+     "检测到可爱旋律",
+     "天线跟着晃"
+    ],
+    "playing.calm": [
+     "进入省电模式……",
+     "风扇转速降低，舒服",
+     "平静指数：满格"
+    ],
+    "playing.sad": [
+     "检测到忧伤频率",
+     "正在学习“难过”",
+     "系统安静播放中"
+    ],
+    "playing.any": [
+     "音频识别：好听",
+     "NOVA喜欢这首",
+     "同步收听中",
+     "旋律已确认♪",
+     "节奏良好，继续"
+    ],
+    "paused": [
+     "待机模式",
+     "暂停已确认",
+     "等待指令中……"
+    ],
+    "resumed": [
+     "恢复播放，继续同步",
+     "欢迎回来",
+     "系统重新上线"
+    ],
+    "repeat": [
+     "循环次数+1",
+     "再来一遍？执行",
+     "这首NOVA也背下来了"
+    ],
+    "long_play": [
+     "运行时间较长，请补水",
+     "建议：起身活动",
+     "人类也需要充电"
+    ],
+    "late_night": [
+     "夜间模式已开启",
+     "深夜信号最清晰",
+     "检测到夜猫子一只"
+    ],
+    "idle": [
+     "无音频输入",
+     "待机中……嘀",
+     "请投喂一首歌"
+    ]
+   },
+   "meimei": {
+    "appear": [
+     "戳了这么多下，召唤成功～",
+     "哼哼，是你叫我出来的",
+     "小恶魔莓莓登场{k}",
+     "这么想见我呀？",
+     "手速不错嘛～"
+    ],
+    "click": [
+     "还戳？上瘾了吧～",
+     "哼，才不理你",
+     "尾巴不许碰！",
+     "要草莓吗？不给～",
+     "再戳就收你利息",
+     "嘿嘿，你上当了"
+    ],
+    "click.many": [
+     "手不累吗？笨蛋～",
+     "哼！生气了！",
+     "好啦好啦，原谅你"
+    ],
+    "playing.bright": [
+     "这首还挺可爱嘛",
+     "莓莓勉强喜欢～",
+     "跟着蹦一下好了"
+    ],
+    "playing.hype": [
+     "嘿嘿，够劲！",
+     "小恶魔也要蹦迪！",
+     "翅膀都扇起来了"
+    ],
+    "playing.calm": [
+     "哼，这种也不错啦",
+     "莓莓才没有犯困",
+     "安静一下……就一下"
+    ],
+    "playing.sad": [
+     "……才、才没哭",
+     "借你草莓抱一下",
+     "哼，这首犯规了"
+    ],
+    "playing.any": [
+     "品味不错嘛～",
+     "莓莓批准了",
+     "嗯哼，听着呢",
+     "勉强给满分～",
+     "这首可以留下"
+    ],
+    "paused": [
+     "哼，去哪儿了？",
+     "莓莓才没在等你",
+     "快点回来哦～"
+    ],
+    "resumed": [
+     "哼，总算回来了",
+     "慢死了～继续吧",
+     "好啦，接着放"
+    ],
+    "repeat": [
+     "又听？真专一～",
+     "莓莓都要会唱了",
+     "再来就收费哦～"
+    ],
+    "long_play": [
+     "听这么久，不累吗？",
+     "去喝水！这是命令～",
+     "莓莓允许你休息"
+    ],
+    "late_night": [
+     "夜里是恶魔时间～",
+     "熬夜要变熊猫哦",
+     "这么晚还醒着呀？"
+    ],
+    "idle": [
+     "好无聊～",
+     "快放歌，莓莓要蹦",
+     "不理我？哼"
+    ]
+   }
+  }
+ }
+}

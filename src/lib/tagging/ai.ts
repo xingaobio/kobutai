@@ -1,7 +1,7 @@
 import { t } from '../i18n/core';
 import { StringEnum, Type, clampThinkingLevel, type Models, type Tool } from '@earendil-works/pi-ai';
 import { CONTENT_TYPES, GENRES, VIDEO_CLASSES } from '../pack/types';
-import { isTags, type MediaInfo, type Tags } from './types';
+import { MUSIC_MOODS, isTags, type MediaInfo, type Tags } from './types';
 
 const NO_GENRE = 'none';
 
@@ -14,6 +14,8 @@ export const TAG_TOOL: Tool = {
       type: StringEnum([...CONTENT_TYPES]),
       genre: StringEnum([...GENRES, NO_GENRE]),
       vclass: Type.Optional(StringEnum([...VIDEO_CLASSES, NO_GENRE])),
+      // Only picks which prepared lines the character says; the model never writes them.
+      mood: Type.Optional(StringEnum([...MUSIC_MOODS, NO_GENRE])),
     },
     { additionalProperties: false },
   ),
@@ -24,6 +26,7 @@ const SYSTEM = `You classify what a person is currently playing in their browser
 type: "music" (songs, MVs, covers, music mixes), "video" (any non-music video), "live" (a live stream), "podcast" (talk audio/shows), "other".
 genre (only when type is "music", otherwise "${NO_GENRE}"): jpop, anime (anime/game songs, vocaloid, utaite), western-pop, hiphop, rock, electronic, classical, lofi, cpop (Mandarin/Cantonese pop), other.
 vclass (only when type is "video", otherwise "${NO_GENRE}"): ent (games, comedy, vlogs, film/anime clips, memes, sports) or info (tutorials, explainers, news, reviews, lectures, documentaries).
+mood (only when type is "music", otherwise "${NO_GENRE}"): how the track feels: calm (slow, soothing), hype (fast, intense), bright (cheerful, upbeat), sad (melancholic ballad); "${NO_GENRE}" when unsure.
 Answer by calling ${TAG_TOOL.name} exactly once.`;
 
 export interface ModelRef {
@@ -75,11 +78,13 @@ export async function classify(
       call?.type === 'toolCall'
         ? call.arguments
         : fromText(msg.content.flatMap((b) => (b.type === 'text' ? [b.text] : [])).join(''));
-    const r = (raw ?? {}) as { type?: unknown; genre?: unknown; vclass?: unknown };
+    const r = (raw ?? {}) as { type?: unknown; genre?: unknown; vclass?: unknown; mood?: unknown };
     const candidate = {
       type: r.type,
       genre: r.type === 'music' && r.genre !== NO_GENRE ? r.genre : null,
       ...(r.type === 'video' && (VIDEO_CLASSES as readonly unknown[]).includes(r.vclass) ? { vclass: r.vclass } : {}),
+      // Anything but one of the four moods is dropped: the lines then follow the genre.
+      ...(r.type === 'music' && (MUSIC_MOODS as readonly unknown[]).includes(r.mood) ? { mood: r.mood } : {}),
     };
     if (!isTags(candidate)) return { ok: false, error: t('err.badAnswer') };
     return { ok: true, tags: { ...candidate, source: 'ai' } };

@@ -3,7 +3,7 @@ import Overlay from '@/components/Overlay.svelte';
 import { startFrameReporter } from '@/lib/media/frame';
 import type { BlobRequest, RuntimeRequest, SiteInfo } from '@/lib/messages';
 import { PackCatalog } from '@/lib/pack/catalog';
-import { bubbleStyle, defaultLayout, emojiBubbles, encoreRate, getLayout, hiddenSites, setLayout, setSiteHidden, showWhen } from '@/lib/settings';
+import { bubbleStyle, defaultLayout, emojiBubbles, encoreRate, getLayout, hiddenSites, setLayout, setSiteHidden, showWhen, talkRate } from '@/lib/settings';
 import { blobKey, isBlobRef } from '@/lib/blobstore';
 import { setSrcResolver } from '@/lib/render/renderer';
 import { live } from '@/lib/ui/live.svelte';
@@ -45,6 +45,8 @@ export default defineContentScript({
     ctx.onInvalidated(bubbleStyle.watch((v) => (live.bubbleStyle = v)));
     live.encore = await encoreRate.getValue();
     ctx.onInvalidated(encoreRate.watch((v) => (live.encore = v)));
+    live.talk = await talkRate.getValue();
+    ctx.onInvalidated(talkRate.watch((v) => (live.talk = v)));
     live.showWhen = await showWhen.getValue();
     ctx.onInvalidated(showWhen.watch((v) => (live.showWhen = v)));
     const onFullscreen = () => (live.fullscreen = !!document.fullscreenElement);

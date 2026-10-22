@@ -49,10 +49,22 @@
   // screen's right edge and stays inside the screen at the top edge.
   // A kaomoji bubble is wider than an emoji one, so the real width decides the side,
   // and on the left the bubble is anchored by its right edge.
+  // While the control bar is open above the character it would hide the bubble (a tap's
+  // line most of all), so the bubble moves beside the character's head instead.
   let bubbleW = $state(0);
   const bubble = $derived.by(() => {
     const size = Math.round(Math.min(72, Math.max(40, box.w * 0.42)));
     const w = Math.max(bubbleW, size);
+    if (hovering && barPos.top < layout.y) {
+      const left = layout.x - w - 4 >= 0;
+      return {
+        size,
+        side: (left ? 'left' : 'right') as 'right' | 'left',
+        left: left ? undefined : box.w + 4,
+        right: left ? box.w + 4 : undefined,
+        top: box.h * 0.1,
+      };
+    }
     const right = layout.x + box.w - size * 0.3 + w <= view.w;
     return {
       size,
@@ -208,7 +220,7 @@
       style:top="{bubble.top}px"
       bind:clientWidth={bubbleW}
     >
-      <Bubble size={bubble.size} side={bubble.side} onact={() => act++} />
+      <Bubble size={bubble.size} side={bubble.side} {poke} onact={() => act++} />
     </div>
     {#if hovering}
       <div class="resize" role="presentation" title={t('overlay.resize')} onpointerdown={resizeStart}></div>

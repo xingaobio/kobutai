@@ -51,6 +51,18 @@ describe('classify', () => {
     expect(await classify(info, music.ref, music.models)).toEqual({ ok: true, tags: { type: 'music', genre: 'rock', source: 'ai' } });
   });
 
+  test('a song may come with a mood (for the character lines); anything else is dropped', async () => {
+    const calm = faux(fauxAssistantMessage(fauxToolCall('set_tags', { type: 'music', genre: 'cpop', mood: 'sad' })));
+    expect(await classify(info, calm.ref, calm.models)).toEqual({ ok: true, tags: { type: 'music', genre: 'cpop', mood: 'sad', source: 'ai' } });
+    const none = faux(fauxAssistantMessage(fauxToolCall('set_tags', { type: 'music', genre: 'cpop', mood: 'none' })));
+    expect(await classify(info, none.ref, none.models)).toEqual({ ok: true, tags: { type: 'music', genre: 'cpop', source: 'ai' } });
+    // Free text never gets through: only the four moods do.
+    const prose = faux(fauxAssistantMessage(fauxToolCall('set_tags', { type: 'music', genre: 'cpop', mood: '好想哭啊' })));
+    expect(await classify(info, prose.ref, prose.models)).toEqual({ ok: true, tags: { type: 'music', genre: 'cpop', source: 'ai' } });
+    const video = faux(fauxAssistantMessage(fauxToolCall('set_tags', { type: 'video', genre: 'none', vclass: 'ent', mood: 'hype' })));
+    expect(await classify(info, video.ref, video.models)).toEqual({ ok: true, tags: { type: 'video', genre: null, vclass: 'ent', source: 'ai' } });
+  });
+
   test('non-music answers drop the genre', async () => {
     const { models, ref } = faux(fauxAssistantMessage(fauxToolCall('set_tags', { type: 'video', genre: 'rock' })));
     expect(await classify(info, ref, models)).toMatchObject({ ok: true, tags: { type: 'video', genre: null } });

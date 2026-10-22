@@ -23,6 +23,7 @@
 |---|---|
 | [CHARACTER-PROMPTS.md](characters/CHARACTER-PROMPTS.md) | 内置角色的设定和逐帧提示词（精灵图规格） |
 | [COMMUNITY-CHARACTERS.md](characters/COMMUNITY-CHARACTERS.md) | 用户投稿角色和每周更新流程 |
+| [DIALOGUE.md](characters/DIALOGUE.md) | 角色台词：事件、情绪、频率、写台词的规则；三语台词库在 [lines/](characters/lines/) |
 
 用视频生成角色的提示词和转换流程在仓库根目录的 [`art/`](../art/README.md)。
 

@@ -27,7 +27,7 @@ export function encoreGap(rate: Exclude<EncoreRate, 'off'>, rng: () => number): 
 }
 
 const same = (a: BubbleContent, b: BubbleContent | null | undefined) =>
-  !!b && a.kind === b.kind && a.name === b.name && (a.kind !== 'kaomoji' || (b.kind === 'kaomoji' && a.text === b.text));
+  !!b && a.kind === b.kind && a.name === b.name && (a.kind === 'emoji' || (b.kind !== 'emoji' && a.text === b.text));
 
 /**
  * The bubble for an encore: one of the content's `moods` in the user's style, and
@@ -127,6 +127,11 @@ export class EncoreScheduler {
     } else {
       this.stop();
     }
+  }
+
+  /** Ms the current content has played so far (pauses don't count). */
+  played(): number {
+    return this.clock.elapsed(this.now());
   }
 
   /** Pause the count and drop the timer (the view is going away, or nothing plays). */
