@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, test, vi } from 'vitest';
 import { TITLE_CASES } from '../../../../tests/fixtures/titles';
+import { moodOf } from '../../dialogue/dialogue';
 import { ruleTags } from '../rules';
 import type { Classification } from './classifier';
 import { HANDOFF_CONFIDENCE, LocalModel, MODEL_FILES, confidenceOf, toTags, type FileFetcher } from './local';
@@ -161,4 +162,22 @@ describe('accuracy', () => {
   test('hand-off threshold matches the research (0.9)', () => {
     expect(HANDOFF_CONFIDENCE).toBe(0.9);
   });
+});
+
+test('character lines: what the model is sure of is rarely the wrong mood (real titles)', async () => {
+  const m = new LocalModel(diskFetcher());
+  let said = 0;
+  let wrong = 0;
+  for (const c of REAL) {
+    const t = (await m.tag({ site: c.site, title: c.title, artist: c.artist, duration: c.duration > 0 ? c.duration : 0 }))!;
+    // As the tagger hands it on: under the hand-off line the answer is marked unsure.
+    const mood = moodOf({ ...t, ...(t.confidence < HANDOFF_CONFIDENCE ? { unsure: true as const } : {}) });
+    if (mood === null || mood === 'any') continue;
+    said++;
+    if (mood !== moodOf({ type: c.type as never, genre: c.genre as never, ...(c.vclass ? { vclass: c.vclass as never } : {}) })) wrong++;
+  }
+  console.info(`mood lines on real titles: ${said} said, ${wrong} wrong`);
+  // Measured 2026-10-24: 222 said, 6 wrong (without the gate: 332 said, 43 wrong).
+  expect(said).toBeGreaterThan(REAL.length / 2);
+  expect(wrong / said).toBeLessThan(0.05);
 });

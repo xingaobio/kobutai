@@ -86,8 +86,20 @@ test('unsure local answer is handed to the AI', async () => {
 test('no AI configured → the local answer, even when unsure', async () => {
   const ai = vi.fn();
   const t = new Tagger(async () => DEFAULT_LLM_SETTINGS, memCache(), ai, 100, unsure);
-  expect(await t.tag(info)).toEqual({ type: 'music', genre: 'anime', source: 'model' });
+  // Marked unsure, so the character won't say anything specific about it (lib/dialogue).
+  expect(await t.tag(info)).toEqual({ type: 'music', genre: 'anime', source: 'model', unsure: true });
   expect(ai).not.toHaveBeenCalled();
+  // A sure answer carries no flag.
+  expect(await new Tagger(async () => DEFAULT_LLM_SETTINGS, memCache(), ai, 100, sure).tag(info)).toEqual({ type: 'music', genre: 'jpop', source: 'model' });
+});
+
+test('keyword rules (the model could not load) are always unsure', async () => {
+  const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  const broken = new Tagger(async () => DEFAULT_LLM_SETTINGS, memCache(), vi.fn(), 100, async () => {
+    throw new Error('no model');
+  });
+  expect(await broken.tag(info)).toMatchObject({ source: 'rules', unsure: true });
+  warn.mockRestore();
 });
 
 test('AI failure or timeout falls back to the local answer, not the rules', async () => {

@@ -56,7 +56,7 @@
 - Take your time with this one
 
 ### playing.ent
-- Haha, that's hilarious!
+- Ooh, I'm hooked!
 - Keep going, keep going!
 - Ooh, this is good!
 
@@ -560,8 +560,8 @@
 - Okay, okay, have some!
 
 ### playing.ent
-- Hahahaha!
-- That's so funny!
+- Whoa, so good!
+- I can't look away!
 - Wait, play that again!
 - So good I forgot to chew!
 - WHOA!!!
@@ -684,7 +684,7 @@
 - Kiki will be quiet for a bit
 
 ### playing.ent
-- Haha, so fun!
+- Ooh, how exciting♪
 - More, more!
 - Ooh, this is interesting♪
 
@@ -1292,8 +1292,8 @@
 - Slow waves, listening together
 
 ### playing.ent
-- HAHAHA that's so funny!
-- I'm dying, that bit got me!
+- This part is SO good!
+- I'm on the edge of my seat!
 - Again! Again!
 
 ### playing.any
@@ -1373,7 +1373,7 @@
 - Wait, let me think about that
 
 ### playing.ent
-- Haha, that's fun
+- Ooh, this is good
 - This is interesting!
 - Pencil down, eyes up!
 

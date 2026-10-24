@@ -6,7 +6,7 @@ import { pick, poolFor } from './pool';
 export interface Draw {
   contentKey: string;
   packId: string;
-  tags: Pick<Tags, 'type' | 'genre' | 'vclass' | 'mood' | 'source'>;
+  tags: Pick<Tags, 'type' | 'genre' | 'vclass' | 'mood' | 'unsure' | 'source'>;
   rerolled: boolean;
   /** The character was chosen because the content names it, not drawn from a pool. */
   matched?: boolean;
@@ -249,6 +249,7 @@ export class GachaEngine {
       genre: tags.genre,
       ...(tags.vclass ? { vclass: tags.vclass } : {}),
       ...(tags.mood ? { mood: tags.mood } : {}),
+      ...(tags.unsure ? { unsure: true as const } : {}),
       source: tags.source,
     };
     return { contentKey: key, packId: chosen.id, tags: kept, rerolled: false, ...(matched ? { matched: true, info } : {}) };
