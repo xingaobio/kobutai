@@ -40,7 +40,7 @@ export class Tagger {
       console.warn('[kobutai] local model failed, using keyword rules:', e);
       return null;
     });
-    const fallback: Tags = local ? withoutConfidence(local) : ruleTags(info);
+    const fallback: Tags = local ? withoutConfidence(local) : { ...ruleTags(info), unsure: true };
     const s = await this.settings();
     if (!isConfigured(s)) return fallback;
 
@@ -83,8 +83,9 @@ export class Tagger {
   }
 }
 
-function withoutConfidence({ confidence: _c, ...tags }: LocalTags): Tags {
-  return tags;
+/** The confidence becomes a flag: below the hand-off line the answer is marked unsure. */
+function withoutConfidence({ confidence, ...tags }: LocalTags): Tags {
+  return confidence < HANDOFF_CONFIDENCE ? { ...tags, unsure: true } : tags;
 }
 
 /** AI answers may omit the video kind (old cache entries, providers that skip optional fields). */

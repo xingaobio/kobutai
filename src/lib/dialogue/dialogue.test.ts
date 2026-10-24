@@ -66,16 +66,24 @@ describe('moodOf', () => {
     // Mandarin pop is ballads and dance tracks alike.
     expect(moodOf({ type: 'music', genre: 'cpop' })).toBe('any');
     expect(moodOf({ type: 'music', genre: 'cpop', mood: 'sad' })).toBe('sad');
-    // The classifier wasn't sure: only lines that fit anything.
+    // The classifier wasn't sure: only lines that fit any song.
     expect(moodOf({ type: 'music', genre: null })).toBe('any');
+    expect(moodOf({ type: 'music', genre: 'lofi', unsure: true })).toBe('any');
+    // The AI's mood is an answer of its own.
+    expect(moodOf({ type: 'music', genre: 'lofi', mood: 'hype', unsure: true })).toBe('hype');
   });
 
-  test('videos, live streams and podcasts', () => {
+  test('videos, live streams and podcasts: only when sure', () => {
     expect(moodOf({ type: 'video', genre: null, vclass: 'info' })).toBe('info');
-    expect(moodOf({ type: 'video', genre: null })).toBe('any');
     expect(moodOf({ type: 'live', genre: null })).toBe('live');
     expect(moodOf({ type: 'podcast', genre: null })).toBe('podcast');
-    expect(moodOf(null)).toBe('any');
+    // Lines that fit "anything" are about songs, so nothing rather than that.
+    expect(moodOf({ type: 'video', genre: null })).toBeNull();
+    expect(moodOf({ type: 'video', genre: null, vclass: 'ent', unsure: true })).toBeNull();
+    expect(moodOf({ type: 'live', genre: null, unsure: true })).toBeNull();
+    expect(moodOf({ type: 'other', genre: null })).toBeNull();
+    // Nothing known (a locked character keeps no tags for new content).
+    expect(moodOf(null)).toBeNull();
   });
 });
 

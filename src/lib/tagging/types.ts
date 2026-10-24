@@ -26,6 +26,11 @@ export interface Tags {
   vclass?: VideoClass;
   /** Only for music, only from the user's AI model. */
   mood?: MusicMood;
+  /**
+   * The on-device model (or the keyword rules) wasn't sure of this answer. Good enough to
+   * pick a character, not to say something specific about it (see lib/dialogue).
+   */
+  unsure?: true;
   /** rules = keyword rules, model = on-device classifier, ai / cache = the user's AI model. */
   source: 'rules' | 'model' | 'ai' | 'cache';
 }

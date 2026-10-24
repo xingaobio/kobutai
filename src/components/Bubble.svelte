@@ -82,7 +82,10 @@
   function say(event: LineEvent, name: EmojiName, tags?: DrawView['tags'] | null): BubbleContent | null {
     const pack = currentPack();
     if (!pack) return null;
-    const text = talker.say(event, { speaker: pack, lang: i18n.lang, rate: live.talk, mood: moodOf(tags) });
+    const mood = moodOf(tags);
+    // Not sure what this is: no line about it.
+    if (event === 'playing' && mood === null) return null;
+    const text = talker.say(event, { speaker: pack, lang: i18n.lang, rate: live.talk, ...(mood ? { mood } : {}) });
     return text ? present({ kind: 'line', name, text }, lineMs(text)) : null;
   }
 
