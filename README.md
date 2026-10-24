@@ -13,7 +13,7 @@
 ![Languages](https://img.shields.io/badge/UI-EN%20·%20日本語%20·%20中文-c9a7ff?style=flat-square)
 ![On-device model](https://img.shields.io/badge/model-on--device%20·%202.6%20MB-7cd6b4?style=flat-square)
 ![License](https://img.shields.io/badge/code-MIT-3a2748?style=flat-square)
-![Status](https://img.shields.io/badge/status-beta%20testing-ffd36e?style=flat-square)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-install-ffd36e?style=flat-square&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/dmoinepmnonlmffdeelhgbobllhejpfc)
 
 </div>
 
@@ -65,17 +65,11 @@ The training data, experiments (including two that didn't work), charts and para
 
 No account, no analytics, no servers of ours. Your album and settings stay in your browser. If you connect your own AI, only the title, artist and site of items the built-in model is unsure about go to the provider you picked. Full policy: [kobutai.pages.dev/privacy.html](https://kobutai.pages.dev/privacy.html).
 
-### Try it (beta)
+### Install
 
-Kobutai isn't in the Chrome Web Store yet. To try it now:
+**[Add Kobutai to Chrome](https://chromewebstore.google.com/detail/dmoinepmnonlmffdeelhgbobllhejpfc)** from the Chrome Web Store. It's an early version and isn't listed in store search yet, so use this link. Then play a song on YouTube or Spotify.
 
-```bash
-git clone https://github.com/xingaobio/kobutai.git && cd kobutai
-npm install
-npm run build
-```
-
-Then open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked** and choose `.output/chrome-mv3`. Play a song on YouTube or Spotify.
+To build it yourself instead: `git clone https://github.com/xingaobio/kobutai.git && cd kobutai && npm install && npm run build`, open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked** and choose `.output/chrome-mv3`.
 
 Feedback is very welcome: open an issue, or email xingaouk@gmail.com.
 
@@ -146,17 +140,11 @@ Kobutai 只能读到文字（标题、歌手或频道、网站、时长），听
 
 不需要账号，没有统计，开发者不运营任何服务器。图鉴和设置都保存在你的浏览器里。连上自己的 AI 时，也只把内置模型没把握的那些内容的标题、作者和网站名发给你选的服务商。完整政策：[kobutai.pages.dev/privacy.html](https://kobutai.pages.dev/privacy.html)。
 
-### 试用（测试版）
+### 安装
 
-Kobutai 还没上架 Chrome 应用商店，现在可以这样试用：
+**[从 Chrome 应用商店添加 Kobutai](https://chromewebstore.google.com/detail/dmoinepmnonlmffdeelhgbobllhejpfc)**。这是早期版本，在商店里还搜不到，请用这个链接。装好后去 YouTube 或 Spotify 放一首歌试试。
 
-```bash
-git clone https://github.com/xingaobio/kobutai.git && cd kobutai
-npm install
-npm run build
-```
-
-然后打开 `chrome://extensions`，开启"开发者模式"，点"加载已解压的扩展程序"，选择 `.output/chrome-mv3`。去 YouTube 或 Spotify 放一首歌试试。
+想自己构建：`git clone https://github.com/xingaobio/kobutai.git && cd kobutai && npm install && npm run build`，然后打开 `chrome://extensions`，开启"开发者模式"，点"加载已解压的扩展程序"，选择 `.output/chrome-mv3`。
 
 非常欢迎反馈：提 issue，或发邮件到 xingaouk@gmail.com。
 
