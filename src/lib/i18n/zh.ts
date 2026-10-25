@@ -270,6 +270,9 @@ export const zh = {
   'set.lib.failed': '失败',
   'set.lib.problems': '{n} 个问题',
   'set.lib.httpsOnly': '只支持 https 地址',
+  'set.support.title': '支持 Kobutai',
+  'set.support.hint': 'Kobutai 免费、开源、没有广告。如果它让你的一天开心一点，可以在 Ko-fi 请我喝杯咖啡，支持我继续画新角色。',
+  'set.support.button': '☕ 在 Ko-fi 请我喝杯咖啡',
 
   // Toolbar popup
   'popup.unsupported': '这个页面不能显示角色',

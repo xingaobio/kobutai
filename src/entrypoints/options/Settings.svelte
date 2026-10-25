@@ -223,6 +223,14 @@
         {/if}
       {/if}
     </div>
+
+    <div class="card" data-testid="support">
+      <h2 class="display">{t('set.support.title')}</h2>
+      <p class="hint small">{t('set.support.hint')}</p>
+      <div class="row-line sub">
+        <a class="btn solid kofi" href="https://ko-fi.com/O6G229GGEG" target="_blank" rel="noreferrer">{t('set.support.button')}</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -282,6 +290,9 @@
   }
   .small {
     font-size: 12px;
+  }
+  .kofi {
+    text-decoration: none;
   }
   .row-line {
     display: flex;

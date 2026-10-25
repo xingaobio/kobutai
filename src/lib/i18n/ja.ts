@@ -258,6 +258,9 @@ export const ja: Record<MessageKey, string> = {
   'set.lib.failed': '失敗',
   'set.lib.problems': '問題が {n} 件',
   'set.lib.httpsOnly': 'https のアドレスのみ使えます',
+  'set.support.title': 'Kobutai を応援',
+  'set.support.hint': 'Kobutai は無料・オープンソースで、広告もありません。気に入ったら Ko-fi でコーヒーを一杯ごちそうしてもらえると、新しいキャラクター作りの励みになります。',
+  'set.support.button': '☕ Ko-fi で応援する',
 
   'popup.unsupported': 'このページにはキャラを出せません',
   'popup.unsupportedHint': 'ブラウザの内部ページやウェブストアでは拡張機能が動きません。インストール前から開いていたタブは一度再読み込みが必要です。普通のウェブページなら大丈夫です。',
