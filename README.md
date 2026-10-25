@@ -14,6 +14,7 @@
 ![On-device model](https://img.shields.io/badge/model-on--device%20·%202.6%20MB-7cd6b4?style=flat-square)
 ![License](https://img.shields.io/badge/code-MIT-3a2748?style=flat-square)
 [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-install-ffd36e?style=flat-square&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/dmoinepmnonlmffdeelhgbobllhejpfc)
+[![Edge Add-ons](https://img.shields.io/badge/Edge%20Add--ons-install-7cd6b4?style=flat-square&logo=microsoftedge&logoColor=white)](https://microsoftedge.microsoft.com/addons/detail/oeajknlpejimdfgpipgkgoilhmdlgpgg)
 
 </div>
 
@@ -67,9 +68,23 @@ No account, no analytics, no servers of ours. Your album and settings stay in yo
 
 ### Install
 
-**[Add Kobutai to Chrome](https://chromewebstore.google.com/detail/dmoinepmnonlmffdeelhgbobllhejpfc)** from the Chrome Web Store. It's an early version and isn't listed in store search yet, so use this link. Then play a song on YouTube or Spotify.
+| | |
+|---|---|
+| **Chrome** | [Chrome Web Store](https://chromewebstore.google.com/detail/dmoinepmnonlmffdeelhgbobllhejpfc) |
+| **Edge** | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/oeajknlpejimdfgpipgkgoilhmdlgpgg) (also works in mainland China) |
+| **Other Chromium browsers** (360, QQ Browser, Brave, Opera…) | [kobutai-extension.zip](https://github.com/xingaobio/kobutai/releases/latest/download/kobutai-extension.zip), see [Manual install](#manual-install) |
+| **Windows desktop app** (preview) | [kobutai-windows-setup.exe](https://github.com/xingaobio/kobutai/releases/latest/download/kobutai-windows-setup.exe) |
+| **Build it yourself** | `git clone https://github.com/xingaobio/kobutai.git && cd kobutai && npm install && npm run build`, then load `.output/chrome-mv3` as below |
 
-To build it yourself instead: `git clone https://github.com/xingaobio/kobutai.git && cd kobutai && npm install && npm run build`, open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked** and choose `.output/chrome-mv3`.
+Then play a song on YouTube or Spotify. Every version is on the [Releases](https://github.com/xingaobio/kobutai/releases) page.
+
+#### Manual install
+
+1. Download [kobutai-extension.zip](https://github.com/xingaobio/kobutai/releases/latest/download/kobutai-extension.zip) and unzip it.
+2. Open the browser's extensions page (`chrome://extensions`, `edge://extensions`; in 360 or QQ Browser, the extension manager in the menu).
+3. Turn on **Developer mode**, click **Load unpacked** and choose the unzipped folder.
+
+Manual installs don't update themselves: download the new zip from Releases when a new version comes out. The Windows installer isn't signed yet, so Windows may show "Windows protected your PC": click **More info** → **Run anyway**.
 
 Feedback is very welcome: open an issue, or email xingaouk@gmail.com.
 
@@ -142,9 +157,23 @@ Kobutai 只能读到文字（标题、歌手或频道、网站、时长），听
 
 ### 安装
 
-**[从 Chrome 应用商店添加 Kobutai](https://chromewebstore.google.com/detail/dmoinepmnonlmffdeelhgbobllhejpfc)**。这是早期版本，在商店里还搜不到，请用这个链接。装好后去 YouTube 或 Spotify 放一首歌试试。
+| | |
+|---|---|
+| **Chrome** | [Chrome 应用商店](https://chromewebstore.google.com/detail/dmoinepmnonlmffdeelhgbobllhejpfc) |
+| **Edge** | [Microsoft Edge 加载项商店](https://microsoftedge.microsoft.com/addons/detail/oeajknlpejimdfgpipgkgoilhmdlgpgg)（国内可以正常访问） |
+| **其他 Chromium 内核浏览器**（360、QQ 浏览器、Brave、Opera…） | [kobutai-extension.zip](https://github.com/xingaobio/kobutai/releases/latest/download/kobutai-extension.zip)，见下面的"手动安装" |
+| **Windows 桌面版**（预览） | [kobutai-windows-setup.exe](https://github.com/xingaobio/kobutai/releases/latest/download/kobutai-windows-setup.exe) |
+| **自己构建** | `git clone https://github.com/xingaobio/kobutai.git && cd kobutai && npm install && npm run build`，然后按下面的方法加载 `.output/chrome-mv3` |
 
-想自己构建：`git clone https://github.com/xingaobio/kobutai.git && cd kobutai && npm install && npm run build`，然后打开 `chrome://extensions`，开启"开发者模式"，点"加载已解压的扩展程序"，选择 `.output/chrome-mv3`。
+装好后去 YouTube 或 Spotify 放一首歌试试。所有版本都在 [Releases](https://github.com/xingaobio/kobutai/releases) 页面。
+
+#### 手动安装
+
+1. 下载 [kobutai-extension.zip](https://github.com/xingaobio/kobutai/releases/latest/download/kobutai-extension.zip) 并解压。
+2. 打开浏览器的扩展管理页（`chrome://extensions`、`edge://extensions`；360、QQ 浏览器在菜单里的"扩展管理"）。
+3. 开启"开发者模式"，点"加载已解压的扩展程序"，选择解压出来的文件夹。
+
+手动安装不会自动更新，有新版本时请到 Releases 重新下载。Windows 安装包还没有签名，Windows 可能提示"Windows 已保护你的电脑"，点"更多信息"→"仍要运行"。
 
 非常欢迎反馈：提 issue，或发邮件到 xingaouk@gmail.com。
 
