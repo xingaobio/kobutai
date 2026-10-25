@@ -258,6 +258,9 @@ export const en: Record<MessageKey, string> = {
   'set.lib.failed': 'failed',
   'set.lib.problems': 'Problems: {n}',
   'set.lib.httpsOnly': 'Only https addresses work',
+  'set.support.title': 'Support Kobutai',
+  'set.support.hint': 'Kobutai is free, open source and ad-free. If it makes your day a little brighter, a coffee on Ko-fi helps me keep drawing new characters.',
+  'set.support.button': '☕ Buy me a coffee on Ko-fi',
 
   'popup.unsupported': 'The character can’t appear on this page',
   'popup.unsupportedHint': 'Browser pages and the Web Store don’t allow extensions, and tabs open since before you installed need one refresh. Any ordinary web page works.',

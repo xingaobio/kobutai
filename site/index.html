@@ -247,6 +247,8 @@ a.more:hover { text-decoration: underline; }
 footer { border-top: 2px solid var(--line); background: var(--surface); padding: 26px 0; font-size: 14px; color: var(--muted); }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; }
 footer a { color: var(--muted); }
+footer a.kofi { background: #f573c8; color: #3a2748; font-weight: 600; text-decoration: none; padding: 6px 14px; border-radius: 999px; box-shadow: 0 3px 0 rgba(58, 39, 72, .18); }
+footer a.kofi:hover { transform: translateY(-1px); }
 
 @media (max-width: 620px) { .cover { aspect-ratio: 16 / 7; } .stage { height: 150px; } }
 @media (prefers-reduced-motion: reduce) {
@@ -469,7 +471,7 @@ footer a { color: var(--muted); }
       <div class="sec-head"><h2 class="display" data-i18n="faq.t">Questions</h2></div>
       <div class="faq">
         <details><summary data-i18n="q0">Can I try it now?</summary><p><span data-i18n="a0">Yes. While it waits for the Chrome Web Store, you can build it from the open-source code in a few minutes and load it into Chrome.</span> <a class="more" href="#download" data-i18n="a0.link">How to install the beta →</a></p></details>
-        <details><summary data-i18n="q1">Is it really free?</summary><p data-i18n="a1">Yes. No ads, no in-app purchases, no premium tier. If you turn on AI you use your own key, and free tiers are enough.</p></details>
+        <details><summary data-i18n="q1">Is it really free?</summary><p><span data-i18n="a1">Yes. No ads, no in-app purchases, no premium tier. If you turn on AI you use your own key, and free tiers are enough.</span> <a class="more" href="https://ko-fi.com/O6G229GGEG" target="_blank" rel="noopener" data-i18n="a1.link">Want to chip in anyway? Buy me a coffee on Ko-fi →</a></p></details>
         <details><summary data-i18n="q2">Do I need an AI key?</summary><p data-i18n="a2">No. A small built-in model recognises what’s playing offline. Connecting your own AI is optional, and it’s only asked when the built-in model is unsure.</p></details>
         <details><summary data-i18n="q3">Will it get in my way?</summary><p data-i18n="a3">It only appears while something is actually making sound, and tucks itself away 5 minutes after everything stops. You can drag it, resize it, or hide it on specific sites.</p></details>
         <details><summary data-i18n="q4">Can I make my own character?</summary><p data-i18n="a4">Yes. Any Petdex-format pet (pet.json + spritesheet.webp) can be imported, and the GitHub repo explains the character format.</p></details>
@@ -495,6 +497,7 @@ footer a { color: var(--muted); }
     <span>© 2026 Kobutai</span>
     <a href="privacy.html" data-i18n="nav.privacy">Privacy</a>
     <a href="https://github.com/xingaobio/kobutai" data-github>GitHub</a>
+    <a class="kofi" href="https://ko-fi.com/O6G229GGEG" target="_blank" rel="noopener" data-i18n="footer.kofi">☕ Support on Ko-fi</a>
     <span data-i18n="footer.art">Character art © Kobutai · code under the MIT license</span>
   </div>
 </footer>
@@ -559,7 +562,7 @@ const T = {
     'q2': 'Do I need an AI key?', 'a2': 'No. A small built-in model recognises what’s playing offline. Connecting your own AI is optional, and it’s only asked when the built-in model is unsure.',
     'q3': 'Will it get in my way?', 'a3': 'It only appears while something is actually making sound, and tucks itself away 5 minutes after everything stops. You can drag it, resize it, or hide it on specific sites.',
     'q4': 'Can I make my own character?', 'a4': 'Yes. Any Petdex-format pet (pet.json + spritesheet.webp) can be imported, and the GitHub repo explains the character format.',
-    'q0': 'Can I try it now?', 'a0': 'Yes. It’s in the Chrome Web Store and Microsoft Edge Add-ons, and there’s a zip for other browsers and a Windows preview.', 'a0.link': 'All the ways to get it ↓',
+    'q0': 'Can I try it now?', 'a0': 'Yes. It’s in the Chrome Web Store and Microsoft Edge Add-ons, and there’s a zip for other browsers and a Windows preview.', 'a0.link': 'All the ways to get it ↓', 'a1.link': 'Want to chip in anyway? Buy me a coffee on Ko-fi →', 'footer.kofi': '☕ Support on Ko-fi',
     'f1.link': 'How the model was trained: report, charts and code →',
     'q5': 'Which languages does it support?', 'a5': 'English, Japanese and Chinese. It follows your browser’s language, and you can switch any time from the top of the settings page.',
     'final.t': 'Give your music a little stage.',
@@ -604,7 +607,7 @@ const T = {
     'q2': 'AI のキーは必要？', 'a2': 'いいえ。内蔵の小さなモデルがオフラインで判定します。自分の AI をつなぐのは任意で、内蔵モデルが迷ったときだけ問い合わせます。',
     'q3': '邪魔にならない？', 'a3': '実際に音が鳴っているときだけ表示され、すべて止まってから 5 分で自動的に隠れます。ドラッグやサイズ変更、サイトごとの非表示もできます。',
     'q4': '自分でキャラを作れる？', 'a4': 'はい。Petdex 形式（pet.json + spritesheet.webp）のキャラならインポートできます。キャラの形式は GitHub で説明しています。',
-    'q0': '今すぐ試せる？', 'a0': 'はい。Chrome ウェブストアと Microsoft Edge アドオンで公開中です。ほかのブラウザ用の zip と Windows 版のプレビューもあります。', 'a0.link': '入手方法をすべて見る ↓',
+    'q0': '今すぐ試せる？', 'a0': 'はい。Chrome ウェブストアと Microsoft Edge アドオンで公開中です。ほかのブラウザ用の zip と Windows 版のプレビューもあります。', 'a0.link': '入手方法をすべて見る ↓', 'a1.link': '応援したい方は Ko-fi でコーヒーを一杯どうぞ →', 'footer.kofi': '☕ Ko-fi で応援',
     'f1.link': 'モデルの学習の記録：レポート・グラフ・コード →',
     'q5': '対応言語は？', 'a5': '日本語・英語・中国語に対応。ブラウザの言語に合わせて表示され、設定ページの上部からいつでも切り替えられます。',
     'final.t': '音楽に、小さなステージを。',
@@ -649,7 +652,7 @@ const T = {
     'q2': '一定要 AI key 吗？', 'a2': '不需要。内置的小模型离线就能识别。连上你自己的 AI 是可选的，只在内置模型没把握时才会问它。',
     'q3': '会不会挡住网页？', 'a3': '只有真的在出声时才出现，所有声音停下 5 分钟后自动收起。也可以拖动、调大小，或者在指定网站隐藏。',
     'q4': '能做自己的角色吗？', 'a4': '可以。任何 Petdex 格式的角色（pet.json + spritesheet.webp）都能导入，角色格式的说明在 GitHub 仓库里。',
-    'q0': '现在能试用吗？', 'a0': '可以。已经在 Chrome 应用商店和 Microsoft Edge 加载项商店上线，另外有给其他浏览器用的 zip 和 Windows 预览版。', 'a0.link': '查看所有安装方式 ↓',
+    'q0': '现在能试用吗？', 'a0': '可以。已经在 Chrome 应用商店和 Microsoft Edge 加载项商店上线，另外有给其他浏览器用的 zip 和 Windows 预览版。', 'a0.link': '查看所有安装方式 ↓', 'a1.link': '想支持一下？在 Ko-fi 请我喝杯咖啡 →', 'footer.kofi': '☕ 在 Ko-fi 支持',
     'f1.link': '模型是怎么训练的：报告、图表和代码 →',
     'q5': '支持哪些语言？', 'a5': '中文、英文和日文。默认跟随浏览器语言，也可以随时在设置页顶部切换。',
     'final.t': '给音乐一个小舞台。',
