@@ -113,14 +113,14 @@ jobs:
           - **Chrome**: [Chrome Web Store](https://chromewebstore.google.com/detail/dmoinepmnonlmffdeelhgbobllhejpfc)
           - **Edge**: [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/oeajknlpejimdfgpipgkgoilhmdlgpgg)
           - **Other Chromium browsers (360, QQ Browser, Brave, Opera…) or no store access**: download \`kobutai-extension.zip\`, unzip it, open the browser's extensions page, turn on Developer mode, choose **Load unpacked** and pick the unzipped folder. Manual installs don't update themselves; download the new zip from here when a new version comes out.
-          - **Windows desktop (preview)**: \`kobutai-windows-setup.exe\`. The installer is not signed yet, so Windows may show "Windows protected your PC": click **More info** → **Run anyway**.
+          - **Windows desktop (preview)**: \`kobutai-windows-setup.exe\`. Step-by-step: https://kobutai.pages.dev/install.html The installer is not signed yet, so Windows may show "Windows protected your PC": click **More info** → **Run anyway**.
 
           ## 安装
 
           - **Chrome**：[Chrome 应用商店](https://chromewebstore.google.com/detail/dmoinepmnonlmffdeelhgbobllhejpfc)
           - **Edge**：[Edge 加载项商店](https://microsoftedge.microsoft.com/addons/detail/oeajknlpejimdfgpipgkgoilhmdlgpgg)（国内可以正常访问）
           - **360、QQ 浏览器等其他 Chromium 浏览器，或打不开商店时**：下载 \`kobutai-extension.zip\` 并解压，打开浏览器的扩展管理页，开启"开发者模式"，点"加载已解压的扩展程序"，选择解压出来的文件夹。手动安装不会自动更新，有新版本时请回到这里重新下载。
-          - **Windows 桌面版（预览）**：\`kobutai-windows-setup.exe\`。安装包还没有签名，Windows 可能提示"Windows 已保护你的电脑"，点"更多信息"→"仍要运行"。
+          - **Windows 桌面版（预览）**：\`kobutai-windows-setup.exe\`。详细步骤：https://kobutai.pages.dev/install.html?lang=zh安装包还没有签名，Windows 可能提示"Windows 已保护你的电脑"，点"更多信息"→"仍要运行"。
           EOF
           if gh release view "v$VERSION" >/dev/null 2>&1; then
             gh release upload "v$VERSION" assets/* --clobber
