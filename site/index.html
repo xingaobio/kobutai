@@ -448,12 +448,12 @@ footer a { color: var(--muted); }
         <div class="dl">
           <h3 class="display"><span class="ic"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-download"/></svg></span><span data-i18n="dl.zip.t"></span></h3>
           <p data-i18n="dl.zip.d"></p>
-          <div class="dl-links"><a class="more" href="https://github.com/xingaobio/kobutai/releases/latest/download/kobutai-extension.zip" target="_blank" rel="noopener" data-i18n="dl.zip.a"></a><a class="more" href="https://github.com/xingaobio/kobutai#manual-install" data-href-zh="https://github.com/xingaobio/kobutai#手动安装" target="_blank" rel="noopener" data-i18n="dl.zip.how"></a></div>
+          <div class="dl-links"><a class="more" href="https://github.com/xingaobio/kobutai/releases/latest/download/kobutai-extension.zip" target="_blank" rel="noopener" data-i18n="dl.zip.a"></a><a class="more" href="install.html#zip" data-i18n="dl.zip.how"></a></div>
         </div>
         <div class="dl">
           <h3 class="display"><span class="ic"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-window"/></svg></span><span data-i18n="dl.win.t"></span></h3>
           <p data-i18n="dl.win.d"></p>
-          <div class="dl-links"><a class="more" href="https://github.com/xingaobio/kobutai/releases/latest/download/kobutai-windows-setup.exe" target="_blank" rel="noopener" data-i18n="dl.win.a"></a><a class="more" href="https://github.com/xingaobio/kobutai/releases/latest" target="_blank" rel="noopener" data-i18n="dl.all"></a></div>
+          <div class="dl-links"><a class="more" href="https://github.com/xingaobio/kobutai/releases/latest/download/kobutai-windows-setup.exe" target="_blank" rel="noopener" data-i18n="dl.win.a"></a><a class="more" href="install.html#windows" data-i18n="dl.win.how"></a><a class="more" href="https://github.com/xingaobio/kobutai/releases/latest" target="_blank" rel="noopener" data-i18n="dl.all"></a></div>
         </div>
         <div class="dl">
           <h3 class="display"><span class="ic"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-github"/></svg></span><span data-i18n="dl.src.t"></span></h3>
@@ -525,11 +525,11 @@ const NAMES = {
 const T = {
   en: {
     'nav.download': 'Download', 'cta.edge': 'Get it for Edge', 'cta.more': 'Other browsers, Windows app and manual install ↓',
-    'dl.t': 'Get Kobutai', 'dl.sub': 'Free on every option. Store installs update themselves.',
+    'dl.t': 'Get Kobutai', 'dl.sub': 'Free on every option. Store installs update themselves. Step-by-step help is in the install guide.',
     'dl.chrome.t': 'Chrome', 'dl.chrome.d': 'One click from the Chrome Web Store.', 'dl.chrome.a': 'Chrome Web Store →',
     'dl.edge.t': 'Edge', 'dl.edge.d': 'From Microsoft Edge Add-ons. Also works in mainland China, where the Chrome Web Store doesn’t open.', 'dl.edge.a': 'Edge Add-ons →',
     'dl.zip.t': 'Other browsers', 'dl.zip.d': 'For 360, QQ Browser, Brave, Opera and other Chromium browsers, or when you can’t reach a store. Unzip, turn on Developer mode on the extensions page and choose “Load unpacked”. Manual installs don’t update themselves.', 'dl.zip.a': 'Download the zip', 'dl.zip.how': 'Step-by-step guide',
-    'dl.win.t': 'Windows app (preview)', 'dl.win.d': 'The stage on your desktop, for any app that plays: Spotify, media players, browsers. Early preview; the installer isn’t signed yet, so Windows may warn you first (More info → Run anyway).', 'dl.win.a': 'Download for Windows', 'dl.all': 'All releases',
+    'dl.win.t': 'Windows app (preview)', 'dl.win.d': 'The stage on your desktop, for any app that plays: Spotify, media players, browsers. Early preview; the installer isn’t signed yet, so Windows may warn you first (More info → Run anyway).', 'dl.win.a': 'Download for Windows', 'dl.all': 'All releases', 'dl.win.how': 'How to install',
     'dl.src.t': 'Build it yourself', 'dl.src.d': 'Open source under MIT. Clone the repository, then npm install and npm run build.', 'dl.src.a': 'Source on GitHub →',
     'nav.album': 'Characters', 'nav.features': 'Features', 'nav.privacy': 'Privacy', 'nav.faq': 'FAQ',
     'cta.short': 'Add to Chrome', 'cta.add': 'Add to Chrome, it’s free', 'cta.soon': 'Coming soon to Chrome', 'cta.github': 'View on GitHub',
@@ -570,11 +570,11 @@ const T = {
   },
   ja: {
     'nav.download': 'ダウンロード', 'cta.edge': 'Edge に追加', 'cta.more': 'ほかのブラウザ・Windows 版・手動インストール ↓',
-    'dl.t': 'Kobutai を入手', 'dl.sub': 'どの方法も無料です。ストアから入れると自動で更新されます。',
+    'dl.t': 'Kobutai を入手', 'dl.sub': 'どの方法も無料です。ストアから入れると自動で更新されます。詳しい手順はインストールガイドにあります。',
     'dl.chrome.t': 'Chrome', 'dl.chrome.d': 'Chrome ウェブストアからワンクリックで。', 'dl.chrome.a': 'Chrome ウェブストア →',
     'dl.edge.t': 'Edge', 'dl.edge.d': 'Microsoft Edge アドオンストアから。Chrome ウェブストアにつながらない中国本土でも使えます。', 'dl.edge.a': 'Edge アドオン →',
     'dl.zip.t': 'ほかのブラウザ', 'dl.zip.d': '360、QQ ブラウザ、Brave、Opera などの Chromium 系ブラウザや、ストアにつながらないとき用。解凍して、拡張機能のページでデベロッパーモードをオンにし「パッケージ化されていない拡張機能を読み込む」を選びます。手動インストールは自動更新されません。', 'dl.zip.a': 'zip をダウンロード', 'dl.zip.how': '手順を見る',
-    'dl.win.t': 'Windows 版（プレビュー）', 'dl.win.d': 'デスクトップの小さな舞台。Spotify、メディアプレーヤー、ブラウザなど、再生中のアプリならなんでも。先行プレビューで、インストーラーはまだ署名されていないため、最初に警告が出ることがあります（詳細情報 → 実行）。', 'dl.win.a': 'Windows 版をダウンロード', 'dl.all': 'すべてのリリース',
+    'dl.win.t': 'Windows 版（プレビュー）', 'dl.win.d': 'デスクトップの小さな舞台。Spotify、メディアプレーヤー、ブラウザなど、再生中のアプリならなんでも。先行プレビューで、インストーラーはまだ署名されていないため、最初に警告が出ることがあります（詳細情報 → 実行）。', 'dl.win.a': 'Windows 版をダウンロード', 'dl.all': 'すべてのリリース', 'dl.win.how': 'インストール方法',
     'dl.src.t': '自分でビルド', 'dl.src.d': 'MIT ライセンスのオープンソース。リポジトリを clone して npm install、npm run build。', 'dl.src.a': 'GitHub のソース →',
     'nav.album': 'キャラクター', 'nav.features': '機能', 'nav.privacy': 'プライバシー', 'nav.faq': 'よくある質問',
     'cta.short': 'Chrome に追加', 'cta.add': 'Chrome に追加（無料）', 'cta.soon': 'Chrome ウェブストアに近日公開', 'cta.github': 'GitHub で見る',
@@ -615,11 +615,11 @@ const T = {
   },
   zh: {
     'nav.download': '下载', 'cta.edge': '添加到 Edge', 'cta.more': '其他浏览器、Windows 版和手动安装 ↓',
-    'dl.t': '获取 Kobutai', 'dl.sub': '每种方式都免费。从商店安装会自动更新。',
+    'dl.t': '获取 Kobutai', 'dl.sub': '每种方式都免费。从商店安装会自动更新。详细步骤见安装指南。',
     'dl.chrome.t': 'Chrome', 'dl.chrome.d': '从 Chrome 应用商店一键安装。', 'dl.chrome.a': 'Chrome 应用商店 →',
     'dl.edge.t': 'Edge', 'dl.edge.d': '从 Microsoft Edge 加载项商店安装。在打不开 Chrome 应用商店的国内也能用。', 'dl.edge.a': 'Edge 加载项商店 →',
     'dl.zip.t': '其他浏览器', 'dl.zip.d': '适用于 360、QQ 浏览器、Brave、Opera 等 Chromium 内核浏览器，或打不开商店的时候。解压后在扩展管理页开启"开发者模式"，点"加载已解压的扩展程序"。手动安装不会自动更新。', 'dl.zip.a': '下载 zip', 'dl.zip.how': '详细步骤',
-    'dl.win.t': 'Windows 版（预览）', 'dl.win.d': '把小舞台搬到桌面上：Spotify、播放器、浏览器，任何在放东西的应用都行。这是早期预览版，安装包还没签名，Windows 可能先弹出提示（更多信息 → 仍要运行）。', 'dl.win.a': '下载 Windows 版', 'dl.all': '全部版本',
+    'dl.win.t': 'Windows 版（预览）', 'dl.win.d': '把小舞台搬到桌面上：Spotify、播放器、浏览器，任何在放东西的应用都行。这是早期预览版，安装包还没签名，Windows 可能先弹出提示（更多信息 → 仍要运行）。', 'dl.win.a': '下载 Windows 版', 'dl.all': '全部版本', 'dl.win.how': '安装方法',
     'dl.src.t': '自己构建', 'dl.src.d': 'MIT 协议开源。克隆仓库后运行 npm install 和 npm run build。', 'dl.src.a': 'GitHub 源码 →',
     'nav.album': '角色', 'nav.features': '功能', 'nav.privacy': '隐私', 'nav.faq': '常见问题',
     'cta.short': '添加到 Chrome', 'cta.add': '免费添加到 Chrome', 'cta.soon': '即将上架 Chrome 应用商店', 'cta.github': '在 GitHub 查看',

@@ -76,7 +76,7 @@ No account, no analytics, no servers of ours. Your album and settings stay in yo
 | **Windows desktop app** (preview) | [kobutai-windows-setup.exe](https://github.com/xingaobio/kobutai/releases/latest/download/kobutai-windows-setup.exe) |
 | **Build it yourself** | `git clone https://github.com/xingaobio/kobutai.git && cd kobutai && npm install && npm run build`, then load `.output/chrome-mv3` as below |
 
-Then play a song on YouTube or Spotify. Every version is on the [Releases](https://github.com/xingaobio/kobutai/releases) page.
+Then play a song on YouTube or Spotify. Every version is on the [Releases](https://github.com/xingaobio/kobutai/releases) page; step-by-step help for every browser and Windows is in the [install guide](https://kobutai.pages.dev/install.html).
 
 #### Manual install
 
@@ -165,7 +165,7 @@ Kobutai 只能读到文字（标题、歌手或频道、网站、时长），听
 | **Windows 桌面版**（预览） | [kobutai-windows-setup.exe](https://github.com/xingaobio/kobutai/releases/latest/download/kobutai-windows-setup.exe) |
 | **自己构建** | `git clone https://github.com/xingaobio/kobutai.git && cd kobutai && npm install && npm run build`，然后按下面的方法加载 `.output/chrome-mv3` |
 
-装好后去 YouTube 或 Spotify 放一首歌试试。所有版本都在 [Releases](https://github.com/xingaobio/kobutai/releases) 页面。
+装好后去 YouTube 或 Spotify 放一首歌试试。所有版本都在 [Releases](https://github.com/xingaobio/kobutai/releases) 页面；每种浏览器和 Windows 的详细步骤见[安装指南](https://kobutai.pages.dev/install.html?lang=zh)。
 
 #### 手动安装
 
