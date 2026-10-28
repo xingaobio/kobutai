@@ -18,6 +18,8 @@
 
 </div>
 
+<p align="center"><a href="https://kobutai.pages.dev/#video"><img src="docs/assets/readme/intro-video.jpg" alt="Watch the 60-second Kobutai intro video" width="100%"></a></p>
+
 ---
 
 <a id="english"></a>
